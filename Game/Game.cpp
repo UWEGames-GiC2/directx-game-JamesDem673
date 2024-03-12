@@ -90,29 +90,45 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //create a set of dummy things to show off the engine
 
     //create a base light
-    m_light = new Light(Vector3(0.0f, 100.0f, 160.0f), Color(1.0f, 1.0f, 1.0f, 1.0f), Color(0.4f, 0.1f, 0.1f, 1.0f));
+    m_light = new Light(Vector3(0.0f, 100.0f, 160.0f), Color(1.0f, 1.0f, 1.0f, 1.0f), Color(0.1f, 0.1f, 0.1f, 1.0f));
     m_GameObjects.push_back(m_light);
 
     //find how big my window is to correctly calculate my aspect ratio
     float AR = (float)_width / (float)_height;
 
-    //Vertex Buffer Game Objects
+    //Create Grid for textured ground
     Terrain* tiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 0.0f, 0.0f), 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
     m_GameObjects.push_back(tiles);
 
-    //create a base camera
-    m_cam = new Camera(0.25f * XM_PI, AR, 1.0f, 10000.0f, Vector3::UnitY, Vector3::Zero);
-    m_cam->SetPos(Vector3(0.0f, 200.0f, 200.0f));
-    m_GameObjects.push_back(m_cam);
+    int floorGridX = 1;
+    int floorGridY = 1;
+    float spacingX = -100.0f;
+    float spacingY = 100.0f;
+
+    for (int x = -1; x <= floorGridX; x++) {
+        for (int y = -1; y <= floorGridX; y++) {
+            if (x == 0 && y == 0) continue;
+
+            Vector3 position(x * spacingX, 0.0f, y * spacingY);
+            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
+            m_GameObjects.push_back(forLoopTiles);
+        }
+    }
 
     //add Player
-    Player* pPlayer = new Player("BirdModelV1", m_d3dDevice.Get(), m_fxFactory);
+    Player* pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
     m_GameObjects.push_back(pPlayer);
     m_PhysicsObjects.push_back(pPlayer);
 
-    //add a secondary camera
-    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 1.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 10.0f, 50.0f));
+    //add Monster
+    Player* npcMonster = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
+    m_GameObjects.push_back(npcMonster);
+    m_PhysicsObjects.push_back(npcMonster);
+
+    //create a base camera
+    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.001f, 0.05f));
     m_GameObjects.push_back(m_TPScam);
+    m_GD->m_GS = GS_PLAY_TPS_CAM;
 
     //create DrawData struct and populate its pointers
     m_DD = new DrawData;
@@ -164,18 +180,6 @@ void Game::Update(DX::StepTimer const& _timer)
 
     ReadInput();
     //upon space bar switch camera state
-    //see docs here for what's going on: https://github.com/Microsoft/DirectXTK/wiki/Keyboard
-    if (m_GD->m_KBS_tracker.pressed.Space)
-    {
-        if (m_GD->m_GS == GS_PLAY_MAIN_CAM)
-        {
-            m_GD->m_GS = GS_PLAY_TPS_CAM;
-        }
-        else
-        {
-            m_GD->m_GS = GS_PLAY_MAIN_CAM;
-        }
-    }
 
     //update all objects
     for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
@@ -205,11 +209,7 @@ void Game::Render()
     m_DD->m_pd3dImmediateContext = m_d3dContext.Get();
 
     //set which camera to be used
-    m_DD->m_cam = m_cam;
-    if (m_GD->m_GS == GS_PLAY_TPS_CAM)
-    {
-        m_DD->m_cam = m_TPScam;
-    }
+    m_DD->m_cam = m_TPScam;
 
     //update the constant buffer for the rendering of VBGOs
     VBGO::UpdateConstantBuffer(m_DD);

@@ -153,6 +153,7 @@
     <MeshContentTask Include="Ground\groundTile.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </MeshContentTask>
+    <MeshContentTask Include="Player\PlayerModel.fbx" />
     <MeshContentTask Include="Table\table.FBX">
       <FileType>Document</FileType>
     </MeshContentTask>
