@@ -21,6 +21,7 @@
     <MeshContentTask Include="Table\table.FBX" />
     <MeshContentTask Include="Bird\BirdModelV1.fbx" />
     <MeshContentTask Include="Ground\groundTile.fbx" />
-    <MeshContentTask Include="Player\PlayerModel.fbx" />
+    <MeshContentTask Include="Player\playerModel.fbx" />
+    <MeshContentTask Include="Monster\MonsterModel.fbx" />
   </ItemGroup>
 </Project>

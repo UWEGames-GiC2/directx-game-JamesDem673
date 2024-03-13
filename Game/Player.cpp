@@ -2,13 +2,14 @@
 #include "Player.h"
 #include <dinput.h>
 #include "GameData.h"
+#include <iostream>
 
 Player::Player(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF) : CMOGO(_fileName, _pd3dDevice, _EF)
 {
 	//any special set up for Player goes here
 	m_fudge = Matrix::CreateRotationY(XM_PI);
 
-	m_pos.y = 10.0f;
+	m_pos.y = 20.0f;
 
 	SetDrag(1.25);
 	SetPhysicsOn(true);
@@ -19,7 +20,7 @@ Player::~Player()
 	//tidy up anything I've created
 }
 
-
+  
 void Player::Tick(GameData* _GD)
 {
 	switch (_GD->m_GS)
@@ -83,6 +84,8 @@ void Player::Tick(GameData* _GD)
 		m_pos *= maxLength;
 		m_vel *= -0.9; //VERY simple bounce back
 	}
+
+	std::cout << "x: " << m_pos.x << " y: " << m_pos.y << " z: " << m_pos.z << std::endl;
 
 	//apply my base behaviour
 	CMOGO::Tick(_GD);

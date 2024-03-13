@@ -3,15 +3,15 @@
 #include <dinput.h>
 #include "GameData.h"
 
-Monster::Monster(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF) : CMOGO(_fileName, _pd3dDevice, _EF)
+Monster::Monster(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF, Vector3 _pos, float _pitch, float _yaw, float _roll, Vector3 _scale) :CMOGO(_fileName, _pd3dDevice, _EF)
 {
-	//any special set up for Player goes here
-	m_fudge = Matrix::CreateRotationY(XM_PI);
+	m_pos = _pos;
+	m_pitch = _pitch;
+	m_roll = _roll;
+	m_yaw = _yaw;
+	m_scale = _scale;
 
-	m_pos.y = 10.0f;
-
-	SetDrag(1.25);
-	SetPhysicsOn(true);
+	GameObject::Tick(nullptr); //update my world_transform
 }
 
 Monster::~Monster()
