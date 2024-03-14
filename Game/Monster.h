@@ -14,6 +14,8 @@ public:
 	~Monster();
 
 	virtual void Tick(GameData* _GD) override;
+
+	void trackPlayer(Vector3 playerMovement);
 };
 
 #endif

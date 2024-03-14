@@ -24,3 +24,7 @@ void Monster::Tick(GameData* _GD)
 {
 	
 }
+
+void Monster::trackPlayer(Vector3 playerMovement)
+{
+}
