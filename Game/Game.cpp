@@ -121,7 +121,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_PhysicsObjects.push_back(pPlayer);
 
     //add Monster
-    Monster* npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 10.0f, -20.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    Monster* npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 3.0f, -20.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
