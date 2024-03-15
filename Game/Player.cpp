@@ -85,8 +85,9 @@ void Player::Tick(GameData* _GD)
 		m_vel *= -0.9; //VERY simple bounce back
 	}
 
-	std::cout << "x: " << m_pos.x << " y: " << m_pos.y << " z: " << m_pos.z << std::endl;
-
 	//apply my base behaviour
 	CMOGO::Tick(_GD);
+
+	_GD->pPosx = m_pos.x;
+	_GD->pPosz = m_pos.z;
 }

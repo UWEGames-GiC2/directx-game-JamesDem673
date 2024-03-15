@@ -20,5 +20,8 @@ struct GameData
 	Keyboard::State m_KBS;
 	Mouse::State m_MS;
 	Keyboard::KeyboardStateTracker m_KBS_tracker;
+
+	float pPosx;
+	float pPosz;
 };
 #endif
