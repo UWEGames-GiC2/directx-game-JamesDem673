@@ -23,5 +23,6 @@
     <MeshContentTask Include="Ground\groundTile.fbx" />
     <MeshContentTask Include="Player\playerModel.fbx" />
     <MeshContentTask Include="Monster\MonsterModel.fbx" />
+    <MeshContentTask Include="Exit\ExitModel.fbx" />
   </ItemGroup>
 </Project>

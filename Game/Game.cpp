@@ -125,6 +125,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
+    //add Exit
+    Exit* exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 10.0f, 40.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    m_GameObjects.push_back(exitGate);
+    m_PhysicsObjects.push_back(exitGate);
+     
     //create a base camera
     m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.001f, 0.05f));
     m_GameObjects.push_back(m_TPScam);

@@ -91,3 +91,13 @@ void Player::Tick(GameData* _GD)
 	_GD->pPosx = m_pos.x;
 	_GD->pPosz = m_pos.z;
 }
+
+bool Player::isActive()
+{
+	return active;
+}
+
+void Player::setActive(bool state)
+{
+	active = state;
+}

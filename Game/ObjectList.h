@@ -12,6 +12,7 @@
 #include "Terrain.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Exit.h"
 #include "Light.h"
 #include "GPGO.h"
 
