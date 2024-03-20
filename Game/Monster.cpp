@@ -24,10 +24,10 @@ Monster::~Monster()
 
 void Monster::Tick(GameData* _GD)
 {
-	trackPlayer(_GD->pPosx, _GD->pPosz);
+	trackPlayer(_GD->pPosx, _GD->pPosz, _GD);
 }
 
-void Monster::trackPlayer(float playerx, float playerz)
+void Monster::trackPlayer(float playerx, float playerz, GameData* _GD)
 {
 	float adjactentLength;
 	float oppositeLength;
@@ -35,11 +35,11 @@ void Monster::trackPlayer(float playerx, float playerz)
 	adjactentLength = playerx - m_pos.x;
 	oppositeLength = playerz - m_pos.z;
 
-	float angleLookAt = atan(adjactentLength / oppositeLength);
+	float angleLookAt = atan2(adjactentLength, oppositeLength);
 
 	angleLookAt = angleLookAt * (180.0 / 3.1415926);
 
-	std::cout << angleLookAt << std::endl;
-
 	m_yaw = angleLookAt;
+
+	CMOGO::Tick(_GD);
 }

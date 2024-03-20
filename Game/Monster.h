@@ -15,7 +15,7 @@ public:
 
 	virtual void Tick(GameData* _GD) override;
 
-	void trackPlayer(float playerx, float playerz);
+	void trackPlayer(float playerx, float playerz, GameData* _GD);
 };
 
 #endif
