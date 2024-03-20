@@ -38,6 +38,7 @@ public:
 
 	bool		IsPhysicsOn() { return m_physicsOn; }
 	float		GetDrag() { return m_drag; }
+	bool		isRendered();
 
 	//setters
 	void		SetPos(Vector3 _pos) { m_pos = _pos; }
@@ -54,6 +55,9 @@ public:
 	void		SetPhysicsOn(bool _physics) { m_physicsOn = _physics; }
 	void		TogglePhysics() { m_physicsOn = !m_physicsOn; }
 	void		SetDrag(float _drag) { m_drag = _drag; }
+	void		setRendered(bool state);
+
+
 
 protected:
 
@@ -64,6 +68,7 @@ protected:
 	Vector3 m_pos;
 	float m_pitch, m_yaw, m_roll;
 	Vector3 m_scale;
+	bool render = false;
 
 	//very basic physics
 	bool m_physicsOn = false;

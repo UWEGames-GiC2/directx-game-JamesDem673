@@ -35,6 +35,8 @@ protected:
 	//needs a slightly different raster state that the VBGOs so create one and let them all use it
 	static ID3D11RasterizerState*  s_pRasterState;
 	static int m_count;
+
+	bool render = false;
 };
 
 #endif

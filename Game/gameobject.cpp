@@ -42,3 +42,13 @@ void GameObject::Tick(GameData* _GD)
 	//zero acceleration ready for the next time round
 	m_acc = Vector3::Zero;
 }
+
+bool GameObject::isRendered()
+{
+	return render;
+}
+
+void GameObject::setRendered(bool state)
+{
+	render = state;
+}

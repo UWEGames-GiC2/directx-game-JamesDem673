@@ -15,9 +15,6 @@ public:
 
 	virtual void Tick(GameData* _GD) override;
 
-private:
-	bool active = false;
-
 };
 
 #endif

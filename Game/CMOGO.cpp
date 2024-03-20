@@ -173,3 +173,4 @@ bool CMOGO::Intersects(const CMOGO& other) const
 
 	return (c1.Intersects(c2));
 }
+

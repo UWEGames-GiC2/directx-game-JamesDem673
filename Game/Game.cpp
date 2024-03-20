@@ -223,7 +223,10 @@ void Game::Render()
     //Draw 3D Game Obejects
     for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
-        (*it)->Draw(m_DD);  
+        if ((*it)->isRendered())
+        {
+            (*it)->Draw(m_DD);
+        }    
     }
 
     // Draw sprite batch stuff 
