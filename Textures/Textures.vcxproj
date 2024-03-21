@@ -154,6 +154,9 @@
     <ImageContentTask Include="Asphalt026C_1K-JPG_Color.jpg" />
     <ImageContentTask Include="Bricks082C_1K-JPG_Color.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="mainMenu.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\ImageContentTask.targets" />

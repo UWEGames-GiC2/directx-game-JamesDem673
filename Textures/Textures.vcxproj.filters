@@ -6,5 +6,6 @@
     <ImageContentTask Include="white.jpg" />
     <ImageContentTask Include="Asphalt026C_1K-JPG_Color.jpg" />
     <ImageContentTask Include="Bricks082C_1K-JPG_Color.jpg" />
+    <ImageContentTask Include="mainMenu.png" />
   </ItemGroup>
 </Project>

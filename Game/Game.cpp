@@ -27,8 +27,8 @@ using Microsoft::WRL::ComPtr;
 
 Game::Game() noexcept :
     m_window(nullptr),
-    m_outputWidth(800),
-    m_outputHeight(600),
+    m_outputWidth(1920),
+    m_outputHeight(1080),
     m_featureLevel(D3D_FEATURE_LEVEL_11_0)
 {
 }
@@ -37,8 +37,8 @@ Game::Game() noexcept :
 void Game::Initialize(HWND _window, int _width, int _height)
 {
     m_window = _window;
-    m_outputWidth = std::max(_width, 1);
-    m_outputHeight = std::max(_height, 1);
+    m_outputWidth = 1920;
+    m_outputHeight = 1080;
 
     CreateDevice();
 
@@ -134,6 +134,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.001f, 0.05f));
     m_GameObjects.push_back(m_TPScam);
     m_GD->m_GS = GS_PLAY_TPS_CAM;
+
+    //create a main menu
+    ImageGO2D* mainMenu = new ImageGO2D("mainMenu", m_d3dDevice.Get());
+    mainMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    m_GameObjects2D.push_back(mainMenu);
 
     //create DrawData struct and populate its pointers
     m_DD = new DrawData;
