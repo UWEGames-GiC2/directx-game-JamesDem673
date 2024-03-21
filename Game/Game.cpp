@@ -126,12 +126,12 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_PhysicsObjects.push_back(pPlayer);
 
     //add Monster
-    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 3.0f, -20.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-33.0f, 3.0f, 20.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
     //add Exit
-    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 5.0f, 40.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(135.0f, 5.0f, 142.50f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
      
@@ -268,6 +268,8 @@ void Game::Update(DX::StepTimer const& _timer)
     }
 
     CheckCollision();
+
+    std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
 }
 
 // Draws the scene.

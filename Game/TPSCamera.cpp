@@ -24,4 +24,3 @@ void TPSCamera::Tick(GameData* _GD)
 	//and then set up proj and view matrices
 	Camera::Tick(_GD);
 }
-
