@@ -201,8 +201,8 @@ void Game::CreateMazeFromFile()
                     xPosition = std::stoi(line.substr(0, i));
                     zPosition = std::stoi(line.substr(i + 1, line.size()));
 
-                    xPosition = (xPosition - 30) * 15;
-                    zPosition = (zPosition - 30) * 15;
+                    xPosition = (xPosition - 10.5) * 15;
+                    zPosition = (zPosition - 10.5) * 15;
 
                     Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(xPosition, 3.0f, zPosition), 0.0f, 0.0f, 0.0f, Vector3(0.15, 0.15, 0.15));                 
                     forloopWalls->setTerrain(true);
