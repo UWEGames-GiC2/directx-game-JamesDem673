@@ -38,15 +38,10 @@ void Player::Tick(GameData* _GD)
 	}
 
 	//change orinetation of player
-	float rotSpeed = 2.0f * _GD->m_dt;
-	if (_GD->m_KBS.A)
-	{
-		m_yaw += rotSpeed;
-	}
-	if (_GD->m_KBS.D)
-	{
-		m_yaw -= rotSpeed;
-	}
+	float rotSpeed = _GD->m_dt;
+	m_yaw -= rotSpeed * _GD->m_MS.x;
+
+
 
 	//move player up and down
 	if (_GD->m_KBS.R)
@@ -57,16 +52,6 @@ void Player::Tick(GameData* _GD)
 	if (_GD->m_KBS.F)
 	{
 		m_acc.y -= 40.0f;
-	}
-
-	//limit motion of the player
-	float length = m_pos.Length();
-	float maxLength = 500.0f;
-	if (length > maxLength)
-	{
-		m_pos.Normalize();
-		m_pos *= maxLength;
-		m_vel *= -0.9; //VERY simple bounce back
 	}
 
 	//apply my base behaviour
