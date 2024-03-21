@@ -100,6 +100,16 @@ private:
     TPSCamera* m_TPScam = NULL;//TPS cam
     Light* m_light = NULL; //base light
 
+    //GameObjects
+    class Player* pPlayer = NULL;
+    class Monster* npcMonster = NULL;
+    class Exit* exitGate = NULL;
+    list<class Terrain*> GroundTiles;
+
+    //2D Game Objects
+    class ImageGO2D* mainMenu = NULL;
+    class TextGO2D* startGameText = NULL;
+
     //required for the CMO model rendering system
     DirectX::CommonStates* m_states = NULL;
     DirectX::IEffectFactory* m_fxFactory = NULL;

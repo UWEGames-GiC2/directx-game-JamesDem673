@@ -12,3 +12,13 @@ GameObject2D::GameObject2D()
 	m_rotation = 0.0f;
 	m_scale = Vector2::One;
 }
+
+bool GameObject2D::isRendered()
+{
+	return render;
+}
+
+void GameObject2D::SetRendered(bool state)
+{
+	render = state;
+}

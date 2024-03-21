@@ -52,3 +52,13 @@ void GameObject::setRendered(bool state)
 {
 	render = state;
 }
+
+bool GameObject::isTerrain()
+{
+	return terrain;
+}
+
+void GameObject::setTerrain(bool terrainChange)
+{
+	terrain = terrainChange;
+}

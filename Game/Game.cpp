@@ -98,6 +98,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //Create Grid for textured ground
     Terrain* tiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 0.0f, 0.0f), 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
+    tiles->setTerrain(true);
     m_GameObjects.push_back(tiles);
 
     int floorGridX = 1;
@@ -111,22 +112,23 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
             Vector3 position(x * spacingX, 0.0f, y * spacingY);
             Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
+            forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
         }
     }
 
     //add Player
-    Player* pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
+    pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
     m_GameObjects.push_back(pPlayer);
     m_PhysicsObjects.push_back(pPlayer);
 
     //add Monster
-    Monster* npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 3.0f, -20.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 3.0f, -20.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
     //add Exit
-    Exit* exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 10.0f, 40.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 5.0f, 40.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_PhysicsObjects.push_back(exitGate);
      
@@ -135,11 +137,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(m_TPScam);
 
     //create a main menu
-    ImageGO2D* mainMenu = new ImageGO2D("mainMenu", m_d3dDevice.Get());
+    mainMenu = new ImageGO2D("mainMenu", m_d3dDevice.Get());
     mainMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     m_GameObjects2D.push_back(mainMenu);
 #
-    TextGO2D* startGameText = new TextGO2D("> Start Game");
+    startGameText = new TextGO2D("> Start Game");
     startGameText->SetPos(Vector2(100, 800));
     startGameText->SetScale(3.0f);
     startGameText->SetColour(Color((float*)&Colors::Black));
@@ -157,6 +159,8 @@ void Game::Initialize(HWND _window, int _width, int _height)
     loop->SetVolume(0.1f);
     loop->Play();
     m_Sounds.push_back(loop);
+
+    DisplayMenu();
 }
 
 
@@ -174,7 +178,6 @@ void Game::Tick()
 // Updates the world.
 void Game::Update(DX::StepTimer const& _timer)
 {
-    
     float elapsedTime = float(_timer.GetElapsedSeconds());
     m_GD->m_dt = elapsedTime;
 
@@ -237,14 +240,17 @@ void Game::Render()
         if ((*it)->isRendered())
         {
             (*it)->Draw(m_DD);
-        }    
+        }
     }
 
     // Draw sprite batch stuff 
     m_DD2D->m_Sprites->Begin(SpriteSortMode_Deferred, m_states->NonPremultiplied());
     for (list<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
     {
-        (*it)->Draw(m_DD2D);
+        if ((*it)->isRendered())
+        {
+            (*it)->Draw(m_DD2D);
+        }
     }
     m_DD2D->m_Sprites->End();
 
@@ -518,6 +524,12 @@ void Game::ReadInput()
         ExitGame();
     }
 
+    if (m_GD->m_KBS.Enter && m_GD->m_GS == GS_MENU)
+    {
+        m_GD->m_GS = GS_GAMEPLAY;
+        DisplayGame();
+    }
+
     m_GD->m_MS = m_mouse->GetState();
 
     //lock the cursor to the centre of the window
@@ -537,4 +549,45 @@ void Game::CheckCollision()
             m_PhysicsObjects[i]->SetPos(pos - eject_vect);
         }
     }
+}
+
+void Game::DisplayMenu()
+{
+    //set menu active
+    mainMenu->SetRendered(true);
+    startGameText->SetRendered(true);
+
+
+    //Set rest of assets inactive
+    pPlayer->setRendered(false);
+    npcMonster->setRendered(false);
+    exitGate->setRendered(false);
+
+    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    {
+        if ((*it)->isTerrain())
+        {
+            (*it)->setRendered(false);
+        }
+    }
+}
+
+void Game::DisplayGame()
+{
+    //Set gameplay assets active
+    pPlayer->setRendered(true);
+    npcMonster->setRendered(true);
+    exitGate->setRendered(true);
+
+    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    {
+        if ((*it)->isTerrain())
+        {
+            (*it)->setRendered(true);
+        }
+    }
+
+    //set rest of assets active
+    mainMenu->SetRendered(false);
+    startGameText->SetRendered(false);
 }
