@@ -108,6 +108,8 @@ private:
 
     //2D Game Objects
     class ImageGO2D* mainMenu = NULL;
+    class ImageGO2D* lossMenu = NULL;
+    class ImageGO2D* winMenu = NULL;
     class TextGO2D* startGameText = NULL;
 
     //required for the CMO model rendering system

@@ -141,11 +141,23 @@ void Game::Initialize(HWND _window, int _width, int _height)
     mainMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     m_GameObjects2D.push_back(mainMenu);
 #
+    //create a loss screen
+    lossMenu = new ImageGO2D("lossScreen", m_d3dDevice.Get());
+    lossMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    m_GameObjects2D.push_back(lossMenu);
+
+    //create a win screen
+    winMenu = new ImageGO2D("winScreen", m_d3dDevice.Get());
+    winMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    m_GameObjects2D.push_back(winMenu);
+
+    //add menu text
     startGameText = new TextGO2D("> Start Game");
     startGameText->SetPos(Vector2(100, 800));
     startGameText->SetScale(3.0f);
     startGameText->SetColour(Color((float*)&Colors::Black));
     m_GameObjects2D.push_back(startGameText);
+
 
     //create DrawData struct and populate its pointers
     m_DD = new DrawData;
@@ -549,6 +561,16 @@ void Game::CheckCollision()
             m_PhysicsObjects[i]->SetPos(pos - eject_vect);
         }
     }
+
+    if (pPlayer->Intersects(*exitGate))
+    {
+        DisplayWin();
+    }
+
+    if (pPlayer->Intersects(*npcMonster))
+    {
+        DisplayLoss();
+    }
 }
 
 void Game::DisplayMenu()
@@ -570,6 +592,9 @@ void Game::DisplayMenu()
             (*it)->setRendered(false);
         }
     }
+
+    winMenu->SetRendered(false);
+    lossMenu->SetRendered(false);
 }
 
 void Game::DisplayGame()
@@ -587,7 +612,55 @@ void Game::DisplayGame()
         }
     }
 
-    //set rest of assets active
+    //set rest of assets inactive
     mainMenu->SetRendered(false);
     startGameText->SetRendered(false);
+    winMenu->SetRendered(false);
+    lossMenu->SetRendered(false);
+}
+
+void Game::DisplayWin()
+{
+    //Set winscreen assets active
+    winMenu->SetRendered(true);
+
+    //set rest of assets inactive
+    pPlayer->setRendered(false);
+    npcMonster->setRendered(false);
+    exitGate->setRendered(false);
+
+    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    {
+        if ((*it)->isTerrain())
+        {
+            (*it)->setRendered(false);
+        }
+    }
+
+    mainMenu->SetRendered(false);
+    startGameText->SetRendered(false);
+    lossMenu->SetRendered(false);
+}
+
+void Game::DisplayLoss()
+{
+    //Set winscreen assets active
+    lossMenu->SetRendered(true);
+
+    //set rest of assets inactive
+    pPlayer->setRendered(false);
+    npcMonster->setRendered(false);
+    exitGate->setRendered(false);
+
+    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    {
+        if ((*it)->isTerrain())
+        {
+            (*it)->setRendered(false);
+        }
+    }
+
+    mainMenu->SetRendered(false);
+    startGameText->SetRendered(false);
+    winMenu->SetRendered(false);
 }

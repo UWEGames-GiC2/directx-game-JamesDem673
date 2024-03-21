@@ -7,5 +7,7 @@
     <ImageContentTask Include="Asphalt026C_1K-JPG_Color.jpg" />
     <ImageContentTask Include="Bricks082C_1K-JPG_Color.jpg" />
     <ImageContentTask Include="mainMenu.png" />
+    <ImageContentTask Include="lossScreen.png" />
+    <ImageContentTask Include="winScreen.png" />
   </ItemGroup>
 </Project>
