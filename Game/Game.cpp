@@ -65,7 +65,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //create GameData struct and populate its pointers
     m_GD = new GameData;
-    m_GD->m_GS = GS_PLAY_MAIN_CAM;
+    m_GD->m_GS = GS_MENU;
 
     //set up systems for 2D rendering
     m_DD2D = new DrawData2D();
@@ -133,12 +133,17 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //create a base camera
     m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.001f, 0.05f));
     m_GameObjects.push_back(m_TPScam);
-    m_GD->m_GS = GS_PLAY_TPS_CAM;
 
     //create a main menu
     ImageGO2D* mainMenu = new ImageGO2D("mainMenu", m_d3dDevice.Get());
     mainMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     m_GameObjects2D.push_back(mainMenu);
+#
+    TextGO2D* startGameText = new TextGO2D("> Start Game");
+    startGameText->SetPos(Vector2(100, 800));
+    startGameText->SetScale(3.0f);
+    startGameText->SetColour(Color((float*)&Colors::Black));
+    m_GameObjects2D.push_back(startGameText);
 
     //create DrawData struct and populate its pointers
     m_DD = new DrawData;
@@ -153,6 +158,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     loop->Play();
     m_Sounds.push_back(loop);
 }
+
 
 // Executes the basic game loop.
 void Game::Tick()

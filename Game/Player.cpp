@@ -23,34 +23,18 @@ Player::~Player()
   
 void Player::Tick(GameData* _GD)
 {
-	switch (_GD->m_GS)
+
+	//TURN AND FORWARD CONTROL HERE
+	Vector3 forwardMove = 40.0f * Vector3::Forward;
+	Matrix rotMove = Matrix::CreateRotationY(m_yaw);
+	forwardMove = Vector3::Transform(forwardMove, rotMove);
+	if (_GD->m_KBS.W)
 	{
-	case GS_PLAY_MAIN_CAM:
-	{
-		{
-			//MOUSE CONTROL SCHEME HERE
-			float speed = 10.0f;
-			m_acc.x += speed * _GD->m_MS.x;
-			m_acc.z += speed * _GD->m_MS.y;
-			break;
-		}
+		m_acc += forwardMove;
 	}
-	case GS_PLAY_TPS_CAM:
+	if (_GD->m_KBS.S)
 	{
-		//TURN AND FORWARD CONTROL HERE
-		Vector3 forwardMove = 40.0f * Vector3::Forward;
-		Matrix rotMove = Matrix::CreateRotationY(m_yaw);
-		forwardMove = Vector3::Transform(forwardMove, rotMove);
-		if (_GD->m_KBS.W)
-		{
-			m_acc += forwardMove;
-		}
-		if (_GD->m_KBS.S)
-		{
-			m_acc -= forwardMove;
-		}
-		break;
-	}
+		m_acc -= forwardMove;
 	}
 
 	//change orinetation of player

@@ -43,6 +43,10 @@ public:
 
     // Initialization and management
     void Initialize(HWND _window, int _width, int _height);
+    void DisplayMenu();
+    void DisplayGame();
+    void DisplayWin();
+    void DisplayLoss();
 
     // Basic game loop
     void Tick();
