@@ -10,6 +10,7 @@
     <Text Include="terrainTex.txt">
       <Filter>VBFileModels</Filter>
     </Text>
+    <Text Include="Wall\WallGrid.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="VBFileModels">

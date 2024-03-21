@@ -54,6 +54,7 @@ public:
     void DisplayGame();
     void DisplayWin();
     void DisplayLoss();
+    void CreateMazeFromFile();
 
     // Basic game loop
     void Tick();
@@ -111,9 +112,6 @@ private:
     Player* pPlayer = NULL;
     Monster* npcMonster = NULL;
     Exit* exitGate = NULL;
-    list<Terrain*> GroundTiles;
-    Wall* wall = NULL;
-
 
     //2D Game Objects
     ImageGO2D* mainMenu = NULL;

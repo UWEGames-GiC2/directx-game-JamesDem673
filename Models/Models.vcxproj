@@ -147,6 +147,7 @@
     <Text Include="cube.txt" />
     <Text Include="shell.txt" />
     <Text Include="terrainTex.txt" />
+    <Text Include="Wall\WallGrid.txt" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Bird\BirdModelV1.fbx" />
