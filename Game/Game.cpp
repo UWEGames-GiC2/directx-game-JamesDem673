@@ -100,6 +100,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     Terrain* tiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 0.0f, 0.0f), 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
     tiles->setTerrain(true);
     m_GameObjects.push_back(tiles);
+    m_ColliderObjects.push_back(tiles);
 
     int floorGridX = 1;
     int floorGridY = 1;
@@ -114,6 +115,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
             Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
+            m_ColliderObjects.push_back(forLoopTiles);
         }
     }
 
@@ -130,7 +132,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //add Exit
     exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 5.0f, 40.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
-    m_PhysicsObjects.push_back(exitGate);
+    m_ColliderObjects.push_back(exitGate);
      
     //create a base camera
     m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.001f, 0.05f));

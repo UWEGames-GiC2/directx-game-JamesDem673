@@ -26,8 +26,12 @@ void Player::Tick(GameData* _GD)
 
 	//TURN AND FORWARD CONTROL HERE
 	Vector3 forwardMove = 40.0f * Vector3::Forward;
+	Vector3 sidewaysMove = 40.0f * Vector3::Left;
+
 	Matrix rotMove = Matrix::CreateRotationY(m_yaw);
 	forwardMove = Vector3::Transform(forwardMove, rotMove);
+	sidewaysMove = Vector3::Transform(sidewaysMove, rotMove);
+
 	if (_GD->m_KBS.W)
 	{
 		m_acc += forwardMove;
@@ -35,6 +39,14 @@ void Player::Tick(GameData* _GD)
 	if (_GD->m_KBS.S)
 	{
 		m_acc -= forwardMove;
+	}
+	if (_GD->m_KBS.A)
+	{
+		m_acc += sidewaysMove;
+	}
+	if (_GD->m_KBS.D)
+	{
+		m_acc -= sidewaysMove;
 	}
 
 	//change orinetation of player
