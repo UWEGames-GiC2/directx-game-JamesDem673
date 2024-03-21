@@ -162,6 +162,7 @@
     <MeshContentTask Include="Vase\JEMINA vase -up.fbx">
       <FileType>Document</FileType>
     </MeshContentTask>
+    <MeshContentTask Include="Wall\wallModel.fbx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

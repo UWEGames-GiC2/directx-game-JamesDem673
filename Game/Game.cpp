@@ -134,6 +134,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
      
+    //add Wall
+    wall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(10.0f, 3.0f, -20.0f), 0.0f, 0.0f, 0.0f, Vector3(0.25, 0.25, 0.25));
+    m_GameObjects.push_back(wall);
+    m_ColliderObjects.push_back(wall);
+
     //create a base camera
     m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.001f, 0.05f));
     m_GameObjects.push_back(m_TPScam);
@@ -597,6 +602,7 @@ void Game::DisplayMenu()
 
     winMenu->SetRendered(false);
     lossMenu->SetRendered(false);
+    wall->setRendered(false);
 }
 
 void Game::DisplayGame()
@@ -605,6 +611,8 @@ void Game::DisplayGame()
     pPlayer->setRendered(true);
     npcMonster->setRendered(true);
     exitGate->setRendered(true);
+    wall->setRendered(true);
+
 
     for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
@@ -642,6 +650,7 @@ void Game::DisplayWin()
     mainMenu->SetRendered(false);
     startGameText->SetRendered(false);
     lossMenu->SetRendered(false);
+    wall->setRendered(false);
 }
 
 void Game::DisplayLoss()
@@ -665,4 +674,5 @@ void Game::DisplayLoss()
     mainMenu->SetRendered(false);
     startGameText->SetRendered(false);
     winMenu->SetRendered(false);
+    wall->setRendered(false);
 }

@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Exit.h"
+#include "Wall.h"
 #include "Light.h"
 #include "GPGO.h"
 

@@ -162,6 +162,9 @@
     <ClInclude Include="Exit.h">
       <Filter>Base\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Base\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -237,6 +240,9 @@
       <Filter>Base\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Exit.cpp">
+      <Filter>Base\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
       <Filter>Base\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

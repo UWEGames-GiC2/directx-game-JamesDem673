@@ -25,6 +25,13 @@ class Camera;
 class TPSCamera;
 class Light;
 class Sound;
+class Player;
+class Monster;
+class Exit; 
+class Terrain;
+class ImageGO2D;
+class TextGO2D;
+class Wall;
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -101,16 +108,18 @@ private:
     Light* m_light = NULL; //base light
 
     //GameObjects
-    class Player* pPlayer = NULL;
-    class Monster* npcMonster = NULL;
-    class Exit* exitGate = NULL;
-    list<class Terrain*> GroundTiles;
+    Player* pPlayer = NULL;
+    Monster* npcMonster = NULL;
+    Exit* exitGate = NULL;
+    list<Terrain*> GroundTiles;
+    Wall* wall = NULL;
+
 
     //2D Game Objects
-    class ImageGO2D* mainMenu = NULL;
-    class ImageGO2D* lossMenu = NULL;
-    class ImageGO2D* winMenu = NULL;
-    class TextGO2D* startGameText = NULL;
+    ImageGO2D* mainMenu = NULL;
+    ImageGO2D* lossMenu = NULL;
+    ImageGO2D* winMenu = NULL;
+    TextGO2D* startGameText = NULL;
 
     //required for the CMO model rendering system
     DirectX::CommonStates* m_states = NULL;
