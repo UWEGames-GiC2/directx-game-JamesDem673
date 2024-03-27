@@ -112,6 +112,8 @@ private:
     Player* pPlayer = NULL;
     Monster* npcMonster = NULL;
     Exit* exitGate = NULL;
+    int mazeGridSize = 21;
+    float tileSize = 0.15f;
 
     //2D Game Objects
     ImageGO2D* mainMenu = NULL;

@@ -97,23 +97,24 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //find how big my window is to correctly calculate my aspect ratio
     float AR = (float)_width / (float)_height;
 
+
     //Create Grid for textured ground
-    Terrain* tiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 0.0f, 0.0f), 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
+    Terrain* tiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 2.5f, 0.0f), 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
     tiles->setTerrain(true);
     m_GameObjects.push_back(tiles);
     m_ColliderObjects.push_back(tiles);
 
-    int floorGridX = 1;
-    int floorGridY = 1;
-    float spacingX = -100.0f;
-    float spacingY = 100.0f;
+    int floorGridX = mazeGridSize - 12;
+    int floorGridZ = mazeGridSize - 10;
+    float spacingX = -15.0f;
+    float spacingZ = 15.0f;
 
-    for (int x = -1; x <= floorGridX; x++) {
-        for (int y = -1; y <= floorGridX; y++) {
-            if (x == 0 && y == 0) continue;
+    for (int x = -11; x <= floorGridX; x++) {
+        for (int z = -9; z <= floorGridZ; z++) {
+            if (x == 0 && z == 0) continue;
 
-            Vector3 position(x * spacingX, 0.0f, y * spacingY);
-            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
+            Vector3 position(x * spacingX, 2.5f, z * spacingZ);
+            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
             m_ColliderObjects.push_back(forLoopTiles);
@@ -201,15 +202,14 @@ void Game::CreateMazeFromFile()
                     xPosition = std::stoi(line.substr(0, i));
                     zPosition = std::stoi(line.substr(i + 1, line.size()));
 
-                    xPosition = (xPosition - 10.5) * 15;
-                    zPosition = (zPosition - 10.5) * 15;
+                    xPosition = (xPosition - mazeGridSize / 2) * 15;
+                    zPosition = (zPosition - mazeGridSize / 2) * 15;
 
-                    Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(xPosition, 3.0f, zPosition), 0.0f, 0.0f, 0.0f, Vector3(0.15, 0.15, 0.15));                 
+                    Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(xPosition, 3.0f, zPosition), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
                     forloopWalls->setTerrain(true);
                     m_GameObjects.push_back(forloopWalls);
                     m_ColliderObjects.push_back(forloopWalls);
                 }
-
  
             }
         }
