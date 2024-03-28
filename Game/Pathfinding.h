@@ -10,7 +10,7 @@
 typedef std::pair<int, int> Pair;
 
 // Shortcut for int, pair type pair
-typedef std::_SP_pointer_compatible<double, std::pair<int, int> > pPair;
+typedef std::pair<double, std::pair<int, int> > pPair;
 
 //structure for tile of the maze grid
 struct cell
@@ -25,7 +25,7 @@ class Pathfinding
 
 public:
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
-
+	void TestFunction();
 
 private:
 	bool isValid(int row, int col);
@@ -33,7 +33,6 @@ private:
 	bool isDestination(int row, int coumn, Pair dest);
 	double calculateHValue(int row, int col, Pair dest);
 	void tracePath(cell cellDetails[][COLUMN], Pair dest);
-	int TestFunction();
 };
 
 #endif

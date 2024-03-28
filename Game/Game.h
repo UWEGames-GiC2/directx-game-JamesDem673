@@ -32,6 +32,7 @@ class Terrain;
 class ImageGO2D;
 class TextGO2D;
 class Wall;
+class Pathfinding;
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -120,6 +121,9 @@ private:
     ImageGO2D* lossMenu = NULL;
     ImageGO2D* winMenu = NULL;
     TextGO2D* startGameText = NULL;
+
+    //Pathfinding
+    Pathfinding* searcher;
 
     //required for the CMO model rendering system
     DirectX::CommonStates* m_states = NULL;

@@ -5,174 +5,175 @@
 
 bool Pathfinding::isValid(int row, int col)
 {
-	return (row >= 0) && (row < ROW) && (col >= 0)
-		&& (col < COLUMN);
+    return (row >= 0) && (row < ROW) && (col >= 0)
+        && (col < COLUMN);
 }
 
 bool Pathfinding::isUnBlocked(int grid[][COLUMN], int row, int column)
 {
-	if (grid[row][column] == 1)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+    if (grid[row][column] == 1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool Pathfinding::isDestination(int row, int column, Pair dest)
 {
-	if (row == dest.first && column == dest.second)
-		return (true);
-	else
-		return (false);
+    if (row == dest.first && column == dest.second)
+        return (true);
+    else
+        return (false);
 }
 
 double Pathfinding::calculateHValue(int row, int column, Pair dest)
 {
-	return ((double)sqrt(
-		(row - dest.first) * (row - dest.first)
-		+ (column - dest.second) * (column - dest.second)));
+    return ((double)sqrt(
+        (row - dest.first) * (row - dest.first)
+        + (column - dest.second) * (column - dest.second)));
 }
 
 void Pathfinding::tracePath(cell cellDetails[][COLUMN], Pair dest)
 {
-	printf("\nThe Path is ");
-	int row = dest.first;
-	int column = dest.second;
+    printf("\nThe Path is ");
+    int row = dest.first;
+    int column = dest.second;
 
-	std::stack<Pair> Path;
+    std::stack<Pair> Path;
 
-	while (!(cellDetails[row][column].parent_i == row
-		&& cellDetails[row][column].parent_j == column))
-	{
-		Path.push(std::make_pair(row, column));
-		int temp_row = cellDetails[row][column].parent_i;
-		int temp_column = cellDetails[row][column].parent_j;
-		row = temp_row;
-		column = temp_column;
-	}
+    while (!(cellDetails[row][column].parent_i == row
+        && cellDetails[row][column].parent_j == column))
+    {
+        Path.push(std::make_pair(row, column));
+        int temp_row = cellDetails[row][column].parent_i;
+        int temp_column = cellDetails[row][column].parent_j;
+        row = temp_row;
+        column = temp_column;
+    }
 
-	Path.push(std::make_pair(row, column));
+    Path.push(std::make_pair(row, column));
 
-	while (!Path.empty())
-	{
-		std::pair<int, int> p = Path.top();
-		Path.pop();
-		printf("-> (%d,%d) ", p.first, p.second);
-	}
+    while (!Path.empty())
+    {
+        std::pair<int, int> p = Path.top();
+        Path.pop();
+        printf("-> (%d,%d) ", p.first, p.second);
+    }
 
-	return;
+    return;
 }
 
 void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
 {
-	// Checks to see if source and destination are valid locations
-	if (isValid(src.first, src.second) == false)
-	{
-		printf("Source is invalid\n");
-		return;
-	}
-	if (isValid(dest.first, dest.second) == false)
-	{
-		printf("Destination is invalid\n");
-		return;
-	}
+    // Checks to see if source and destination are valid locations
+    if (isValid(src.first, src.second) == false)
+    {
+        printf("Source is invalid\n");
+        return;
+    }
+    if (isValid(dest.first, dest.second) == false)
+    {
+        printf("Destination is invalid\n");
+        return;
+    }
 
-	// Checks to make sure no obstacles are on the source or destination tiles
-	if (isUnBlocked(grid, src.first, src.second) == false)
-	{
-		printf("Source is blocked\n");
-		return;
-	}
-	if (isUnBlocked(grid, dest.first, dest.second) == false)
-	{
-		printf("Destination is blocked\n");
-		return;
-	}
+    // Checks to make sure no obstacles are on the source or destination tiles
+    if (isUnBlocked(grid, src.first, src.second) == false)
+    {
+        printf("Source is blocked\n");
+        return;
+    }
+    if (isUnBlocked(grid, dest.first, dest.second) == false)
+    {
+        printf("Destination is blocked\n");
+        return;
+    }
 
-	//Checks to see if source is at destination
-	if (isDestination(src.first, src.second, dest) == true)
-	{
-		printf("We are already at the destination\n");
-		return;
-	}
+    //Checks to see if source is at destination
+    if (isDestination(src.first, src.second, dest) == true)
+    {
+        printf("We are already at the destination\n");
+        return;
+    }
 
-	//Creates a closed list as a 2d bool array
-	bool closedList[ROW][COLUMN];
-	memset(closedList, false, sizeof(closedList));
+    //Creates a closed list as a 2d bool array
+    bool closedList[ROW][COLUMN];
+    memset(closedList, false, sizeof(closedList));
 
-	//Creates a 2D array to hold detail of a cell
-	cell cellDetails[ROW][COLUMN];
+    //Creates a 2D array to hold detail of a cell
+    cell cellDetails[ROW][COLUMN];
 
-	int i, j;
+    int i, j;
 
-	for (i = 0; i < ROW; i++)
-	{
-		for (j = 0; j < COLUMN; j++)
-		{
-			cellDetails[i][j].f = FLT_MAX;
-			cellDetails[i][j].g = FLT_MAX;
-			cellDetails[i][j].h = FLT_MAX;
+    for (i = 0; i < ROW; i++)
+    {
+        for (j = 0; j < COLUMN; j++)
+        {
+            cellDetails[i][j].f = FLT_MAX;
+            cellDetails[i][j].g = FLT_MAX;
+            cellDetails[i][j].h = FLT_MAX;
 
-			cellDetails[i][j].parent_i = -1;
-			cellDetails[i][j].parent_j = -1;
-		}
-	}
+            cellDetails[i][j].parent_i = -1;
+            cellDetails[i][j].parent_j = -1;
+        }
+    }
 
-	// Initialising parameters of starting node
-	i = src.first, j = src.second;
-	cellDetails[i][j].f = 0.0;
-	cellDetails[i][j].g = 0.0;
-	cellDetails[i][j].h = 0.0;
-	cellDetails[i][j].parent_i = i;
-	cellDetails[i][j].parent_j = j;
+    // Initialising parameters of starting node
+    i = src.first, j = src.second;
+    cellDetails[i][j].f = 0.0;
+    cellDetails[i][j].g = 0.0;
+    cellDetails[i][j].h = 0.0;
+    cellDetails[i][j].parent_i = i;
+    cellDetails[i][j].parent_j = j;
 
-	// Creates open list formatted <f, <i, j>>; f = g + h; i, j are rows and columns of cell
-	// 0 <= i <= ROW-1 & 0 <= j <= COL-1
-	std::set<pPair> openList;
+    // Creates open list formatted <f, <i, j>>; f = g + h; i, j are rows and columns of cell
+    // 0 <= i <= ROW-1 & 0 <= j <= COL-1
+    std::set<pPair> openList;
 
-	// Add starting cell with f as 0
-	Pair tempPair = std::make_pair(i, j);
-	pPair tempPPair = std::make_pair(0.0, tempPair);
+    // Add starting cell with f as 0
+    Pair tempPair = std::make_pair(i, j);
+    pPair tempPPair = std::make_pair(0.0, tempPair);
 
-	openList.insert(tempPPair);
+    openList.insert(tempPPair);
 
-	//bool is dest is found
-	bool foundDest = false;
 
-	while (!openList.empty())
-	{
-		pPair p = *openList.begin();
-		openList.erase(openList.begin());
+    //bool is dest is found
+    bool foundDest = false;
 
-		i = p.second.first;
-		j = p.second.second;
-		closedList[i][j] = true;
+    while (!openList.empty())
+    {
+        pPair p = *openList.begin();
+        openList.erase(openList.begin());
 
-		/*
-		Generating all the 4 successor of this cell
+        i = p.second.first;
+        j = p.second.second;
+        closedList[i][j] = true;
 
-			      N   
-			      |  
-			      |  
-			W----Cell----E
-				  | 
-			      | 
-				  S   
+        /*
+        Generating all the 4 successor of this cell
 
-		Cell-->Popped Cell (i, j)
-		N -->  North       (i-1, j)
-		S -->  South       (i+1, j)
-		E -->  East        (i, j+1)
-		W -->  West        (i, j-1) */
+                  N
+                  |
+                  |
+            W----Cell----E
+                  |
+                  |
+                  S
 
-		//To store the 'g' 'h' and 'f' of the 4 successors
+        Cell-->Popped Cell (i, j)
+        N -->  North       (i-1, j)
+        S -->  South       (i+1, j)
+        E -->  East        (i, j+1)
+        W -->  West        (i, j-1) */
+
+        //To store the 'g' 'h' and 'f' of the 4 successors
         double gNew, hNew, fNew;
 
         //----------- 1st Successor (North) ------------
-        
+
         // Only process this cell if this is a valid one
         if (isValid(i - 1, j) == true) {
             // If the destination cell is the same as the
@@ -206,8 +207,8 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 // better, using 'f' cost as the measure.
                 if (cellDetails[i - 1][j].f == FLT_MAX
                     || cellDetails[i - 1][j].f > fNew) {
-                    openList.insert(make_pair(
-                        fNew, make_pair(i - 1, j)));
+                    openList.insert(std::make_pair(
+                        fNew, std::make_pair(i - 1, j)));
 
                     // Update the details of this cell
                     cellDetails[i - 1][j].f = fNew;
@@ -255,7 +256,7 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 if (cellDetails[i + 1][j].f == FLT_MAX
                     || cellDetails[i + 1][j].f > fNew) {
                     openList.insert(make_pair(
-                        fNew, make_pair(i + 1, j)));
+                        fNew, std::make_pair(i + 1, j)));
                     // Update the details of this cell
                     cellDetails[i + 1][j].f = fNew;
                     cellDetails[i + 1][j].g = gNew;
@@ -302,8 +303,8 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 // better, using 'f' cost as the measure.
                 if (cellDetails[i][j + 1].f == FLT_MAX
                     || cellDetails[i][j + 1].f > fNew) {
-                    openList.insert(make_pair(
-                        fNew, make_pair(i, j + 1)));
+                    openList.insert(std::make_pair(
+                        fNew, std::make_pair(i, j + 1)));
 
                     // Update the details of this cell
                     cellDetails[i][j + 1].f = fNew;
@@ -351,8 +352,8 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 // better, using 'f' cost as the measure.
                 if (cellDetails[i][j - 1].f == FLT_MAX
                     || cellDetails[i][j - 1].f > fNew) {
-                    openList.insert(make_pair(
-                        fNew, make_pair(i, j - 1)));
+                    openList.insert(std::make_pair(
+                        fNew, std::make_pair(i, j - 1)));
 
                     // Update the details of this cell
                     cellDetails[i][j - 1].f = fNew;
@@ -364,7 +365,7 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
             }
         }
 
-	}
+    }
 
     // When the destination cell is not found and the open
     // list is empty, then we conclude that we failed to
@@ -377,12 +378,12 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
 }
 
 // Driver program to test above function
-int Pathfinding::TestFunction()
+void Pathfinding::TestFunction()
 {
     /* Description of the Grid-
      1--> The cell is not blocked
      0--> The cell is blocked    */
-    int grid[ROW][COL]
+    int grid[ROW][COLUMN]
         = { { 1, 0, 1, 1, 1, 1, 0, 1, 1, 1 },
             { 1, 1, 1, 0, 1, 1, 1, 0, 1, 1 },
             { 1, 1, 1, 0, 1, 1, 0, 1, 0, 1 },
@@ -397,9 +398,7 @@ int Pathfinding::TestFunction()
     Pair src = std::make_pair(8, 0);
 
     // Destination is the left-most top-most corner
-    Pair dest = make_pair(0, 0);
+    Pair dest = std::make_pair(0, 0);
 
     aStarSearch(grid, src, dest);
-
-    return (0);
 }

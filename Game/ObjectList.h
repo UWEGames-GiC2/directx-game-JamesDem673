@@ -34,3 +34,6 @@
 //Sounds
 #include "TestSound.h"
 #include "Loop.h"
+
+//Pathfinding
+#include "Pathfinding.h"

@@ -179,6 +179,8 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_Sounds.push_back(loop);
 
     DisplayMenu();
+
+    searcher->TestFunction();
 }
 
 // Creates a maze from a .txt file
@@ -269,7 +271,7 @@ void Game::Update(DX::StepTimer const& _timer)
 
     CheckCollision();
 
-    std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
+    //std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
 }
 
 // Draws the scene.
