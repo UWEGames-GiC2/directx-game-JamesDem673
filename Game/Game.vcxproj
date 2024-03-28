@@ -184,6 +184,7 @@
     <ClInclude Include="MarchCubes.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="ObjectList.h" />
+    <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Sound.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="MarchCubes.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
