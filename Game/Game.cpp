@@ -180,7 +180,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     DisplayMenu();
 
-    searcher->TestFunction();
+    searcher->searchFunction();
 }
 
 // Creates a maze from a .txt file

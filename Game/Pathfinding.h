@@ -3,8 +3,8 @@
 
 #include <bits.h>
 
-#define ROW 9
-#define COLUMN 10
+#define ROW 21
+#define COLUMN 21
 
 // Shortcut for int pair
 typedef std::pair<int, int> Pair;
@@ -25,7 +25,10 @@ class Pathfinding
 
 public:
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
-	void TestFunction();
+	void searchFunction();
+
+	void addToGrid(int x, int z);
+
 
 private:
 	bool isValid(int row, int col);
@@ -33,6 +36,8 @@ private:
 	bool isDestination(int row, int coumn, Pair dest);
 	double calculateHValue(int row, int col, Pair dest);
 	void tracePath(cell cellDetails[][COLUMN], Pair dest);
+
+	int grid[ROW][COLUMN];
 };
 
 #endif
