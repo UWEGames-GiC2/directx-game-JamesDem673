@@ -27,7 +27,6 @@ public:
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
 	void searchFunction();
 
-	void addToGrid(int x, int z);
 
 
 private:

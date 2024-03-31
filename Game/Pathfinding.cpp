@@ -375,6 +375,8 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
     // blockages)
     if (foundDest == false)
         printf("Failed to find the Destination Cell\n");
+    else
+        std::cout << openList.size();
 
 }
 
@@ -414,19 +416,11 @@ void Pathfinding::searchFunction()
 
 
     // Source is the left-most bottom-most corner
-    Pair src = std::make_pair(8, 0);
+    Pair src = std::make_pair(19, 1);
 
     // Destination is the left-most top-most corner
-    Pair dest = std::make_pair(0, 0);
+    Pair dest = std::make_pair(1, 19);
 
     aStarSearch(grid, src, dest);
 }
 
-// Alter Grid
-void Pathfinding::addToGrid(int x, int z)
-{
-    int row = x - 1;
-    int column = z - 1;
-
-    grid[column][row] = 0;
-}
