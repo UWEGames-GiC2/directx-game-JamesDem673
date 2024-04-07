@@ -2,6 +2,7 @@
 #define _PATHFINDING_H_
 
 #include <bits.h>
+#include "GameData.h"
 
 #define ROW 21
 #define COLUMN 21
@@ -25,7 +26,7 @@ class Pathfinding
 
 public:
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
-	void searchFunction();
+	void searchFunction(GameData* _GD);
 
 
 

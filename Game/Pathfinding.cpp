@@ -3,6 +3,7 @@
 #include <stack>
 #include <set>
 #include <iostream>
+#include <vector>
 
 bool Pathfinding::isValid(int row, int col)
 {
@@ -39,9 +40,9 @@ double Pathfinding::calculateHValue(int row, int column, Pair dest)
 
 void Pathfinding::tracePath(cell cellDetails[][COLUMN], Pair dest)
 {
-    printf("\nThe Path is ");
     int row = dest.first;
     int column = dest.second;
+    std::vector<int> firstStep;
 
     std::stack<Pair> Path;
 
@@ -57,15 +58,12 @@ void Pathfinding::tracePath(cell cellDetails[][COLUMN], Pair dest)
 
     Path.push(std::make_pair(row, column));
 
-    while (!Path.empty())
-    {
-        std::pair<int, int> p = Path.top();
-        Path.pop();
-        printf("-> (%d,%d) ", p.first, p.second);
-    }
-
-    return;
+    std::pair<int, int> p = Path.top();
+    firstStep = { p.first, p.second };
+    
 }
+
+
 
 void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
 {
@@ -143,6 +141,8 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
 
     //bool is dest is found
     bool foundDest = false;
+    std::vector<int> nextStep;
+
 
     while (!openList.empty())
     {
@@ -151,7 +151,7 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
 
         i = p.second.first;
         j = p.second.second;
-        closedList[i][j] = true;
+        closedList[i][j] = true;      
 
         /*
         Generating all the 4 successor of this cell
@@ -374,14 +374,19 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
     // there is no way to destination cell (due to
     // blockages)
     if (foundDest == false)
+    {
         printf("Failed to find the Destination Cell\n");
+    }
     else
+    {        
         std::cout << openList.size();
-
+    }
+   
 }
 
+
 // Driver program to test above function
-void Pathfinding::searchFunction()
+void Pathfinding::searchFunction(GameData* m_GD)
 {
     /* Description of the Grid-
      1--> The cell is not blocked
@@ -408,19 +413,15 @@ void Pathfinding::searchFunction()
             { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
             { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0},
             { 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    };
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},};
 
-    int xcoord;
-    int zcoord;
-
-
+    //format (z,x)
     // Source is the left-most bottom-most corner
-    Pair src = std::make_pair(19, 1);
+    //Pair src = std::make_pair(globaltoGrid(m_GD->ePosz), globaltoGrid(m_GD->ePosx));
 
     // Destination is the left-most top-most corner
-    Pair dest = std::make_pair(1, 19);
+    //Pair dest = std::make_pair(globaltoGrid(m_GD->pPosz), globaltoGrid(m_GD->pPosx));
 
-    aStarSearch(grid, src, dest);
+    std::vector<int> nextStep;
+    //aStarSearch(grid, src, dest);
 }
-

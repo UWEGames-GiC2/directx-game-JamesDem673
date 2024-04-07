@@ -24,6 +24,9 @@ Monster::~Monster()
 
 void Monster::Tick(GameData* _GD)
 {
+	_GD->ePosx = GetPos().x;
+	_GD->ePosz = GetPos().z;
+
 	trackPlayer(_GD->pPosx, _GD->pPosz, _GD);
 }
 

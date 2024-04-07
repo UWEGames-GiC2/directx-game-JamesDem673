@@ -104,15 +104,14 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(tiles);
     m_ColliderObjects.push_back(tiles);
 
-    int floorGridX = mazeGridSize - 12;
-    int floorGridZ = mazeGridSize - 10;
+    int floorGridX = mazeGridSize - 11;
+    int floorGridZ = mazeGridSize - 11;
     float spacingX = -15.0f;
     float spacingZ = 15.0f;
 
-    for (int x = -11; x <= floorGridX; x++) {
-        for (int z = -9; z <= floorGridZ; z++) {
+    for (int x = -10; x <= floorGridX; x++) {
+        for (int z = -10; z <= floorGridZ; z++) {
             if (x == 0 && z == 0) continue;
-
             Vector3 position(x * spacingX, 2.5f, z * spacingZ);
             Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
@@ -179,8 +178,6 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_Sounds.push_back(loop);
 
     DisplayMenu();
-
-    searcher->searchFunction();
 }
 
 // Creates a maze from a .txt file
@@ -204,8 +201,8 @@ void Game::CreateMazeFromFile()
                     xPosition = std::stoi(line.substr(0, i));
                     zPosition = std::stoi(line.substr(i + 1, line.size()));
 
-                    xPosition = -1 * ((xPosition - mazeGridSize / 2) * 15);
-                    zPosition = (zPosition - mazeGridSize / 2) * 15;
+                    xPosition = -15 * (xPosition - 11);
+                    zPosition = 15 * (zPosition - 11);
 
                     Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(xPosition, 3.0f, zPosition), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
                     forloopWalls->setTerrain(true);
@@ -271,7 +268,9 @@ void Game::Update(DX::StepTimer const& _timer)
 
     CheckCollision();
 
-    //std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
+    searcher->searchFunction(m_GD);
+
+    std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
 }
 
 // Draws the scene.

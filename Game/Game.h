@@ -124,6 +124,7 @@ private:
 
     //Pathfinding
     Pathfinding* searcher;
+    std::vector<int> nextStep;
 
     //required for the CMO model rendering system
     DirectX::CommonStates* m_states = NULL;

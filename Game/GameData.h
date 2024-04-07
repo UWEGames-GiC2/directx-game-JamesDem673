@@ -8,6 +8,7 @@
 #include "GameState.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include <vector>
 
 using namespace DirectX;
 
@@ -23,5 +24,12 @@ struct GameData
 
 	float pPosx;
 	float pPosz;
+
+	float ePosx;
+	float ePosz;
+
+	int nextStepX;
+	int nextStepZ;
+
 };
 #endif
