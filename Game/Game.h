@@ -13,6 +13,9 @@
 #include "Audio.h"
 #include "CMOGO.h"
 
+#define ROW 21
+#define COLUMN 21
+
 using std::list;
 
 // Forward declarations

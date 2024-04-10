@@ -26,7 +26,7 @@ class Pathfinding
 
 public:
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
-	void searchFunction(GameData* _GD);
+	void searchFunction(GameData* _GD, int grid[ROW][COLUMN]);
 
 
 
@@ -36,8 +36,7 @@ private:
 	bool isDestination(int row, int coumn, Pair dest);
 	double calculateHValue(int row, int col, Pair dest);
 	void tracePath(cell cellDetails[][COLUMN], Pair dest);
-
-	int grid[ROW][COLUMN];
 };
 
 #endif
+

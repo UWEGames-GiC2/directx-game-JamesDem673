@@ -42,7 +42,6 @@ void Pathfinding::tracePath(cell cellDetails[][COLUMN], Pair dest)
 {
     int row = dest.first;
     int column = dest.second;
-    std::vector<int> firstStep;
 
     std::stack<Pair> Path;
 
@@ -58,12 +57,13 @@ void Pathfinding::tracePath(cell cellDetails[][COLUMN], Pair dest)
 
     Path.push(std::make_pair(row, column));
 
-    std::pair<int, int> p = Path.top();
-    firstStep = { p.first, p.second };
-    
+    while (!Path.empty())
+    {
+        std::pair<int, int> p = Path.top();
+        Path.pop();
+        printf("-> (%d,%d) ", p.first, p.second);
+    }
 }
-
-
 
 void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
 {
@@ -384,44 +384,38 @@ void Pathfinding::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
    
 }
 
-
 // Driver program to test above function
-void Pathfinding::searchFunction(GameData* m_GD)
+void Pathfinding::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])
 {
     /* Description of the Grid-
      1--> The cell is not blocked
      0--> The cell is blocked    */
+ 
+    int playerX = m_GD->pPosx;
+    int playerZ = m_GD->pPosz;
 
-    int grid[ROW][COLUMN]
-        = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-            { 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-            { 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0},
-            { 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-            { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-            { 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0},
-            { 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0},
-            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0},
-            { 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-            { 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-            { 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
-            { 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-            { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
-            { 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0},
-            { 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0},
-            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-            { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0},
-            { 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},};
+    playerX = playerX / 15;
+    playerZ = playerZ / 15;
+
+    std::cout << "x: " << playerX << " y: " << playerZ << std::endl;
+
+    int MonsterX = m_GD->ePosx;
+    int MonsterZ = m_GD->ePosz;
+
+    MonsterX = (MonsterX / 15);
+    MonsterZ = (MonsterZ / 15);
 
     //format (z,x)
     // Source is the left-most bottom-most corner
-    //Pair src = std::make_pair(globaltoGrid(m_GD->ePosz), globaltoGrid(m_GD->ePosx));
+    Pair src = std::make_pair(MonsterZ + 9, MonsterX + 9);
+
+    std::cout << MonsterZ << " " << MonsterX << std::endl;
 
     // Destination is the left-most top-most corner
-    //Pair dest = std::make_pair(globaltoGrid(m_GD->pPosz), globaltoGrid(m_GD->pPosx));
+    Pair dest = std::make_pair(playerZ + 9, playerX + 9);
 
     std::vector<int> nextStep;
-    //aStarSearch(grid, src, dest);
+    aStarSearch(grid, src, dest);
+
+    std::cout << (m_GD->pPosz) + 11 << (m_GD->pPosx) + 11 << std::endl;
 }
