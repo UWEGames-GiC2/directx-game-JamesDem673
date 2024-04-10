@@ -5,7 +5,6 @@
 #include "pch.h"
 #include "Game.h"
 #include <time.h>
-#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -131,10 +130,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_PhysicsObjects.push_back(npcMonster);
 
     //add Exit
-    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(150.0f, 5.0f, 165.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(150.0f, 5.0f, 135.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
-     
+
+
     CreateMazeFromFile();
 
     //create a base camera
@@ -183,40 +183,47 @@ void Game::Initialize(HWND _window, int _width, int _height)
 // Creates a maze from a .txt file
 void Game::CreateMazeFromFile()
 {
-    string line;
-    string tempNum;
-    int xPosition = 0;
-    int zPosition = 0;
+    int gridX = 0;
+    int gridZ = 0;
+    
+    int startX = 150;
+    int startZ = 150;
 
-    ifstream mazeLayout("../Models/Wall/WallGrid.txt");
-
-    if (mazeLayout.is_open())
+   /* for (int x = 0; x < 21; x++)
     {
-        while (getline(mazeLayout, line))
-        {
-            for (int i = 0; i < line.size(); i++)
+        for (int z = 0; z < 21; z++)
+        {          
+            if (grid[x][z] == 0)
             {
-                if (line[i] == ' ')
-                {
-                    xPosition = std::stoi(line.substr(0, i));
-                    zPosition = std::stoi(line.substr(i + 1, line.size()));
+                std::cout << grid[x + 10][z + 10];
 
-                    xPosition = 15 * (xPosition - 11);
-                    zPosition = 15 * (zPosition - 11);
+                gridX = startX + (15 * x);
+                gridZ = startZ - (15 * z);
 
-                    Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(xPosition, 3.0f, zPosition), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
-                    forloopWalls->setTerrain(true);
-                    m_GameObjects.push_back(forloopWalls);
-                    m_ColliderObjects.push_back(forloopWalls);
-                }
- 
+                Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(gridX, 3.0f, gridZ), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+                forloopWalls->setTerrain(true);
+                m_GameObjects.push_back(forloopWalls);
+                m_ColliderObjects.push_back(forloopWalls);
             }
         }
-        mazeLayout.close();
+    }*/
+
+    for (int x = 0; x < 21; x++)
+    {
+        for (int z = 0; z < 21; z++)
+        {
+            if (grid[z][x] == 0)
+            {
+                gridX = startX - (x * 15);
+                gridZ = startZ - (z * 15);
+
+                Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(gridX, 3.0f, gridZ), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+                forloopWalls->setTerrain(true);
+                m_GameObjects.push_back(forloopWalls);
+                m_ColliderObjects.push_back(forloopWalls);
+            }
+        }
     }
-
-    else std::cout << "Nuh uh";
-
 }
 
 // Executes the basic game loop.
@@ -267,35 +274,11 @@ void Game::Update(DX::StepTimer const& _timer)
     }
 
     CheckCollision();
-
-    int grid[ROW][COLUMN]
-        = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-            { 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-            { 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0},
-            { 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-            { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-            { 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0},
-            { 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0},
-            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0},
-            { 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-            { 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-            { 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0},
-            { 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-            { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
-            { 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0},
-            { 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0},
-            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-            { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0},
-            { 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, };
     
-    searcher->searchFunction(m_GD, grid);
+    //searcher->searchFunction(m_GD, grid);
 
     std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
-    std::cout << "xT: " << std::round(pPlayer->GetPos().x / 15)  
-        << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
+    //std::cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
 
 // Draws the scene.
