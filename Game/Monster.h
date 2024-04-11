@@ -16,6 +16,10 @@ public:
 	virtual void Tick(GameData* _GD) override;
 
 	void trackPlayer(float playerx, float playerz, GameData* _GD);
+	void travel();
+
+private:
+	float speed = 3.0f;
 };
 
 #endif

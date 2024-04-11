@@ -141,6 +141,7 @@ private:
     int mazeGridSize = 21;
     float tileSize = 0.15f;
 
+    
     //2D Game Objects
     ImageGO2D* mainMenu = NULL;
     ImageGO2D* lossMenu = NULL;
@@ -149,7 +150,8 @@ private:
 
     //Pathfinding
     Pathfinding* searcher;
-    std::vector<int> nextStep;
+    int currentTileX = 0;
+    int currentTileZ = 1;
 
     //required for the CMO model rendering system
     DirectX::CommonStates* m_states = NULL;

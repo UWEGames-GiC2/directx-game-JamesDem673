@@ -46,3 +46,10 @@ void Monster::trackPlayer(float playerx, float playerz, GameData* _GD)
 
 	CMOGO::Tick(_GD);
 }
+
+void Monster::travel()
+{
+
+}
+
+

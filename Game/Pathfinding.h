@@ -28,6 +28,8 @@ public:
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
 	void searchFunction(GameData* _GD, int grid[ROW][COLUMN]);
 
+	int s1 = 0;
+	int s2 = 0;
 
 
 private:

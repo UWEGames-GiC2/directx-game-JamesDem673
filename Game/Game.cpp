@@ -103,13 +103,13 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(tiles);
     m_ColliderObjects.push_back(tiles);
 
-    int floorGridX = mazeGridSize - 11;
-    int floorGridZ = mazeGridSize - 11;
-    float spacingX = -15.0f;
+    int floorGridX = mazeGridSize - 1;
+    int floorGridZ = mazeGridSize - 1;
+    float spacingX = 15.0f;
     float spacingZ = 15.0f;
 
-    for (int x = -10; x <= floorGridX; x++) {
-        for (int z = -10; z <= floorGridZ; z++) {
+    for (int x = 0; x <= floorGridX; x++) {
+        for (int z = 0; z <= floorGridZ; z++) {
             if (x == 0 && z == 0) continue;
             Vector3 position(x * spacingX, 2.5f, z * spacingZ);
             Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
@@ -121,19 +121,19 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Player
     pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
+    pPlayer->SetPos(Vector3(pPlayer->GetPos().x, 10, pPlayer->GetPos().z));
     m_GameObjects.push_back(pPlayer);
     m_PhysicsObjects.push_back(pPlayer);
 
     //add Monster
-    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-33.0f, 3.0f, 20.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(157.5f, 3.0f, 142.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
     //add Exit
-    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(150.0f, 5.0f, 135.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
-
 
     CreateMazeFromFile();
 
@@ -186,27 +186,8 @@ void Game::CreateMazeFromFile()
     int gridX = 0;
     int gridZ = 0;
     
-    int startX = 150;
-    int startZ = 150;
-
-   /* for (int x = 0; x < 21; x++)
-    {
-        for (int z = 0; z < 21; z++)
-        {          
-            if (grid[x][z] == 0)
-            {
-                std::cout << grid[x + 10][z + 10];
-
-                gridX = startX + (15 * x);
-                gridZ = startZ - (15 * z);
-
-                Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(gridX, 3.0f, gridZ), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
-                forloopWalls->setTerrain(true);
-                m_GameObjects.push_back(forloopWalls);
-                m_ColliderObjects.push_back(forloopWalls);
-            }
-        }
-    }*/
+    int startX = 0;
+    int startZ = 0;
 
     for (int x = 0; x < 21; x++)
     {
@@ -214,8 +195,8 @@ void Game::CreateMazeFromFile()
         {
             if (grid[z][x] == 0)
             {
-                gridX = startX - (x * 15);
-                gridZ = startZ - (z * 15);
+                gridX = startX + (x * 15) + 7.5;
+                gridZ = startZ + (z * 15) + 7.5;
 
                 Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(gridX, 3.0f, gridZ), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
                 forloopWalls->setTerrain(true);
@@ -275,10 +256,18 @@ void Game::Update(DX::StepTimer const& _timer)
 
     CheckCollision();
     
-    //searcher->searchFunction(m_GD, grid);
+
+    if (((std::round(pPlayer->GetPos().x / 15) != currentTileX) || 
+        (std::round(pPlayer->GetPos().z / 15) != currentTileZ)))
+        {
+        currentTileX = std::round(pPlayer->GetPos().x);
+        currentTileZ = std::round(pPlayer->GetPos().z);
+
+        searcher->searchFunction(m_GD, grid);
+        }
 
     std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
-    //std::cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
+    //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
 
 // Draws the scene.

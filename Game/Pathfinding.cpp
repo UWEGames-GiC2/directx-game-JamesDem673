@@ -394,28 +394,20 @@ void Pathfinding::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])
     int playerX = m_GD->pPosx;
     int playerZ = m_GD->pPosz;
 
-    playerX = playerX / 15;
-    playerZ = playerZ / 15;
-
-    std::cout << "x: " << playerX << " y: " << playerZ << std::endl;
-
     int MonsterX = m_GD->ePosx;
     int MonsterZ = m_GD->ePosz;
 
-    MonsterX = (MonsterX / 15);
-    MonsterZ = (MonsterZ / 15);
+    playerX = std::round(playerX / 15);
+    playerZ = std::round(playerZ / 15);
+
+    std::cout << "xt: " << playerX << " zt: " << playerZ << " " << grid[playerZ][playerX] << std::endl;
+
+    MonsterX = std::round(MonsterX / 15);
+    MonsterZ = std::round(MonsterZ / 15);
 
     //format (z,x)
-    // Source is the left-most bottom-most corner
-    Pair src = std::make_pair(MonsterZ + 9, MonsterX + 9);
-
-    std::cout << MonsterZ << " " << MonsterX << std::endl;
-
-    // Destination is the left-most top-most corner
-    Pair dest = std::make_pair(playerZ + 9, playerX + 9);
-
-    std::vector<int> nextStep;
+    Pair src = std::make_pair(MonsterZ, MonsterX);
+    Pair dest = std::make_pair(playerZ, playerX);
+   
     aStarSearch(grid, src, dest);
-
-    std::cout << (m_GD->pPosz) + 11 << (m_GD->pPosx) + 11 << std::endl;
 }
