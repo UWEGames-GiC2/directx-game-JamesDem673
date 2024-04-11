@@ -35,7 +35,6 @@ class Terrain;
 class ImageGO2D;
 class TextGO2D;
 class Wall;
-class Pathfinding;
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -149,7 +148,6 @@ private:
     TextGO2D* startGameText = NULL;
 
     //Pathfinding
-    Pathfinding* searcher;
     int currentTileX = 0;
     int currentTileZ = 1;
 

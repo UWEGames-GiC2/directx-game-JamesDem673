@@ -255,16 +255,8 @@ void Game::Update(DX::StepTimer const& _timer)
     }
 
     CheckCollision();
-    
 
-    if (((std::round(pPlayer->GetPos().x / 15) != currentTileX) || 
-        (std::round(pPlayer->GetPos().z / 15) != currentTileZ)))
-        {
-        currentTileX = std::round(pPlayer->GetPos().x);
-        currentTileZ = std::round(pPlayer->GetPos().z);
-
-        searcher->searchFunction(m_GD, grid);
-        }
+    npcMonster->searchFunction(m_GD, grid);
 
     std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
     //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
