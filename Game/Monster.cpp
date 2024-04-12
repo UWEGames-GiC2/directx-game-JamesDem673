@@ -82,7 +82,20 @@ void Monster::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])
     Pair src = std::make_pair(MonsterZ, MonsterX);
     Pair dest = std::make_pair(playerZ, playerX);
 
-    aStarSearch(grid, src, dest);
+
+    if (!Path.empty())
+    {
+        std::pair<int, int> p = Path.top();
+        Path.pop();
+        printf("-> (%d,%d) ", p.first, p.second);
+
+        SetPos(Vector3((p.second * 15) + 7.5, GetPos().y, (p.first * 15) + 7.5));
+    }
+    else
+    {
+        aStarSearch(grid, src, dest);
+    }
+
 }
 
 
@@ -124,8 +137,6 @@ void Monster::tracePath(cell cellDetails[][COLUMN], Pair dest)
     int row = dest.first;
     int column = dest.second;
 
-    std::stack<Pair> Path;
-
     while (!(cellDetails[row][column].parent_i == row
         && cellDetails[row][column].parent_j == column))
     {
@@ -138,12 +149,6 @@ void Monster::tracePath(cell cellDetails[][COLUMN], Pair dest)
 
     Path.push(std::make_pair(row, column));
 
-    while (!Path.empty())
-    {
-        std::pair<int, int> p = Path.top();
-        Path.pop();
-        printf("-> (%d,%d) ", p.first, p.second);
-    }
 }
 
 void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
@@ -279,7 +284,7 @@ void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 hNew = calculateHValue(i - 1, j, dest);
                 fNew = gNew + hNew;
 
-                // If it isn’t on the open list, add it to
+                // If it isnï¿½t on the open list, add it to
                 // the open list. Make the current square
                 // the parent of this square. Record the
                 // f, g, and h costs of the square cell
@@ -327,7 +332,7 @@ void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 hNew = calculateHValue(i + 1, j, dest);
                 fNew = gNew + hNew;
 
-                // If it isn’t on the open list, add it to
+                // If it isnï¿½t on the open list, add it to
                 // the open list. Make the current square
                 // the parent of this square. Record the
                 // f, g, and h costs of the square cell
@@ -375,7 +380,7 @@ void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 hNew = calculateHValue(i, j + 1, dest);
                 fNew = gNew + hNew;
 
-                // If it isn’t on the open list, add it to
+                // If it isnï¿½t on the open list, add it to
                 // the open list. Make the current square
                 // the parent of this square. Record the
                 // f, g, and h costs of the square cell
@@ -424,7 +429,7 @@ void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 hNew = calculateHValue(i, j - 1, dest);
                 fNew = gNew + hNew;
 
-                // If it isn’t on the open list, add it to
+                // If it isnï¿½t on the open list, add it to
                 // the open list. Make the current square
                 // the parent of this square. Record the
                 // f, g, and h costs of the square cell

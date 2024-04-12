@@ -254,11 +254,18 @@ void Game::Update(DX::StepTimer const& _timer)
         (*it)->Tick(m_GD);
     }
 
+    tempTrack += 1;
+    if (tempTrack > 100)
+    {
+        npcMonster->searchFunction(m_GD, grid);
+       // npcMonster->moveMonster();
+        tempTrack = 0;
+    }
+   
     CheckCollision();
 
-    npcMonster->searchFunction(m_GD, grid);
-
-    std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
+   
+    //std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
     //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
 

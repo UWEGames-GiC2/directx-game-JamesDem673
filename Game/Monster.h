@@ -3,6 +3,7 @@
 #include "CMOGO.h"
 #include <bits.h>
 #include "GameData.h"
+#include <stack>
 
 #define ROW 21
 #define COLUMN 21
@@ -29,20 +30,20 @@ public:
 	~Monster();
 
 	virtual void Tick(GameData* _GD) override;
-
 	void trackPlayer(float playerx, float playerz, GameData* _GD);
 	void travel();
-
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
 	void searchFunction(GameData* _GD, int grid[ROW][COLUMN]);
+	void moveMonster();
 
 	int s1 = 0;
 	int s2 = 0;
+	std::stack<Pair> Path;
 
 
 private:
 	float speed = 3.0f;
-
+	
 	bool isValid(int row, int col);
 	bool isUnBlocked(int grid[][COLUMN], int row, int column);
 	bool isDestination(int row, int coumn, Pair dest);
