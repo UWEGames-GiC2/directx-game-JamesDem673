@@ -34,7 +34,6 @@ public:
 	void travel();
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
 	void searchFunction(GameData* _GD, int grid[ROW][COLUMN]);
-	void moveMonster();
 
 	int s1 = 0;
 	int s2 = 0;

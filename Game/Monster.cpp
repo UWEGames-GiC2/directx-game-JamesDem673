@@ -88,17 +88,12 @@ void Monster::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])
     {
         Path.pop();
         std::pair<int, int> p = Path.top();
+
         Path.pop();  
         printf("-> (%d,%d) ", p.first, p.second);
         SetPos(Vector3((p.second * 15) + 7.5, GetPos().y, (p.first * 15) + 7.5));
     }
-    else
-    {
-        
-    }
-
 }
-
 
 bool Monster::isValid(int row, int col)
 {
