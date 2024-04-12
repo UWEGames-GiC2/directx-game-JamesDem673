@@ -82,18 +82,19 @@ void Monster::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])
     Pair src = std::make_pair(MonsterZ, MonsterX);
     Pair dest = std::make_pair(playerZ, playerX);
 
+    aStarSearch(grid, src, dest);
 
     if (!Path.empty())
     {
-        std::pair<int, int> p = Path.top();
         Path.pop();
+        std::pair<int, int> p = Path.top();
+        Path.pop();  
         printf("-> (%d,%d) ", p.first, p.second);
-
         SetPos(Vector3((p.second * 15) + 7.5, GetPos().y, (p.first * 15) + 7.5));
     }
     else
     {
-        aStarSearch(grid, src, dest);
+        
     }
 
 }
