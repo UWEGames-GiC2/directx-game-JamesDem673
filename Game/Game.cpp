@@ -98,10 +98,6 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
 
     //Create Grid for textured ground
-    Terrain* tiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(0.0f, 2.5f, 0.0f), 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
-    tiles->setTerrain(true);
-    m_GameObjects.push_back(tiles);
-    m_ColliderObjects.push_back(tiles);
 
     int floorGridX = mazeGridSize - 1;
     int floorGridZ = mazeGridSize - 1;
@@ -110,8 +106,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     for (int x = 0; x <= floorGridX; x++) {
         for (int z = 0; z <= floorGridZ; z++) {
-            if (x == 0 && z == 0) continue;
-            Vector3 position(x * spacingX, 2.5f, z * spacingZ);
+            Vector3 position(x * spacingX + 7.5, 2.5f, z * spacingZ + 7.5);
             Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);

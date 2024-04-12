@@ -87,6 +87,7 @@ void Monster::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])
     if (!Path.empty())
     {
         Path.pop();
+
         std::pair<int, int> p = Path.top();
 
         Path.pop();  
