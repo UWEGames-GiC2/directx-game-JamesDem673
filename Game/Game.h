@@ -36,6 +36,7 @@ class ImageGO2D;
 class TextGO2D;
 class Wall;
 class ViewRadius;
+class CameraHolder;
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -141,7 +142,8 @@ private:
     int mazeGridSize = 21;
     float tileSize = 0.15f;
     ViewRadius* vRadius = NULL;
-    
+    CameraHolder* cHolder = NULL;
+
     //2D Game Objects
     ImageGO2D* mainMenu = NULL;
     ImageGO2D* lossMenu = NULL;

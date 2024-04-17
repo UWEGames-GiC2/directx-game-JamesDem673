@@ -165,10 +165,10 @@
     <ClInclude Include="Wall.h">
       <Filter>Base\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Pathfinding.h">
+    <ClInclude Include="ViewRadius.h">
       <Filter>Base\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ViewRadius.h">
+    <ClInclude Include="CameraHolder.h">
       <Filter>Base\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -251,10 +251,10 @@
     <ClCompile Include="Wall.cpp">
       <Filter>Base\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Pathfinding.cpp">
+    <ClCompile Include="ViewRadius.cpp">
       <Filter>Base\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ViewRadius.cpp">
+    <ClCompile Include="CameraHolder.cpp">
       <Filter>Base\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

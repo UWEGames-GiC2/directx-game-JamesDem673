@@ -62,10 +62,9 @@ void Player::Tick(GameData* _GD)
 		m_acc.y -= 40.0f;
 	}
 
-	//change orinetation of player
+	//Change orientation of player
 	float rotSpeed = _GD->m_dt;
 	m_yaw -= rotSpeed * _GD->m_MS.x;
-	m_pitch -= rotSpeed * _GD->m_MS.y;
 
 	//apply my base behaviour
 	CMOGO::Tick(_GD);

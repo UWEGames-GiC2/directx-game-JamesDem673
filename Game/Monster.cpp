@@ -43,9 +43,6 @@ void Monster::trackPlayer(float playerx, float playerz, GameData* _GD)
 	oppositeLength = playerz - m_pos.z;
 
 	float angleLookAt = atan2(adjactentLength, oppositeLength);
-
-
-
 	m_yaw = angleLookAt;
 
 	CMOGO::Tick(_GD);
@@ -73,8 +70,6 @@ void Monster::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])
     playerX = std::round(playerX / 15);
     playerZ = std::round(playerZ / 15);
 
-    std::cout << "xt: " << playerX << " zt: " << playerZ << " " << grid[playerZ][playerX] << std::endl;
-
     MonsterX = std::round(MonsterX / 15);
     MonsterZ = std::round(MonsterZ / 15);
 
@@ -89,9 +84,6 @@ void Monster::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])
         Path.pop();
 
         std::pair<int, int> p = Path.top();
-
-        Path.pop();  
-        printf("-> (%d,%d) ", p.first, p.second);
         SetPos(Vector3((p.second * 15) + 7.5, GetPos().y, (p.first * 15) + 7.5));
     }
 }
@@ -266,7 +258,6 @@ void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 // Set the Parent of the destination cell
                 cellDetails[i - 1][j].parent_i = i;
                 cellDetails[i - 1][j].parent_j = j;
-                printf("The destination cell is found\n");
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -314,7 +305,6 @@ void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 // Set the Parent of the destination cell
                 cellDetails[i + 1][j].parent_i = i;
                 cellDetails[i + 1][j].parent_j = j;
-                printf("The destination cell is found\n");
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -361,7 +351,6 @@ void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 // Set the Parent of the destination cell
                 cellDetails[i][j + 1].parent_i = i;
                 cellDetails[i][j + 1].parent_j = j;
-                printf("The destination cell is found\n");
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -410,7 +399,6 @@ void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
                 // Set the Parent of the destination cell
                 cellDetails[i][j - 1].parent_i = i;
                 cellDetails[i][j - 1].parent_j = j;
-                printf("The destination cell is found\n");
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
