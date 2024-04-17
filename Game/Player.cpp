@@ -13,7 +13,7 @@ Player::Player(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF)
 	m_pos.y = 10.0f;
 	m_pos.z = 22.5f;
 
-	SetDrag(1.25);
+	SetDrag(2.5);
 	SetPhysicsOn(true);
 }
 

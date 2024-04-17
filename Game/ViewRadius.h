@@ -11,5 +11,12 @@ public:
 
 	virtual void Tick(GameData* _GD) override;
 
+	void reduceScale();
+	void increaseScale();
+
+private:
+	int maxScale = 20;
+	int currentScale = 20;
+	int minScale = 10;
 };
 #endif

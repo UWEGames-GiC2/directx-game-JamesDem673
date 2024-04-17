@@ -26,3 +26,21 @@ void ViewRadius::Tick(GameData* _GD)
 	m_pos.z = _GD->pPosz;
 	CMOGO::Tick(_GD);
 }
+
+void ViewRadius::reduceScale()
+{
+	if (currentScale - 1 >= minScale)
+	{
+		currentScale -= 1;
+		SetScale(Vector3::One * currentScale);
+	}
+}
+
+void ViewRadius::increaseScale()
+{
+	if (currentScale + 1 <= maxScale)
+	{
+		currentScale += 1;
+		SetScale(Vector3::One * currentScale);
+	}
+}

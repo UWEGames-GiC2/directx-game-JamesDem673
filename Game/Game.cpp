@@ -90,7 +90,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //create a set of dummy things to show off the engine
 
     //create a base light
-    m_light = new Light(Vector3(0.0f, 100.0f, 160.0f), Color(1.0f, 1.0f, 1.0f, 1.0f), Color(0.1f, 0.1f, 0.1f, 1.0f));
+    m_light = new Light(Vector3(0.0f, 100.0f, 160.0f), Color(0.0f, 0.0f, 0.0f, 0.0f), Color(0.1f, 0.1f, 0.1f, 0.1f));
     m_GameObjects.push_back(m_light);
 
     //find how big my window is to correctly calculate my aspect ratio
@@ -125,7 +125,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(cHolder);
 
     //add ViewRadius
-    vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3(10, 10, 10));
+    vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 20);
     m_GameObjects.push_back(vRadius);
 
     //add Monster
@@ -259,6 +259,7 @@ void Game::Update(DX::StepTimer const& _timer)
     tempTrack += 1;
     if (tempTrack > 100)
     {
+        vRadius->reduceScale();
         npcMonster->searchFunction(m_GD, grid);
        // npcMonster->moveMonster();
         tempTrack = 0;
