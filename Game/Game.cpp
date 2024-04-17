@@ -89,10 +89,6 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //create a set of dummy things to show off the engine
 
-    //create a base light
-    m_light = new Light(Vector3(0.0f, 100.0f, 160.0f), Color(0.0f, 0.0f, 0.0f, 0.0f), Color(0.1f, 0.1f, 0.1f, 0.1f));
-    m_GameObjects.push_back(m_light);
-
     //find how big my window is to correctly calculate my aspect ratio
     float AR = (float)_width / (float)_height;
 
