@@ -125,7 +125,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(cHolder);
 
     //add ViewRadius
-    vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, 5.0f, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 10);
+    vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3(10, 10, 10));
     m_GameObjects.push_back(vRadius);
 
     //add Monster
@@ -245,7 +245,6 @@ void Game::Update(DX::StepTimer const& _timer)
     }
 
     ReadInput();
-    //upon space bar switch camera state
 
     //update all objects
     for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
@@ -256,7 +255,7 @@ void Game::Update(DX::StepTimer const& _timer)
     {
         (*it)->Tick(m_GD);
     }
-
+    
     tempTrack += 1;
     if (tempTrack > 100)
     {
@@ -643,6 +642,7 @@ void Game::DisplayMenu()
 
     winMenu->SetRendered(false);
     lossMenu->SetRendered(false);
+    vRadius->setRendered(false);
 }
 
 void Game::DisplayGame()
@@ -651,7 +651,7 @@ void Game::DisplayGame()
     pPlayer->setRendered(true);
     npcMonster->setRendered(true);
     exitGate->setRendered(true);
-
+    vRadius->setRendered(true);
 
     for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
@@ -689,6 +689,7 @@ void Game::DisplayWin()
     mainMenu->SetRendered(false);
     startGameText->SetRendered(false);
     lossMenu->SetRendered(false);
+    vRadius->setRendered(false);
 }
 
 void Game::DisplayLoss()
@@ -712,4 +713,5 @@ void Game::DisplayLoss()
     mainMenu->SetRendered(false);
     startGameText->SetRendered(false);
     winMenu->SetRendered(false);
+    vRadius->setRendered(false);
 }

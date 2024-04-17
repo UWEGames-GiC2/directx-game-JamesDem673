@@ -32,6 +32,7 @@ void Monster::Tick(GameData* _GD)
 	_GD->ePosz = GetPos().z;
 
 	trackPlayer(_GD->pPosx, _GD->pPosz, _GD);
+    CMOGO::Tick(_GD);
 }
 
 void Monster::trackPlayer(float playerx, float playerz, GameData* _GD)
@@ -44,8 +45,6 @@ void Monster::trackPlayer(float playerx, float playerz, GameData* _GD)
 
 	float angleLookAt = atan2(adjactentLength, oppositeLength);
 	m_yaw = angleLookAt;
-
-	CMOGO::Tick(_GD);
 }
 
 void Monster::travel()

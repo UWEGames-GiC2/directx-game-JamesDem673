@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ViewRadius.h"
 #include "GameData.h"
-
+#include <iostream>
 
 ViewRadius::ViewRadius(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF, Vector3 _pos, float _pitch, float _yaw, float _roll, Vector3 _scale) :CMOGO(_fileName, _pd3dDevice, _EF)
 {
@@ -24,4 +24,5 @@ void ViewRadius::Tick(GameData* _GD)
 {
 	m_pos.x = _GD->pPosx;
 	m_pos.z = _GD->pPosz;
+	CMOGO::Tick(_GD);
 }
