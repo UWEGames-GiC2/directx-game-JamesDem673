@@ -16,6 +16,7 @@
 #include "Wall.h"
 #include "Light.h"
 #include "GPGO.h"
+#include "ViewRadius.h"
 
 //VBGO examples
 #include "fileVBGO.h"

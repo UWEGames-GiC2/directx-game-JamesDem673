@@ -35,6 +35,7 @@ class Terrain;
 class ImageGO2D;
 class TextGO2D;
 class Wall;
+class ViewRadius;
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -139,7 +140,7 @@ private:
     Exit* exitGate = NULL;
     int mazeGridSize = 21;
     float tileSize = 0.15f;
-
+    ViewRadius* vRadius = NULL;
     
     //2D Game Objects
     ImageGO2D* mainMenu = NULL;

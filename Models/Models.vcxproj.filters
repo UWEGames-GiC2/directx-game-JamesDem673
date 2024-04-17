@@ -26,5 +26,6 @@
     <MeshContentTask Include="Monster\MonsterModel.fbx" />
     <MeshContentTask Include="Exit\ExitModel.fbx" />
     <MeshContentTask Include="Wall\wallModel.fbx" />
+    <MeshContentTask Include="ViewRadius.fbx" />
   </ItemGroup>
 </Project>

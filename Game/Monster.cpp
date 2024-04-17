@@ -44,7 +44,7 @@ void Monster::trackPlayer(float playerx, float playerz, GameData* _GD)
 
 	float angleLookAt = atan2(adjactentLength, oppositeLength);
 
-	angleLookAt = angleLookAt * (180.0 / 3.1415926);
+
 
 	m_yaw = angleLookAt;
 

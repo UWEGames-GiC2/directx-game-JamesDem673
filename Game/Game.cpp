@@ -116,9 +116,13 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Player
     pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
-    pPlayer->SetPos(Vector3(pPlayer->GetPos().x, 10, pPlayer->GetPos().z));
+    pPlayer->SetPos(Vector3(pPlayer->GetPos().x, 2.5, pPlayer->GetPos().z));
     m_GameObjects.push_back(pPlayer);
     m_PhysicsObjects.push_back(pPlayer);
+
+    //add ViewRadius
+    vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, 5.0f, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One);
+    m_GameObjects.push_back(vRadius);
 
     //add Monster
     npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(157.5f, 3.0f, 142.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
@@ -133,7 +137,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     CreateMazeFromFile();
 
     //create a base camera
-    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.001f, 0.05f));
+    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 5.0f,  0.01f));
     m_GameObjects.push_back(m_TPScam);
 
     //create a main menu
