@@ -110,6 +110,21 @@ void Game::Initialize(HWND _window, int _width, int _height)
         }
     }
 
+    //Create Grid for textured roof
+
+    int ceilingGridX = mazeGridSize - 1;
+    int ceilingGridZ = mazeGridSize - 1;
+
+    for (int x = 0; x <= ceilingGridX; x++) {
+        for (int z = 0; z <= ceilingGridZ; z++) {
+            Vector3 position(x * spacingX + 7.5, 17.5f, z * spacingZ + 7.5);
+            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+            forLoopTiles->setTerrain(true);
+            m_GameObjects.push_back(forLoopTiles);
+            m_ColliderObjects.push_back(forLoopTiles);
+        }
+    }
+
     //add Player
     pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
     pPlayer->SetPos(Vector3(pPlayer->GetPos().x, 2.5, pPlayer->GetPos().z));
@@ -162,7 +177,6 @@ void Game::Initialize(HWND _window, int _width, int _height)
     startGameText->SetColour(Color((float*)&Colors::Black));
     m_GameObjects2D.push_back(startGameText);
 
-
     //create DrawData struct and populate its pointers
     m_DD = new DrawData;
     m_DD->m_pd3dImmediateContext = nullptr;
@@ -175,7 +189,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     loop->SetVolume(0.1f);
     loop->Play();
     m_Sounds.push_back(loop);
-
+ 
     DisplayMenu();
 }
 
