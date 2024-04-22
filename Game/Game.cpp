@@ -150,7 +150,6 @@ void Game::Initialize(HWND _window, int _width, int _height)
     }
 
     //Creates walls for starting room
-
     for (int i = 0; i < 3; i++)
     {
         Wall* startwall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((- 15.0f * i) - 7.5f, 3.0f, -7.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
@@ -193,7 +192,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(cHolder);
 
     //add ViewRadius
-    vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 20);
+    vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 25);
     m_GameObjects.push_back(vRadius);
 
     //add Monster
