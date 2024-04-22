@@ -22,7 +22,6 @@ Player::~Player()
 	//tidy up anything I've created
 }
 
-  
 void Player::Tick(GameData* _GD)
 {
 

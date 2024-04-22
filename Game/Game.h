@@ -150,6 +150,13 @@ private:
     ImageGO2D* winMenu = NULL;
     TextGO2D* startGameText = NULL;
 
+    ImageGO2D* fuelMeterShell = NULL;
+    ImageGO2D* fuelMeter[21] = {NULL,NULL,NULL,NULL,NULL,
+                                NULL,NULL,NULL,NULL,NULL,
+                                NULL,NULL,NULL,NULL,NULL,
+                                NULL,NULL,NULL,NULL,NULL};
+    int MeterCount = 20;
+
     //Pathfinding
     int currentTileX = 0;
     int currentTileZ = 1;

@@ -15,8 +15,8 @@ public:
 	void increaseScale();
 
 private:
-	int maxScale = 20;
-	int currentScale = 20;
-	int minScale = 10;
+	int maxScale = 30;
+	int currentScale = 30;
+	int minScale = 9.5;
 };
 #endif

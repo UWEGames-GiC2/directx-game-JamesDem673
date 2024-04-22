@@ -9,5 +9,7 @@
     <ImageContentTask Include="mainMenu.png" />
     <ImageContentTask Include="lossScreen.png" />
     <ImageContentTask Include="winScreen.png" />
+    <ImageContentTask Include="FuelTrackerBar.png" />
+    <ImageContentTask Include="FuelTrackerFrame.png" />
   </ItemGroup>
 </Project>

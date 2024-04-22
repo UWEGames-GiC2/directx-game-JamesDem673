@@ -158,20 +158,13 @@ void Game::Initialize(HWND _window, int _width, int _height)
         m_ColliderObjects.push_back(startwall);
     }
 
-    Wall* startwall3 = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 7.2f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
-    startwall3->setTerrain(true);
-    m_GameObjects.push_back(startwall3);
-    m_ColliderObjects.push_back(startwall3);
-
-    Wall* startwall4 = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 22.0f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
-    startwall4->setTerrain(true);
-    m_GameObjects.push_back(startwall4);
-    m_ColliderObjects.push_back(startwall4);
-
-    Wall* startwall5 = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 37.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
-    startwall5->setTerrain(true);
-    m_GameObjects.push_back(startwall5);
-    m_ColliderObjects.push_back(startwall5);
+    for (int i = 0; i < 3; i++)
+    {
+        Wall* startwall3 = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 7.5f + (i * 15.0f)), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+        startwall3->setTerrain(true);
+        m_GameObjects.push_back(startwall3);
+        m_ColliderObjects.push_back(startwall3);
+    }
 
     for (int i = 0; i < 3; i++)
     {
@@ -225,6 +218,19 @@ void Game::Initialize(HWND _window, int _width, int _height)
     winMenu = new ImageGO2D("winScreen", m_d3dDevice.Get());
     winMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     m_GameObjects2D.push_back(winMenu);
+
+    //create a fuel meter
+    fuelMeterShell = new ImageGO2D("FuelTrackerFrame", m_d3dDevice.Get());
+    fuelMeterShell->SetPos(Vector2(m_outputWidth / 2, 4 * (m_outputHeight / 5)));
+    m_GameObjects2D.push_back(fuelMeterShell);
+
+
+    for (int i = 0; i < 20; i++)
+    {
+        fuelMeter[i] = new ImageGO2D("FuelTrackerBar", m_d3dDevice.Get());
+        fuelMeter[i]->SetPos(Vector2(490.0f + (50 * i), 4 * (m_outputHeight / 5)));
+        m_GameObjects2D.push_back(fuelMeter[i]);
+    }
 
     //add menu text
     startGameText = new TextGO2D("> Start Game");
@@ -322,17 +328,36 @@ void Game::Update(DX::StepTimer const& _timer)
         (*it)->Tick(m_GD);
     }
 
-    tempTrack += 1;
-    if (tempTrack > 100)
+    if (pPlayer->isRendered())
     {
-        vRadius->reduceScale();
-        npcMonster->searchFunction(m_GD, grid);
-        // npcMonster->moveMonster();
-        tempTrack = 0;
+        tempTrack += 1;
+
+        if (tempTrack == 50)
+        {
+            if (MeterCount - 1 >= 0)
+            {
+                vRadius->reduceScale();
+                MeterCount -= 1;
+                fuelMeter[MeterCount]->SetPos(Vector2(-100, -100));
+            }
+        }
+
+        if (tempTrack > 100)
+        {
+            if (MeterCount - 1 >= 0)
+            {
+                vRadius->reduceScale();
+                MeterCount -= 1;
+                fuelMeter[MeterCount]->SetPos(Vector2(-100, -100));
+            }
+
+            npcMonster->searchFunction(m_GD, grid);
+            tempTrack = 0;
+        }
     }
 
-    CheckCollision();
 
+    CheckCollision();
 
     //std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
     //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
@@ -710,6 +735,12 @@ void Game::DisplayMenu()
     winMenu->SetRendered(false);
     lossMenu->SetRendered(false);
     vRadius->setRendered(false);
+    fuelMeterShell->SetRendered(false);
+
+    for (int i = 0; i < 20; i++)
+    {
+        fuelMeter[i]->SetRendered(false);
+    }
 }
 
 void Game::DisplayGame()
@@ -719,6 +750,11 @@ void Game::DisplayGame()
     npcMonster->setRendered(true);
     exitGate->setRendered(true);
     vRadius->setRendered(true);
+    fuelMeterShell->SetRendered(true);
+    for (int i = 0; i < 20; i++)
+    {
+        fuelMeter[i]->SetRendered(true);
+    }
 
     for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
@@ -733,6 +769,7 @@ void Game::DisplayGame()
     startGameText->SetRendered(false);
     winMenu->SetRendered(false);
     lossMenu->SetRendered(false);
+
 }
 
 void Game::DisplayWin()
@@ -757,6 +794,12 @@ void Game::DisplayWin()
     startGameText->SetRendered(false);
     lossMenu->SetRendered(false);
     vRadius->setRendered(false);
+    fuelMeterShell->SetRendered(false);
+
+    for (int i = 0; i < 20; i++)
+    {
+        fuelMeter[i]->SetRendered(false);
+    }
 }
 
 void Game::DisplayLoss()
@@ -781,4 +824,10 @@ void Game::DisplayLoss()
     startGameText->SetRendered(false);
     winMenu->SetRendered(false);
     vRadius->setRendered(false);
+    fuelMeterShell->SetRendered(false);
+
+    for (int i = 0; i < 20; i++)
+    {
+        fuelMeter[i]->SetRendered(false);
+    }
 }
