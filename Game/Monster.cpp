@@ -47,11 +47,6 @@ void Monster::trackPlayer(float playerx, float playerz, GameData* _GD)
 	m_yaw = angleLookAt;
 }
 
-void Monster::travel()
-{
-
-}
-
 
 // sets up search function
 void Monster::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])

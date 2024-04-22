@@ -31,7 +31,6 @@ public:
 
 	virtual void Tick(GameData* _GD) override;
 	void trackPlayer(float playerx, float playerz, GameData* _GD);
-	void travel();
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
 	void searchFunction(GameData* _GD, int grid[ROW][COLUMN]);
 

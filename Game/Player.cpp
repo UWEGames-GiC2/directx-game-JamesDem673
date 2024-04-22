@@ -9,7 +9,7 @@ Player::Player(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF)
 	//any special set up for Player goes here
 	m_fudge = Matrix::CreateRotationY(XM_PI);
 
-	m_pos.x = 7.5f;
+	m_pos.x = -23.0f;
 	m_pos.y = 10.0f;
 	m_pos.z = 22.5f;
 

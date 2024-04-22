@@ -8,7 +8,7 @@
 #include <iostream>
 #include <string>
 
-//Scarle Headers
+    //Scarle Headers
 #include "GameData.h"
 #include "GameState.h"
 #include "DrawData.h"
@@ -19,11 +19,11 @@
 #include <DirectXCollision.h>
 #include "Collision.h"
 
-extern void ExitGame() noexcept;
+    extern void ExitGame() noexcept;
 
-using namespace DirectX;
+    using namespace DirectX;
 
-using Microsoft::WRL::ComPtr;
+    using Microsoft::WRL::ComPtr;
 
 Game::Game() noexcept :
     m_window(nullptr),
@@ -100,6 +100,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     float spacingX = 15.0f;
     float spacingZ = 15.0f;
 
+    //Creates maze floor
     for (int x = 0; x <= floorGridX; x++) {
         for (int z = 0; z <= floorGridZ; z++) {
             Vector3 position(x * spacingX + 7.5, 2.5f, z * spacingZ + 7.5);
@@ -110,8 +111,19 @@ void Game::Initialize(HWND _window, int _width, int _height)
         }
     }
 
-    //Create Grid for textured roof
+    //Creates starting room floor
+    for (int x = -3; x <= -1; x++) {
+        for (int z = 0; z <= 2; z++)
+        {
+            Vector3 position(x * spacingX + 7.5, 2.5f, z * spacingZ + 7.5);
+            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+            forLoopTiles->setTerrain(true);
+            m_GameObjects.push_back(forLoopTiles);
+            m_ColliderObjects.push_back(forLoopTiles);
+        }
+    }
 
+    //Create maze roof
     int ceilingGridX = mazeGridSize - 1;
     int ceilingGridZ = mazeGridSize - 1;
 
@@ -123,6 +135,51 @@ void Game::Initialize(HWND _window, int _width, int _height)
             m_GameObjects.push_back(forLoopTiles);
             m_ColliderObjects.push_back(forLoopTiles);
         }
+    }
+
+    //Creates starting room roof
+    for (int x = -3; x <= -1; x++) {
+        for (int z = 0; z <= 2; z++)
+        {
+            Vector3 position(x * spacingX + 7.5, 17.5f, z * spacingZ + 7.5);
+            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+            forLoopTiles->setTerrain(true);
+            m_GameObjects.push_back(forLoopTiles);
+            m_ColliderObjects.push_back(forLoopTiles);
+        }
+    }
+
+    //Creates walls for starting room
+
+    for (int i = 0; i < 3; i++)
+    {
+        Wall* startwall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((- 15.0f * i) - 7.5f, 3.0f, -7.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+        startwall->setTerrain(true);
+        m_GameObjects.push_back(startwall);
+        m_ColliderObjects.push_back(startwall);
+    }
+
+    Wall* startwall3 = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 7.2f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+    startwall3->setTerrain(true);
+    m_GameObjects.push_back(startwall3);
+    m_ColliderObjects.push_back(startwall3);
+
+    Wall* startwall4 = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 22.0f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+    startwall4->setTerrain(true);
+    m_GameObjects.push_back(startwall4);
+    m_ColliderObjects.push_back(startwall4);
+
+    Wall* startwall5 = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 37.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+    startwall5->setTerrain(true);
+    m_GameObjects.push_back(startwall5);
+    m_ColliderObjects.push_back(startwall5);
+
+    for (int i = 0; i < 3; i++)
+    {
+        Wall* startwall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((-15.0f * i) - 7.5f, 3.0f, 52.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+        startwall->setTerrain(true);
+        m_GameObjects.push_back(startwall);
+        m_ColliderObjects.push_back(startwall);
     }
 
     //add Player
@@ -152,7 +209,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     CreateMazeFromFile();
 
     //create a base camera
-    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, cHolder, Vector3::UnitY, Vector3(0.0f, 5.0f,  0.01f));
+    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, cHolder, Vector3::UnitY, Vector3(0.0f, 5.0f, 0.01f));
     m_GameObjects.push_back(m_TPScam);
 
     //create a main menu
@@ -189,7 +246,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     loop->SetVolume(0.1f);
     loop->Play();
     m_Sounds.push_back(loop);
- 
+
     DisplayMenu();
 }
 
@@ -198,7 +255,7 @@ void Game::CreateMazeFromFile()
 {
     int gridX = 0;
     int gridZ = 0;
-    
+
     int startX = 0;
     int startZ = 0;
 
@@ -224,9 +281,9 @@ void Game::CreateMazeFromFile()
 void Game::Tick()
 {
     m_timer.Tick([&]()
-    {
-        Update(m_timer);
-    });
+        {
+            Update(m_timer);
+        });
 
     Render();
 }
@@ -265,19 +322,19 @@ void Game::Update(DX::StepTimer const& _timer)
     {
         (*it)->Tick(m_GD);
     }
-    
+
     tempTrack += 1;
     if (tempTrack > 100)
     {
         vRadius->reduceScale();
         npcMonster->searchFunction(m_GD, grid);
-       // npcMonster->moveMonster();
+        // npcMonster->moveMonster();
         tempTrack = 0;
     }
-   
+
     CheckCollision();
 
-   
+
     //std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
     //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
@@ -292,7 +349,7 @@ void Game::Render()
     }
 
     Clear();
-    
+
     //set immediate context of the graphics device
     m_DD->m_pd3dImmediateContext = m_d3dContext.Get();
 
@@ -413,7 +470,7 @@ void Game::CreateDevice()
     //this should work!
 #endif
 
-    static const D3D_FEATURE_LEVEL featureLevels [] =
+    static const D3D_FEATURE_LEVEL featureLevels[] =
     {
         // TODO: Modify for supported Direct3D feature levels
         D3D_FEATURE_LEVEL_11_1,
@@ -439,7 +496,7 @@ void Game::CreateDevice()
         device.ReleaseAndGetAddressOf(),    // returns the Direct3D device created
         &m_featureLevel,                    // returns feature level of device created
         context.ReleaseAndGetAddressOf()    // returns the device immediate context
-        ));
+    ));
 
 #ifndef NDEBUG
     ComPtr<ID3D11Debug> d3dDebug;
@@ -452,7 +509,7 @@ void Game::CreateDevice()
             d3dInfoQueue->SetBreakOnSeverity(D3D11_MESSAGE_SEVERITY_CORRUPTION, true);
             d3dInfoQueue->SetBreakOnSeverity(D3D11_MESSAGE_SEVERITY_ERROR, true);
 #endif
-            D3D11_MESSAGE_ID hide [] =
+            D3D11_MESSAGE_ID hide[] =
             {
                 D3D11_MESSAGE_ID_SETPRIVATEDATA_CHANGINGPARAMS,
                 // TODO: Add more message IDs here as needed.
@@ -475,7 +532,7 @@ void Game::CreateDevice()
 void Game::CreateResources()
 {
     // Clear the previous window size specific context.
-    ID3D11RenderTargetView* nullViews [] = { nullptr };
+    ID3D11RenderTargetView* nullViews[] = { nullptr };
     m_d3dContext->OMSetRenderTargets(static_cast<UINT>(std::size(nullViews)), nullViews, nullptr);
     m_renderTargetView.Reset();
     m_depthStencilView.Reset();
@@ -541,7 +598,7 @@ void Game::CreateResources()
             &fsSwapChainDesc,
             nullptr,
             m_swapChain.ReleaseAndGetAddressOf()
-            ));
+        ));
 
         // This template does not support exclusive fullscreen mode and prevents DXGI from responding to the ALT+ENTER shortcut.
         DX::ThrowIfFailed(dxgiFactory->MakeWindowAssociation(m_window, DXGI_MWA_NO_ALT_ENTER));
