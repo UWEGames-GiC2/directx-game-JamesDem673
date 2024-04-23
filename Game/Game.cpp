@@ -198,7 +198,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
 
-    CreateMazeFromFile();
+    CreateMazeFromArray();
 
     //create a base camera
     m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, cHolder, Vector3::UnitY, Vector3(0.0f, 5.0f, 0.01f));
@@ -260,9 +260,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
     DisplayMenu();
 }
 
-// Creates a maze from a .txt file
-void Game::CreateMazeFromFile()
+// Creates maze
+void Game::CreateMazeFromArray()
 {
+    mazegen->createMaze();
+
     int gridX = 0;
     int gridZ = 0;
 

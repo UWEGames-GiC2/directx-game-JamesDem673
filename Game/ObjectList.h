@@ -18,6 +18,7 @@
 #include "GPGO.h"
 #include "ViewRadius.h"
 #include "CameraHolder.h"
+#include "MazeGen.h"
 
 //VBGO examples
 #include "fileVBGO.h"
@@ -36,3 +37,5 @@
 //Sounds
 #include "TestSound.h"
 #include "Loop.h"
+
+

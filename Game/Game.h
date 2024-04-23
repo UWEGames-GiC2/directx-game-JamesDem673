@@ -37,6 +37,8 @@ class TextGO2D;
 class Wall;
 class ViewRadius;
 class CameraHolder;
+class MazeGen;
+
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -59,7 +61,7 @@ public:
     void DisplayGame();
     void DisplayWin();
     void DisplayLoss();
-    void CreateMazeFromFile();
+    void CreateMazeFromArray();
 
     // Basic game loop
     void Tick();
@@ -159,6 +161,7 @@ private:
     int MeterCount = 19;
 
     //Pathfinding
+    MazeGen* mazegen = NULL;
     int currentTileX = 0;
     int currentTileZ = 1;
     int tempTrack = 0;
