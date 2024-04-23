@@ -162,6 +162,7 @@ private:
     int currentTileX = 0;
     int currentTileZ = 1;
     int tempTrack = 0;
+    bool monsterCanMove = true;
 
     //required for the CMO model rendering system
     DirectX::CommonStates* m_states = NULL;

@@ -338,14 +338,29 @@ void Game::Update(DX::StepTimer const& _timer)
         tempTrack += 1;
 
         if (tempTrack == 50)
-        {
-            if (MeterCount + 1 <= 19 && m_GD->m_KBS.R)
+        {      
+            if (MeterCount + 2 <= 19 && m_GD->m_KBS.R)
             {     
                 blackScreen->SetRendered(true);
 
                 MeterCount += 1;
                 vRadius->increaseScale();               
                 fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));    
+
+                MeterCount += 1;
+                vRadius->increaseScale();
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+
+                monsterCanMove = true;
+            }
+            else if (MeterCount + 1 <= 19 && m_GD->m_KBS.R)
+            {
+                blackScreen->SetRendered(true);
+
+                MeterCount += 1;
+                vRadius->increaseScale();
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+                monsterCanMove = true;
             }
 
             else if (MeterCount - 1 >= 0)
@@ -355,13 +370,17 @@ void Game::Update(DX::StepTimer const& _timer)
                 vRadius->reduceScale();              
                 fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 9999));
                 MeterCount -= 1;
+                monsterCanMove = false;
             }
 
-            npcMonster->searchFunction(m_GD, grid);
+            if (monsterCanMove)
+            {
+                npcMonster->searchFunction(m_GD, grid);
+            }
+
             tempTrack = 0;
         }
     }
-
 
     CheckCollision();
 
@@ -715,6 +734,15 @@ void Game::CheckCollision()
     {
         m_GD->m_GS = GS_LOSE;
         DisplayLoss();
+    }
+
+    if (npcMonster->Intersects(*vRadius))
+    {
+        monsterCanMove = false;
+    }
+    else
+    {
+        monsterCanMove = true;
     }
 }
 
