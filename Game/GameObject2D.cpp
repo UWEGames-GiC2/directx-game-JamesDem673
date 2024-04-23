@@ -19,7 +19,13 @@ bool GameObject2D::isRendered()
 	return render;
 }
 
+Vector2 GameObject2D::GetPos()
+{
+	return m_pos;
+}
+
 void GameObject2D::SetRendered(bool state)
 {
 	render = state;
 }
+

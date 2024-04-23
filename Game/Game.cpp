@@ -221,14 +221,14 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //create a fuel meter
     fuelMeterShell = new ImageGO2D("FuelTrackerFrame", m_d3dDevice.Get());
-    fuelMeterShell->SetPos(Vector2(m_outputWidth / 2, 4 * (m_outputHeight / 5)));
+    fuelMeterShell->SetPos(Vector2(m_outputWidth / 2, 4.5 * (m_outputHeight / 5)));
     m_GameObjects2D.push_back(fuelMeterShell);
 
 
     for (int i = 0; i < 20; i++)
     {
         fuelMeter[i] = new ImageGO2D("FuelTrackerBar", m_d3dDevice.Get());
-        fuelMeter[i]->SetPos(Vector2(490.0f + (50 * i), 4 * (m_outputHeight / 5)));
+        fuelMeter[i]->SetPos(Vector2(490.0f + (50 * i), 4.5 * (m_outputHeight / 5)));
         m_GameObjects2D.push_back(fuelMeter[i]);
     }
 
@@ -338,7 +338,7 @@ void Game::Update(DX::StepTimer const& _timer)
             {
                 vRadius->reduceScale();
                 MeterCount -= 1;
-                fuelMeter[MeterCount]->SetPos(Vector2(-100, -100));
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, fuelMeter[MeterCount]->GetPos().y + 500));
             }
         }
 
@@ -348,7 +348,7 @@ void Game::Update(DX::StepTimer const& _timer)
             {
                 vRadius->reduceScale();
                 MeterCount -= 1;
-                fuelMeter[MeterCount]->SetPos(Vector2(-100, -100));
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, fuelMeter[MeterCount]->GetPos().y + 500));
             }
 
             npcMonster->searchFunction(m_GD, grid);

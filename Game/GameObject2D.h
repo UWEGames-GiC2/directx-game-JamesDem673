@@ -36,6 +36,7 @@ public:
 	void SetRendered(bool state);
 
 	bool isRendered();
+	Vector2 GetPos();
 
 protected:
 	Vector2 m_pos;
