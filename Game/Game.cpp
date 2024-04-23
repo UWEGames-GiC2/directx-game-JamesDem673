@@ -219,6 +219,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
     winMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     m_GameObjects2D.push_back(winMenu);
 
+    //create a black screen
+    blackScreen = new ImageGO2D("BlackScreen", m_d3dDevice.Get());
+    blackScreen->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    m_GameObjects2D.push_back(blackScreen);
+
     //create a fuel meter
     fuelMeterShell = new ImageGO2D("FuelTrackerFrame", m_d3dDevice.Get());
     fuelMeterShell->SetPos(Vector2(m_outputWidth / 2, 4.5 * (m_outputHeight / 5)));
@@ -335,14 +340,18 @@ void Game::Update(DX::StepTimer const& _timer)
         if (tempTrack == 50)
         {
             if (MeterCount + 1 <= 19 && m_GD->m_KBS.R)
-            {              
+            {     
+                blackScreen->SetRendered(true);
+
                 MeterCount += 1;
                 vRadius->increaseScale();               
-                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));              
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));    
             }
 
             else if (MeterCount - 1 >= 0)
             {
+                blackScreen->SetRendered(false);
+
                 vRadius->reduceScale();              
                 fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 9999));
                 MeterCount -= 1;
@@ -733,11 +742,13 @@ void Game::DisplayMenu()
     lossMenu->SetRendered(false);
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
+    blackScreen->SetRendered(false);
 
     for (int i = 0; i < 20; i++)
     {
         fuelMeter[i]->SetRendered(false);
     }
+    
 }
 
 void Game::DisplayGame()
@@ -766,6 +777,7 @@ void Game::DisplayGame()
     startGameText->SetRendered(false);
     winMenu->SetRendered(false);
     lossMenu->SetRendered(false);
+    blackScreen->SetRendered(false);
 
 }
 
@@ -792,6 +804,7 @@ void Game::DisplayWin()
     lossMenu->SetRendered(false);
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
+    blackScreen->SetRendered(false);
 
     for (int i = 0; i < 20; i++)
     {
@@ -822,6 +835,7 @@ void Game::DisplayLoss()
     winMenu->SetRendered(false);
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
+    blackScreen->SetRendered(false);
 
     for (int i = 0; i < 20; i++)
     {

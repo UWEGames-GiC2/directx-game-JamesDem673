@@ -165,6 +165,9 @@
     <ImageContentTask Include="FuelTrackerBar.png" />
     <ImageContentTask Include="FuelTrackerFrame.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="BlackScreen.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\ImageContentTask.targets" />

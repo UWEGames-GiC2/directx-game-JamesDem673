@@ -148,6 +148,7 @@ private:
     ImageGO2D* mainMenu = NULL;
     ImageGO2D* lossMenu = NULL;
     ImageGO2D* winMenu = NULL;
+    ImageGO2D* blackScreen = NULL;
     TextGO2D* startGameText = NULL;
 
     ImageGO2D* fuelMeterShell = NULL;

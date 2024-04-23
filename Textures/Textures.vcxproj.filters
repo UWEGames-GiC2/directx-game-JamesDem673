@@ -11,5 +11,6 @@
     <ImageContentTask Include="winScreen.png" />
     <ImageContentTask Include="FuelTrackerBar.png" />
     <ImageContentTask Include="FuelTrackerFrame.png" />
+    <ImageContentTask Include="BlackScreen.png" />
   </ItemGroup>
 </Project>
