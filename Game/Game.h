@@ -151,11 +151,11 @@ private:
     TextGO2D* startGameText = NULL;
 
     ImageGO2D* fuelMeterShell = NULL;
-    ImageGO2D* fuelMeter[21] = {NULL,NULL,NULL,NULL,NULL,
+    ImageGO2D* fuelMeter[20] = {NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL};
-    int MeterCount = 20;
+    int MeterCount = 19;
 
     //Pathfinding
     int currentTileX = 0;

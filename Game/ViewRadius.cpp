@@ -29,18 +29,12 @@ void ViewRadius::Tick(GameData* _GD)
 
 void ViewRadius::reduceScale()
 {
-	if (currentScale - 0.5f >= minScale)
-	{
-		currentScale -= 0.5f;
-		SetScale(Vector3::One * currentScale);
-	}
+	currentScale -= 0.5f;
+	SetScale(Vector3::One * currentScale);
 }
 
 void ViewRadius::increaseScale()
 {
-	if (currentScale + 0.5f <= maxScale)
-	{
-		currentScale += 0.5f;
-		SetScale(Vector3::One * currentScale);
-	}
+	currentScale += 1;
+	SetScale(Vector3::One * currentScale);
 }

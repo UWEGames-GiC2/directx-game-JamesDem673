@@ -334,21 +334,18 @@ void Game::Update(DX::StepTimer const& _timer)
 
         if (tempTrack == 50)
         {
-            if (MeterCount - 1 >= 0)
-            {
-                vRadius->reduceScale();
-                MeterCount -= 1;
-                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, fuelMeter[MeterCount]->GetPos().y + 500));
+            if (MeterCount + 1 <= 19 && m_GD->m_KBS.R)
+            {              
+                MeterCount += 1;
+                vRadius->increaseScale();               
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));              
             }
-        }
 
-        if (tempTrack > 100)
-        {
-            if (MeterCount - 1 >= 0)
+            else if (MeterCount - 1 >= 0)
             {
-                vRadius->reduceScale();
+                vRadius->reduceScale();              
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 9999));
                 MeterCount -= 1;
-                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, fuelMeter[MeterCount]->GetPos().y + 500));
             }
 
             npcMonster->searchFunction(m_GD, grid);
