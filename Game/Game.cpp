@@ -269,6 +269,8 @@ void Game::CreateMazeFromArray()
     std::uniform_int_distribution<std::mt19937::result_type> distRow(0, ROW - 1);
     std::uniform_int_distribution<std::mt19937::result_type> distCol(0, COLUMN - 1);
 
+    std::uniform_int_distribution<std::mt19937::result_type> centreMaze(1, COLUMN - 2);
+
     //starting cell
     grid[1][1] = 1;
 
@@ -276,6 +278,21 @@ void Game::CreateMazeFromArray()
     grid[COLUMN - 2][ROW - 1] = 1;
 
     dfs(1, 1);
+
+    for (int i = 0; i < 16; i++)
+    {
+        int ranx = centreMaze(rng);
+        while (ranx % 2 != 0) {
+            ranx = centreMaze(rng);
+        }
+
+        int ranz = centreMaze(rng);
+        while (ranz % 2 != 0) {
+            ranz = centreMaze(rng);
+        }
+
+        grid[ranz][ranx] = 1;
+    }
 
     for (int x = 0; x < 21; x++)
     {
