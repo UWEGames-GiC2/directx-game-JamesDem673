@@ -825,7 +825,7 @@ void Game::CheckCollision()
         DisplayWin();
     }
 
-    if (pPlayer->Intersects(*npcMonster))
+    if (pPlayer->Intersects(*npcMonster) && blackScreen->isRendered())
     {
         m_GD->m_GS = GS_LOSE;
         DisplayLoss();
