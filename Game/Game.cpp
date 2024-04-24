@@ -1,4 +1,4 @@
-//
+﻿//
 // Game.cpp
 //
 
@@ -270,14 +270,18 @@ void Game::CreateMazeFromArray()
     std::uniform_int_distribution<std::mt19937::result_type> distCol(0, COLUMN - 1);
 
     //starting cell
-    grid[1][1] = 0;
+    grid[1][1] = 1;
+
+    grid[1][0] = 1;
+    grid[COLUMN - 2][ROW - 1] = 1;
+
     dfs(1, 1);
 
     for (int x = 0; x < 21; x++)
     {
         for (int z = 0; z < 21; z++)
         {
-            std::cout << grid[z][x] << " ";
+            std::cout << grid[x][z] << " ";
         }
         std::cout << std::endl;
     }
@@ -318,54 +322,42 @@ void Game::dfs(int r, int c)
         switch (randDirs[i])
         {
         case 1: // Up
+            //　Whether 2 cells up is out or not
             if (r - 2 <= 0)
-            {
                 continue;
-            }
-
-            if (grid[r - 2][c] != 0)
-            {
-                grid[r - 2][c] = 0;
-                grid[r - 1][c] = 0;
+            if (grid[r - 2][c] != 1) {
+                grid[r - 2][c] = 1;
+                grid[r - 1][c] = 1;
                 dfs(r - 2, c);
             }
             break;
-        case 2: //East
-            if (c + 2 >= COLUMN - 1)
-            {
+        case 2: // Right
+            // Whether 2 cells to the right is out or not
+            if (c + 2 >= ROW - 1)
                 continue;
-            }
-
-            if (grid[r][c + 2] != 0)
-            {
-                grid[r][c + 2] = 0;
-                grid[r][c + 1] = 0;
+            if (grid[r][c + 2] != 1) {
+                grid[r][c + 2] = 1;
+                grid[r][c + 1] = 1;
                 dfs(r, c + 2);
             }
-            break;    
-        case 3: // South
-            if (r - 2 >= ROW - 1)
-            {
+            break;
+        case 3: // Down
+            // Whether 2 cells down is out or not
+            if (r + 2 >= COLUMN - 1)
                 continue;
-            }
-
-            if (grid[r + 2][c] != 0)
-            {
-                grid[r + 2][c] = 0;
-                grid[r + 1][c] = 0;
+            if (grid[r + 2][c] != 1) {
+                grid[r + 2][c] = 1;
+                grid[r + 1][c] = 1;
                 dfs(r + 2, c);
             }
             break;
-        case 4: //West
+        case 4: // Left
+            // Whether 2 cells to the left is out or not
             if (c - 2 <= 0)
-            {
                 continue;
-            }
-
-            if (grid[r][c - 2] != 0)
-            {
-                grid[r][c - 2] = 0;
-                grid[r][c - 1] = 0;
+            if (grid[r][c - 2] != 1) {
+                grid[r][c - 2] = 1;
+                grid[r][c - 1] = 1;
                 dfs(r, c - 2);
             }
             break;
