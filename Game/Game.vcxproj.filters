@@ -171,9 +171,6 @@
     <ClInclude Include="CameraHolder.h">
       <Filter>Base\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MazeGen.h">
-      <Filter>Base\Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -258,9 +255,6 @@
       <Filter>Base\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CameraHolder.cpp">
-      <Filter>Base\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MazeGen.cpp">
       <Filter>Base\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

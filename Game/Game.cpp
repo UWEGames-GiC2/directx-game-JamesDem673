@@ -263,8 +263,6 @@ void Game::Initialize(HWND _window, int _width, int _height)
 // Creates maze
 void Game::CreateMazeFromArray()
 {
-    mazegen->createMaze();
-
     int gridX = 0;
     int gridZ = 0;
 
