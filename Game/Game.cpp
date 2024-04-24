@@ -18,6 +18,7 @@
 #include "CMOGO.h"
 #include <DirectXCollision.h>
 #include "Collision.h"
+#include <random>
 
     extern void ExitGame() noexcept;
 
@@ -263,6 +264,24 @@ void Game::Initialize(HWND _window, int _width, int _height)
 // Creates maze
 void Game::CreateMazeFromArray()
 {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> distRow(0, ROW - 1);
+    std::uniform_int_distribution<std::mt19937::result_type> distCol(0, COLUMN - 1);
+
+    //starting cell
+    grid[1][1] = 0;
+    dfs(1, 1);
+
+    for (int x = 0; x < 21; x++)
+    {
+        for (int z = 0; z < 21; z++)
+        {
+            std::cout << grid[z][x] << " ";
+        }
+        std::cout << std::endl;
+    }
+
     int gridX = 0;
     int gridZ = 0;
 
@@ -283,6 +302,73 @@ void Game::CreateMazeFromArray()
                 m_GameObjects.push_back(forloopWalls);
                 m_ColliderObjects.push_back(forloopWalls);
             }
+        }
+    }
+}
+
+//Maze generation
+void Game::dfs(int r, int c)
+{
+    // 4 random directions
+    int randDirs[4] = { 1, 2, 3, 4 };
+    std::random_shuffle(std::begin(randDirs), std::end(randDirs));
+
+    for (int i = 0; i < 4; i++)
+    {
+        switch (randDirs[i])
+        {
+        case 1: // Up
+            if (r - 2 <= 0)
+            {
+                continue;
+            }
+
+            if (grid[r - 2][c] != 0)
+            {
+                grid[r - 2][c] = 0;
+                grid[r - 1][c] = 0;
+                dfs(r - 2, c);
+            }
+            break;
+        case 2: //East
+            if (c + 2 >= COLUMN - 1)
+            {
+                continue;
+            }
+
+            if (grid[r][c + 2] != 0)
+            {
+                grid[r][c + 2] = 0;
+                grid[r][c + 1] = 0;
+                dfs(r, c + 2);
+            }
+            break;    
+        case 3: // South
+            if (r - 2 >= ROW - 1)
+            {
+                continue;
+            }
+
+            if (grid[r + 2][c] != 0)
+            {
+                grid[r + 2][c] = 0;
+                grid[r + 1][c] = 0;
+                dfs(r + 2, c);
+            }
+            break;
+        case 4: //West
+            if (c - 2 <= 0)
+            {
+                continue;
+            }
+
+            if (grid[r][c - 2] != 0)
+            {
+                grid[r][c - 2] = 0;
+                grid[r][c - 1] = 0;
+                dfs(r, c - 2);
+            }
+            break;
         }
     }
 }
