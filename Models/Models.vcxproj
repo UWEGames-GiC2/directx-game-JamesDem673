@@ -152,6 +152,7 @@
   <ItemGroup>
     <MeshContentTask Include="Bird\BirdModelV1.fbx" />
     <MeshContentTask Include="Exit\ExitModel.fbx" />
+    <MeshContentTask Include="Gazebo.fbx" />
     <MeshContentTask Include="Ground\grassTile.fbx" />
     <MeshContentTask Include="Ground\groundTile.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

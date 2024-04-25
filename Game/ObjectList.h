@@ -18,6 +18,7 @@
 #include "GPGO.h"
 #include "ViewRadius.h"
 #include "CameraHolder.h"
+#include "Gazebo.h"
 
 //VBGO examples
 #include "fileVBGO.h"

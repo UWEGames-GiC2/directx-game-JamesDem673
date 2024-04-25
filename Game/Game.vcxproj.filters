@@ -171,6 +171,9 @@
     <ClInclude Include="CameraHolder.h">
       <Filter>Base\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Gazebo.h">
+      <Filter>Base\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -255,6 +258,9 @@
       <Filter>Base\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CameraHolder.cpp">
+      <Filter>Base\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gazebo.cpp">
       <Filter>Base\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

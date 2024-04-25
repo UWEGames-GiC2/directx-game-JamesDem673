@@ -138,7 +138,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
         }
     }
 
-    //Creates starting room roof
+    // Creates starting room roof
     for (int x = -3; x <= -1; x++) {
         for (int z = 0; z <= 2; z++)
         {
@@ -146,7 +146,6 @@ void Game::Initialize(HWND _window, int _width, int _height)
             Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
-            m_ColliderObjects.push_back(forLoopTiles);
         }
     }
 
@@ -209,6 +208,10 @@ void Game::Initialize(HWND _window, int _width, int _height)
     exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
+
+    //add house
+    house = new Gazebo("Gazebo", m_d3dDevice.Get(), m_fxFactory, Vector3(-23, 20.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 10);
+    m_GameObjects.push_back(house);
 
     CreateMazeFromArray();
 
@@ -513,7 +516,7 @@ void Game::Update(DX::StepTimer const& _timer)
 
     CheckCollision();
 
-    //std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
+    std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
     //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
 
@@ -906,6 +909,8 @@ void Game::DisplayMenu()
     {
         fuelMeter[i]->SetRendered(false);
     }
+
+    house->setRendered(false);
     
 }
 
@@ -917,6 +922,7 @@ void Game::DisplayGame()
     exitGate->setRendered(true);
     vRadius->setRendered(true);
     fuelMeterShell->SetRendered(true);
+    house->setRendered(true);
     for (int i = 0; i < 20; i++)
     {
         fuelMeter[i]->SetRendered(true);
@@ -968,6 +974,8 @@ void Game::DisplayWin()
     {
         fuelMeter[i]->SetRendered(false);
     }
+
+    house->setRendered(false);
 }
 
 void Game::DisplayLoss()
@@ -999,6 +1007,8 @@ void Game::DisplayLoss()
     {
         fuelMeter[i]->SetRendered(false);
     }
+
+    house->setRendered(false);
 }
 
 void Game::goUpFloor()
