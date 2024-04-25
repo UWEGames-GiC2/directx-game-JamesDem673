@@ -434,6 +434,24 @@ void Game::Update(DX::StepTimer const& _timer)
 
         if (tempTrack == 50)
         {      
+            if (MeterCount + 3 <= 19 && m_GD->m_KBS.R)
+            {
+                blackScreen->SetRendered(true);
+
+                MeterCount += 1;
+                vRadius->increaseScale();
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+
+                MeterCount += 1;
+                vRadius->increaseScale();
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+
+                MeterCount += 1;
+                vRadius->increaseScale();
+                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+
+                monsterCanMove = true;
+            }
             if (MeterCount + 2 <= 19 && m_GD->m_KBS.R)
             {     
                 blackScreen->SetRendered(true);
@@ -599,8 +617,8 @@ void Game::OnWindowSizeChanged(int _width, int _height)
 void Game::GetDefaultSize(int& _width, int& _height) const noexcept
 {
     // TODO: Change to desired default window size (note minimum size is 320x200).
-    _width = 800;
-    _height = 600;
+    _width = 1920;
+    _height = 1080;
 }
 
 // These are the resources that depend on the device.
