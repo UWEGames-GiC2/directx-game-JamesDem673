@@ -156,7 +156,9 @@ void Game::Initialize(HWND _window, int _width, int _height)
             Terrain* forLoopTiles = new Terrain("grassTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
-            m_ColliderObjects.push_back(forLoopTiles);
+
+            if (x != -2 && z != 2)
+                m_ColliderObjects.push_back(forLoopTiles);
         }
     }
 
@@ -516,8 +518,8 @@ void Game::Update(DX::StepTimer const& _timer)
 
     CheckCollision();
 
-    std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
-    //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
+    //std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
+    std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
 
 // Draws the scene.

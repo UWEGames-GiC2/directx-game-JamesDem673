@@ -50,7 +50,6 @@ void Player::Tick(GameData* _GD)
 		m_acc -= sidewaysMove;
 	}
 
-	m_acc -= Vector3(0, 400, 0);
 
 	//move player up and down
 	if (_GD->m_KBS.Y)
