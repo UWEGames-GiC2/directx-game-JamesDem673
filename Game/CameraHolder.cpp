@@ -24,6 +24,7 @@ void CameraHolder::Tick(GameData* _GD)
 {
 	m_pos.x = _GD->pPosx;
 	m_pos.z = _GD->pPosz;
+	m_pos.y = _GD->pPosy + 7.5;
 
 	//change orinetation of player
 	float rotSpeed = _GD->m_dt;

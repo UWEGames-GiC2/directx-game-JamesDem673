@@ -24,6 +24,7 @@ struct GameData
 
 	float pPosx;
 	float pPosz;
+	float pPosy;
 
 	float ePosx;
 	float ePosz;
