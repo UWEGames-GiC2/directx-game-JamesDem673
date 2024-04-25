@@ -89,6 +89,7 @@ private:
 
     void OnDeviceLost();
     void dfs(int r, int c);
+    void goUpFloor();
 
     // Device resources.
     HWND                                            m_window;
@@ -168,7 +169,7 @@ private:
     int currentTileZ = 1;
     int tempTrack = 0;
     bool monsterCanMove = true;
-
+    
 
     //required for the CMO model rendering system
     DirectX::CommonStates* m_states = NULL;

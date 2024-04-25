@@ -150,6 +150,17 @@ void Game::Initialize(HWND _window, int _width, int _height)
         }
     }
 
+    //Creates grass plain
+    for (int x = -ceilingGridX; x <= ceilingGridX; x++) {
+        for (int z = -ceilingGridZ; z <= ceilingGridZ; z++) {
+            Vector3 position(x * spacingX + 7.5, 20.0f, z * spacingZ + 7.5);
+            Terrain* forLoopTiles = new Terrain("grassTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+            forLoopTiles->setTerrain(true);
+            m_GameObjects.push_back(forLoopTiles);
+            m_ColliderObjects.push_back(forLoopTiles);
+        }
+    }
+
     //Creates walls for starting room
     for (int i = 0; i < 3; i++)
     {
@@ -428,6 +439,11 @@ void Game::Update(DX::StepTimer const& _timer)
         (*it)->Tick(m_GD);
     }
 
+    if (m_GD->m_KBS.P)
+    {
+        goUpFloor();
+    }
+
     if (pPlayer->isRendered())
     {
         tempTrack += 1;
@@ -452,7 +468,7 @@ void Game::Update(DX::StepTimer const& _timer)
 
                 monsterCanMove = true;
             }
-            if (MeterCount + 2 <= 19 && m_GD->m_KBS.R)
+            else if (MeterCount + 2 <= 19 && m_GD->m_KBS.R)
             {     
                 blackScreen->SetRendered(true);
 
@@ -839,8 +855,9 @@ void Game::CheckCollision()
 
     if (pPlayer->Intersects(*exitGate))
     {
-        m_GD->m_GS = GS_WIN;
-        DisplayWin();
+        goUpFloor();
+        //m_GD->m_GS = GS_WIN;
+        //DisplayWin();
     }
 
     if (pPlayer->Intersects(*npcMonster) && blackScreen->isRendered())
@@ -982,4 +999,11 @@ void Game::DisplayLoss()
     {
         fuelMeter[i]->SetRendered(false);
     }
+}
+
+void Game::goUpFloor()
+{
+    pPlayer->SetPos(Vector3(150, 20.6f, 150));
+    cHolder->SetPos(Vector3(150, 28.1f, 150));
+    vRadius->setRendered(false);
 }

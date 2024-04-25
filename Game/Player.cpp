@@ -51,14 +51,14 @@ void Player::Tick(GameData* _GD)
 	}
 
 	//move player up and down
-	if (_GD->m_KBS.R)
+	if (_GD->m_KBS.Y)
 	{
-		m_acc.y += 40.0f;
+		m_pos.y += 40.0f;
 	}
 
-	if (_GD->m_KBS.F)
+	if (_GD->m_KBS.H)
 	{
-		m_acc.y -= 40.0f;
+		m_pos.y -= 40.0f;
 	}
 
 	//Change orientation of player
