@@ -219,7 +219,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Exit
     // in game pos: Vector3(300.0f, 5.0f, 292.5f)         testing pos: (7.5f, 5.0f, 22.5f)
-    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 5.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
 
@@ -236,21 +236,25 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //create a main menu
     mainMenu = new ImageGO2D("mainMenu", m_d3dDevice.Get());
     mainMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    mainMenu->SetScale(2.0f);
     m_GameObjects2D.push_back(mainMenu);
 #
     //create a loss screen
     lossMenu = new ImageGO2D("lossScreen", m_d3dDevice.Get());
     lossMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    lossMenu->SetScale(2.0f);
     m_GameObjects2D.push_back(lossMenu);
 
     //create a win screen
     winMenu = new ImageGO2D("winScreen", m_d3dDevice.Get());
     winMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    winMenu->SetScale(2.0f);
     m_GameObjects2D.push_back(winMenu);
 
     //create a black screen
     blackScreen = new ImageGO2D("BlackScreen", m_d3dDevice.Get());
     blackScreen->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    blackScreen->SetScale(2.0f);
     m_GameObjects2D.push_back(blackScreen);
 
     //create a fuel meter
@@ -270,7 +274,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     startGameText = new TextGO2D("> Start Game");
     startGameText->SetPos(Vector2(100, 800));
     startGameText->SetScale(3.0f);
-    startGameText->SetColour(Color((float*)&Colors::Black));
+    startGameText->SetColour(Color((float*)&Colors::Gray));
     m_GameObjects2D.push_back(startGameText);
 
     //create DrawData struct and populate its pointers
@@ -1086,7 +1090,7 @@ void Game::DisplayLoss()
 void Game::goUpFloor()
 {
     //In game: Vector3(-200, 20.6f, -100) Debugging: Vector3(-30, 20.6f, 50);
-    pPlayer->SetPos(Vector3(-50, 20.6f, 30));
+    pPlayer->SetPos(Vector3(-200, 20.6f, -100));
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
     for (int i = 0; i < 20; i++)
