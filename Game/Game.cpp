@@ -152,10 +152,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
         }
     }
 
+    int GrassSpacing = 45;
     //Creates grass plain
     for (int x = -10 ; x <= 10; x++) {
         for (int z = -10; z <= 10; z++) {
-            Vector3 position(x * spacingX + 7.5, 18.0f, z * spacingZ + 7.5);
+            Vector3 position(x * GrassSpacing + 7.5, 18.0f, z * GrassSpacing + 7.5);
             Terrain* forLoopTiles = new Terrain("grassTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
@@ -217,6 +218,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_PhysicsObjects.push_back(npcMonster);
 
     //add Exit
+    // in game pos: Vector3(300.0f, 5.0f, 292.5f)         testing pos: (7.5f, 5.0f, 22.5f)
     exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
@@ -536,7 +538,7 @@ void Game::Update(DX::StepTimer const& _timer)
     CheckCollision();
 
     //std::cout << "x: " << pPlayer->GetPos().x << " y: " << pPlayer->GetPos().y <<  " z: " << pPlayer->GetPos().z << std::endl;
-    std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
+    //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
 
 // Draws the scene.
@@ -878,9 +880,15 @@ void Game::CheckCollision()
 
     if (pPlayer->Intersects(*exitGate))
     {
-        goUpFloor();
-        //m_GD->m_GS = GS_WIN;
-        //DisplayWin();
+        if(!secondRound)
+        {
+            goUpFloor();
+        }
+        else
+        {
+            m_GD->m_GS = GS_WIN;
+            DisplayWin();
+        }
     }
 
     if (pPlayer->Intersects(*npcMonster) && blackScreen->isRendered())
@@ -1033,13 +1041,15 @@ void Game::DisplayLoss()
 
 void Game::goUpFloor()
 {
-    pPlayer->SetPos(Vector3(-50, 20.6f, 50));
+    pPlayer->SetPos(Vector3(-200, 20.6f, -100));
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
     for (int i = 0; i < 20; i++)
     {
         fuelMeter[i]->SetRendered(false);
     }
+
+    npcMonster->setActive(false);
 }
 
 void Game::goDownFloor()
@@ -1051,5 +1061,6 @@ void Game::goDownFloor()
         fuelMeter[i]->SetRendered(true);
     }
 
-
+    npcMonster->setActive(true);
+    secondRound = true;
 }

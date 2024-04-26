@@ -175,6 +175,8 @@ private:
     int currentTileZ = 1;
     int tempTrack = 0;
     bool monsterCanMove = true;
+
+    bool secondRound = false;
     
 
     //required for the CMO model rendering system

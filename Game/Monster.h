@@ -34,19 +34,24 @@ public:
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
 	void searchFunction(GameData* _GD, int grid[ROW][COLUMN]);
 
+	void setActive(bool state);
+
 	int s1 = 0;
 	int s2 = 0;
 	std::stack<Pair> Path;
 
 
+
 private:
 	float speed = 3.0f;
-	
+	bool active;
+
 	bool isValid(int row, int col);
 	bool isUnBlocked(int grid[][COLUMN], int row, int column);
 	bool isDestination(int row, int coumn, Pair dest);
 	double calculateHValue(int row, int col, Pair dest);
 	void tracePath(cell cellDetails[][COLUMN], Pair dest);
+
 };
 
 #endif

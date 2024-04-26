@@ -17,6 +17,8 @@ Monster::Monster(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _E
 	m_yaw = _yaw;
 	m_scale = _scale;
 
+    active = true;
+
 	GameObject::Tick(nullptr); //update my world_transform
 }
 
@@ -31,7 +33,9 @@ void Monster::Tick(GameData* _GD)
 	_GD->ePosx = GetPos().x;
 	_GD->ePosz = GetPos().z;
 
-	trackPlayer(_GD->pPosx, _GD->pPosz, _GD);
+    if(active)
+	    trackPlayer(_GD->pPosx, _GD->pPosz, _GD);
+
     CMOGO::Tick(_GD);
 }
 
@@ -447,4 +451,9 @@ void Monster::aStarSearch(int grid[][COLUMN], Pair src, Pair dest)
         std::cout << openList.size();
     }
 
+}
+
+void Monster::setActive(bool state)
+{
+    active = state;
 }
