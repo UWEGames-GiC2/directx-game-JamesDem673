@@ -31,7 +31,6 @@ void Loop::Play()
 
 }
 
-
 void Loop::Tick(GameData* _GD)
 {
 	_GD;

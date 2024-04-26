@@ -3,5 +3,9 @@
   <ItemGroup>
     <Media Include="Explo1.wav" />
     <Media Include="NightAmbienceSimple_02.wav" />
+    <Media Include="LibetsDelay.wav" />
+    <Media Include="CrazyNoisyBizzareTown.wav" />
+    <Media Include="WellMeetAgain.wav" />
+    <Media Include="AmbientMusic.wav" />
   </ItemGroup>
 </Project>

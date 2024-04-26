@@ -219,7 +219,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Exit
     // in game pos: Vector3(300.0f, 5.0f, 292.5f)         testing pos: (7.5f, 5.0f, 22.5f)
-    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 5.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
 
@@ -280,12 +280,23 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_DD->m_cam = m_cam;
     m_DD->m_light = m_light;
 
-    //Test Sounds
-    Loop* loop = new Loop(m_audioEngine.get(), "NightAmbienceSimple_02");
-    loop->SetVolume(0.1f);
-    loop->Play();
-    m_Sounds.push_back(loop);
+    //Init Audio
+    levelOneMusic = new Loop(m_audioEngine.get(), "AmbientMusic");
+    levelOneMusic->Play();
+    levelOneMusic->SetVolume(0.1f);
 
+    LimboMusic = new Loop(m_audioEngine.get(), "NightAmbienceSimple_02");
+    LimboMusic->SetVolume(0.1f);
+
+    levelTwoMusic = new Loop(m_audioEngine.get(), "LibetsDelay");
+    levelTwoMusic->SetVolume(0.1f);
+
+    WinMusic = new Loop(m_audioEngine.get(), "CrazyNoisyBizzareTown");
+    WinMusic->SetVolume(0.1f);
+
+    LossMusic = new Loop(m_audioEngine.get(), "WellMeetAgain");
+    LossMusic->SetVolume(0.1f);
+#
     DisplayMenu();
 }
 
@@ -463,10 +474,11 @@ void Game::Update(DX::StepTimer const& _timer)
 
     if (pPlayer->isRendered())
     {
+        std::cout << tempTrack + 1;
         tempTrack += 1;
 
-        if (tempTrack == 50)
-        {      
+        if (tempTrack >= 50 && pPlayer->GetPos().y < 20)
+        {               
             if (MeterCount + 3 <= 19 && m_GD->m_KBS.R)
             {
                 blackScreen->SetRendered(true);
@@ -537,7 +549,7 @@ void Game::Update(DX::StepTimer const& _timer)
 
     CheckCollision();
 
-    //std::cout << "x: " << pPlayer->GetPos().x << " y: " << pPlayer->GetPos().y <<  " z: " << pPlayer->GetPos().z << std::endl;
+    std::cout << "x: " << pPlayer->GetPos().x << " y: " << pPlayer->GetPos().y <<  " z: " << pPlayer->GetPos().z << std::endl;
     //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
 
@@ -888,6 +900,7 @@ void Game::CheckCollision()
         {
             m_GD->m_GS = GS_WIN;
             DisplayWin();
+            //DisplayLoss();
         }
     }
 
@@ -978,6 +991,16 @@ void Game::DisplayWin()
     //Set winscreen assets active
     winMenu->SetRendered(true);
 
+    if (!WinScreenPlayOnce)
+    {
+        //Plays Music
+        std::cout << "hello";
+        levelTwoMusic->Play();
+        WinMusic->Play();
+
+        WinScreenPlayOnce = true;
+    }
+
     //set rest of assets inactive
     pPlayer->setRendered(false);
     npcMonster->setRendered(false);
@@ -1004,12 +1027,33 @@ void Game::DisplayWin()
     }
 
     house->setRendered(false);
+
+    std::cout << "hello";
 }
 
 void Game::DisplayLoss()
 {
     //Set winscreen assets active
     lossMenu->SetRendered(true);
+
+    if (!LossScreenPlayOnce)
+    {
+        //Plays Music
+        std::cout << "hello";
+
+        if (secondRound)
+        {
+            levelTwoMusic->Play();
+        }
+        else
+        {
+            levelOneMusic->Play();
+        }
+
+        LossMusic->Play();
+
+        LossScreenPlayOnce = true;
+    }
 
     //set rest of assets inactive
     pPlayer->setRendered(false);
@@ -1041,7 +1085,8 @@ void Game::DisplayLoss()
 
 void Game::goUpFloor()
 {
-    pPlayer->SetPos(Vector3(-200, 20.6f, -100));
+    //In game: Vector3(-200, 20.6f, -100) Debugging: Vector3(-30, 20.6f, 50);
+    pPlayer->SetPos(Vector3(-50, 20.6f, 30));
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
     for (int i = 0; i < 20; i++)
@@ -1050,10 +1095,16 @@ void Game::goUpFloor()
     }
 
     npcMonster->setActive(false);
+
+    LimboMusic->Play();
+    levelOneMusic->Play();
 }
 
 void Game::goDownFloor()
 {
+    LimboMusic->Play();
+    levelTwoMusic->Play();
+
     vRadius->setRendered(true);
     fuelMeterShell->SetRendered(true);
     for (int i = 0; i < 20; i++)

@@ -40,6 +40,7 @@ class Wall;
 class ViewRadius;
 class CameraHolder;
 class Gazebo;
+class Loop;
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -169,6 +170,16 @@ private:
                                 NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL};
     int MeterCount = 19;
+
+    //Audio
+    Loop* levelOneMusic = NULL;
+    Loop* levelTwoMusic = NULL;
+    Loop* LimboMusic = NULL;
+    Loop* WinMusic = NULL;
+    Loop* LossMusic = NULL;
+
+    bool WinScreenPlayOnce = false;
+    bool LossScreenPlayOnce = false;
 
     //Pathfinding
     int currentTileX = 0;
