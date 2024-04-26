@@ -90,7 +90,9 @@ private:
 
     void OnDeviceLost();
     void dfs(int r, int c);
+
     void goUpFloor();
+    void goDownFloor();
 
     // Device resources.
     HWND                                            m_window;
@@ -151,6 +153,8 @@ private:
     ViewRadius* vRadius = NULL;
     CameraHolder* cHolder = NULL;
     Gazebo* house = NULL;
+    
+    Terrain* passableRoof = NULL;
 
     //2D Game Objects
     ImageGO2D* mainMenu = NULL;

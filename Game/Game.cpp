@@ -153,9 +153,9 @@ void Game::Initialize(HWND _window, int _width, int _height)
     }
 
     //Creates grass plain
-    for (int x = -ceilingGridX; x <= ceilingGridX; x++) {
-        for (int z = -ceilingGridZ; z <= ceilingGridZ; z++) {
-            Vector3 position(x * spacingX + 7.5, 20.0f, z * spacingZ + 7.5);
+    for (int x = -10 ; x <= 10; x++) {
+        for (int z = -10; z <= 10; z++) {
+            Vector3 position(x * spacingX + 7.5, 18.0f, z * spacingZ + 7.5);
             Terrain* forLoopTiles = new Terrain("grassTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
@@ -164,6 +164,12 @@ void Game::Initialize(HWND _window, int _width, int _height)
                 m_ColliderObjects.push_back(forLoopTiles);
         }
     }
+
+
+    //creates passable tiles so the player can fall back into the starting room
+    Terrain* passableRoof = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(-22.5f, 17.5f, 22.5f), 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+    passableRoof->setTerrain(true);
+    m_GameObjects.push_back(passableRoof);
 
     //Creates walls for starting room
     for (int i = 0; i < 3; i++)
@@ -190,6 +196,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
         m_ColliderObjects.push_back(startwall);
     }
 
+
     //add Player
     pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
     pPlayer->SetPos(Vector3(pPlayer->GetPos().x, 2.5, pPlayer->GetPos().z));
@@ -215,7 +222,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_ColliderObjects.push_back(exitGate);
 
     //add house
-    house = new Gazebo("Gazebo", m_d3dDevice.Get(), m_fxFactory, Vector3(-23, 20.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 10);
+    house = new Gazebo("Gazebo", m_d3dDevice.Get(), m_fxFactory, Vector3(-23 - 7.5f, 18.5f, 22.5f + 7.5f), 0.0f, 316.9f, 0.0f, Vector3::One * 10);
     m_GameObjects.push_back(house);
 
     CreateMazeFromArray();
@@ -517,11 +524,18 @@ void Game::Update(DX::StepTimer const& _timer)
 
             tempTrack = 0;
         }
+
+
+        if (std::round(pPlayer->GetPos().x / 15) == -2 && std::round(pPlayer->GetPos().z / 15) == 2 && pPlayer->GetPos().y > 3.2f)
+        {
+            pPlayer->SetPos(Vector3(- 23.0f, 3.06835f, 22.5f));
+            goDownFloor();
+        }
     }
 
     CheckCollision();
 
-    //std::cout << "x: " << pPlayer->GetPos().x << " z: " << pPlayer->GetPos().z << std::endl;
+    //std::cout << "x: " << pPlayer->GetPos().x << " y: " << pPlayer->GetPos().y <<  " z: " << pPlayer->GetPos().z << std::endl;
     std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
 
@@ -641,8 +655,8 @@ void Game::OnWindowSizeChanged(int _width, int _height)
 void Game::GetDefaultSize(int& _width, int& _height) const noexcept
 {
     // TODO: Change to desired default window size (note minimum size is 320x200).
-    _width = 1920;
-    _height = 1080;
+    _width = 960;
+    _height = 540;
 }
 
 // These are the resources that depend on the device.
@@ -843,6 +857,7 @@ void Game::ReadInput()
 
     m_GD->m_MS = m_mouse->GetState();
 
+
     //lock the cursor to the centre of the window
     RECT window;
     GetWindowRect(m_window, &window);
@@ -1018,7 +1033,23 @@ void Game::DisplayLoss()
 
 void Game::goUpFloor()
 {
-    pPlayer->SetPos(Vector3(150, 20.6f, 150));
-    cHolder->SetPos(Vector3(150, 28.1f, 150));
+    pPlayer->SetPos(Vector3(-50, 20.6f, 50));
     vRadius->setRendered(false);
+    fuelMeterShell->SetRendered(false);
+    for (int i = 0; i < 20; i++)
+    {
+        fuelMeter[i]->SetRendered(false);
+    }
+}
+
+void Game::goDownFloor()
+{
+    vRadius->setRendered(true);
+    fuelMeterShell->SetRendered(true);
+    for (int i = 0; i < 20; i++)
+    {
+        fuelMeter[i]->SetRendered(true);
+    }
+
+
 }

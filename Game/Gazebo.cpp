@@ -22,5 +22,5 @@ Gazebo::~Gazebo()
 
 void Gazebo::Tick(GameData* _GD)
 {
-
+	CMOGO::Tick(_GD);
 }
