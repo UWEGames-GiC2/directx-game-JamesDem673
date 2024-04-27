@@ -181,6 +181,7 @@ private:
 
     TestSound* FootStepOne = NULL;
     TestSound* FootStepTwo = NULL;
+    float footstepVolume = 0.5;
 
     int lastStepPlayed = 0;
 
@@ -191,8 +192,8 @@ private:
     int currentTileX = 0;
     int currentTileZ = 1;
     int tempTrack = 0;
-    bool monsterCanMove = true;
 
+    bool monsterCanMove = false;
     bool secondRound = false;
     
 

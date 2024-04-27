@@ -302,11 +302,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
     LossMusic->SetVolume(0.1f);
 
     FootStepOne = new TestSound(m_audioEngine.get(), "FootstepOne");
-    FootStepOne->SetVolume(0.5f);
+    FootStepOne->SetVolume(footstepVolume);
     m_Sounds.push_back(FootStepOne);
 
     FootStepTwo = new TestSound(m_audioEngine.get(), "FootstepTwo");
-    FootStepTwo->SetVolume(0.5f);
+    FootStepTwo->SetVolume(footstepVolume);
     m_Sounds.push_back(FootStepTwo);
 
     DisplayMenu();
@@ -469,6 +469,7 @@ void Game::Update(DX::StepTimer const& _timer)
 
     ReadInput();
 
+
     if (pPlayer->GetPos().x > 0 && pPlayer->GetPos().y)
     {
         monsterCanMove = true;
@@ -535,8 +536,7 @@ void Game::Update(DX::StepTimer const& _timer)
                 vRadius->increaseScale();
                 fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
             }
-
-            else if (MeterCount - 1 >= 0)
+            else if (MeterCount - 1 >= -1)
             {
                 blackScreen->SetRendered(false);
 
@@ -545,9 +545,19 @@ void Game::Update(DX::StepTimer const& _timer)
                 MeterCount -= 1;
             }
 
-            if (monsterCanMove)
+            if (!npcMonster->Intersects(*vRadius) && monsterCanMove)
             {
                 npcMonster->searchFunction(m_GD, grid);
+
+                float distanceX = npcMonster->GetPos().x - npcMonster->GetPos().y;
+                float distanceY = npcMonster->GetPos().x - npcMonster->GetPos().y;
+
+                float absoluteDistance = sqrt((distanceX * distanceX) + (distanceY * distanceY));
+                
+                footstepVolume = (400 - absoluteDistance) / 300;
+
+                FootStepOne->SetVolume(footstepVolume);
+                FootStepTwo->SetVolume(footstepVolume);
 
                 if (lastStepPlayed == 0 || lastStepPlayed == 2)
                 {
@@ -563,7 +573,6 @@ void Game::Update(DX::StepTimer const& _timer)
 
             tempTrack = 0;
         }
-
 
         if (std::round(pPlayer->GetPos().x / 15) == -2 && std::round(pPlayer->GetPos().z / 15) == 2 && pPlayer->GetPos().y > 3.2f)
         {
@@ -934,15 +943,6 @@ void Game::CheckCollision()
         m_GD->m_GS = GS_LOSE;
         DisplayLoss();
     }
-
-    if (npcMonster->Intersects(*vRadius))
-    {
-        monsterCanMove = false;
-    }
-    else
-    {
-        monsterCanMove = true;
-    }
 }
 
 void Game::DisplayMenu()
@@ -1139,4 +1139,5 @@ void Game::goDownFloor()
 
     npcMonster->setActive(true);
     secondRound = true;
+    MeterCount = 19;
 }
