@@ -3,6 +3,11 @@
 #include "GameData.h"
 
 
+void TestSound::PlaySound()
+{
+	Play();
+}
+
 TestSound::TestSound(AudioEngine* _audEngine, string _filename) :Sound(_audEngine, _filename)
 {
 }

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Sound.h"
+#include <iostream>
 
 Sound::Sound(AudioEngine* _audEngine, string _filename)
 {

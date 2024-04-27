@@ -41,6 +41,7 @@ class ViewRadius;
 class CameraHolder;
 class Gazebo;
 class Loop;
+class TestSound;
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -178,9 +179,14 @@ private:
     Loop* WinMusic = NULL;
     Loop* LossMusic = NULL;
 
+    TestSound* FootStepOne = NULL;
+    TestSound* FootStepTwo = NULL;
+
+    int lastStepPlayed = 0;
+
     bool WinScreenPlayOnce = false;
     bool LossScreenPlayOnce = false;
-
+    
     //Pathfinding
     int currentTileX = 0;
     int currentTileZ = 1;

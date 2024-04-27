@@ -1,4 +1,4 @@
-﻿//
+//
 // Game.cpp
 //
 
@@ -300,7 +300,15 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     LossMusic = new Loop(m_audioEngine.get(), "WellMeetAgain");
     LossMusic->SetVolume(0.1f);
-#
+
+    FootStepOne = new TestSound(m_audioEngine.get(), "FootstepOne");
+    FootStepOne->SetVolume(0.5f);
+    m_Sounds.push_back(FootStepOne);
+
+    FootStepTwo = new TestSound(m_audioEngine.get(), "FootstepTwo");
+    FootStepTwo->SetVolume(0.5f);
+    m_Sounds.push_back(FootStepTwo);
+
     DisplayMenu();
 }
 
@@ -461,6 +469,15 @@ void Game::Update(DX::StepTimer const& _timer)
 
     ReadInput();
 
+    if (pPlayer->GetPos().x > 0 && pPlayer->GetPos().y)
+    {
+        monsterCanMove = true;
+    }
+    else
+    {
+        monsterCanMove = false;
+    }
+
     //update all objects
     for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
@@ -478,7 +495,6 @@ void Game::Update(DX::StepTimer const& _timer)
 
     if (pPlayer->isRendered())
     {
-        std::cout << tempTrack + 1;
         tempTrack += 1;
 
         if (tempTrack >= 50 && pPlayer->GetPos().y < 20)
@@ -498,8 +514,6 @@ void Game::Update(DX::StepTimer const& _timer)
                 MeterCount += 1;
                 vRadius->increaseScale();
                 fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
-
-                monsterCanMove = true;
             }
             else if (MeterCount + 2 <= 19 && m_GD->m_KBS.R)
             {     
@@ -512,8 +526,6 @@ void Game::Update(DX::StepTimer const& _timer)
                 MeterCount += 1;
                 vRadius->increaseScale();
                 fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
-
-                monsterCanMove = true;
             }
             else if (MeterCount + 1 <= 19 && m_GD->m_KBS.R)
             {
@@ -522,7 +534,6 @@ void Game::Update(DX::StepTimer const& _timer)
                 MeterCount += 1;
                 vRadius->increaseScale();
                 fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
-                monsterCanMove = true;
             }
 
             else if (MeterCount - 1 >= 0)
@@ -532,12 +543,22 @@ void Game::Update(DX::StepTimer const& _timer)
                 vRadius->reduceScale();              
                 fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 9999));
                 MeterCount -= 1;
-                monsterCanMove = false;
             }
 
             if (monsterCanMove)
             {
                 npcMonster->searchFunction(m_GD, grid);
+
+                if (lastStepPlayed == 0 || lastStepPlayed == 2)
+                {
+                    FootStepOne->PlaySound();
+                    lastStepPlayed = 1;
+                }
+                else if (lastStepPlayed == 1)
+                {
+                    FootStepTwo->PlaySound();
+                    lastStepPlayed = 2;
+                }
             }
 
             tempTrack = 0;
@@ -553,7 +574,7 @@ void Game::Update(DX::StepTimer const& _timer)
 
     CheckCollision();
 
-    std::cout << "x: " << pPlayer->GetPos().x << " y: " << pPlayer->GetPos().y <<  " z: " << pPlayer->GetPos().z << std::endl;
+    //std::cout << "x: " << pPlayer->GetPos().x << " y: " << pPlayer->GetPos().y <<  " z: " << pPlayer->GetPos().z << std::endl;
     //std:cout << "xT: " << std::round(pPlayer->GetPos().x / 15) << "zT: " << std::round(pPlayer->GetPos().z / 15) << std::endl << std::endl;
 }
 

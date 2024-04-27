@@ -141,7 +141,8 @@
   <ItemGroup>
     <Media Include="AmbientMusic.wav" />
     <Media Include="CrazyNoisyBizzareTown.wav" />
-    <Media Include="Explo1.wav" />
+    <Media Include="FootstepOne.wav" />
+    <Media Include="FootstepTwo.wav" />
     <Media Include="LibetsDelay.wav" />
     <Media Include="NightAmbienceSimple_02.wav" />
     <Media Include="WellMeetAgain.wav" />

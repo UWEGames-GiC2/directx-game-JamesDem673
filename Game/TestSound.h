@@ -11,5 +11,6 @@ public:
 	~TestSound();
 
 	virtual void Tick(GameData* _GD);
+	void PlaySound();
 };
 
