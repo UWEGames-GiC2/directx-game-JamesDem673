@@ -105,16 +105,7 @@
     <ClInclude Include="Terrain.h">
       <Filter>GameObjects\3D\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tree.h">
-      <Filter>GameObjects\3D\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TreeBit.h">
-      <Filter>GameObjects\3D\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>GameObjects\3D\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VBCube.h">
       <Filter>GameObjects\3D\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VBGO.h">
@@ -130,18 +121,6 @@
       <Filter>GameObjects\3D\VBGO Base</Filter>
     </ClInclude>
     <ClInclude Include="fileVBGO.h">
-      <Filter>GameObjects\3D\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MarchCubes.h">
-      <Filter>GameObjects\3D\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VBPillow.h">
-      <Filter>GameObjects\3D\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VBSnail.h">
-      <Filter>GameObjects\3D\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VBspiral.h">
       <Filter>GameObjects\3D\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Loop.h">
@@ -206,16 +185,7 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>GameObjects\3D\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tree.cpp">
-      <Filter>GameObjects\3D\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="treebit.cpp">
-      <Filter>GameObjects\3D\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>GameObjects\3D\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VBCube.cpp">
       <Filter>GameObjects\3D\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VBGO.cpp">
@@ -225,12 +195,6 @@
       <Filter>GameObjects\3D\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fileVBGO.cpp">
-      <Filter>GameObjects\3D\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MarchCubes.cpp">
-      <Filter>GameObjects\3D\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VBSnail.cpp">
       <Filter>GameObjects\3D\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Loop.cpp">
