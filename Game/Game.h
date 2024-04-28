@@ -113,14 +113,14 @@ private:
     DX::StepTimer                                   m_timer;
 
     //Scarle Added stuff
-    GameData* m_GD = NULL;			//Data to be shared to all Game Objects as they are ticked
-    DrawData* m_DD = NULL;			//Data to be shared to all 3D Game Objects as they are drawn
-    DrawData2D* m_DD2D = NULL;	    //Data to be passed by game to all 2D Game Objects via Draw 
+    unique_ptr<GameData> m_GD = NULL;			//Data to be shared to all Game Objects as they are ticked
+    unique_ptr<DrawData> m_DD = NULL;			//Data to be shared to all 3D Game Objects as they are drawn
+    unique_ptr<DrawData2D> m_DD2D = NULL;	    //Data to be passed by game to all 2D Game Objects via Draw 
 
     //Basic 3D renderers
-    Camera* m_cam = NULL; //principle camera
-    TPSCamera* m_TPScam = NULL;//TPS cam
-    Light* m_light = NULL; //base light
+    unique_ptr<Camera> m_cam = NULL; //principle camera
+    unique_ptr<TPSCamera> m_TPScam = NULL;//TPS cam
+    unique_ptr<Light> m_light = NULL; //base light
 
     //maze 
     int grid[ROW][COLUMN]
@@ -147,40 +147,40 @@ private:
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},};
 
     //GameObjects
-    Player* pPlayer = NULL;
-    Monster* npcMonster = NULL;
-    Exit* exitGate = NULL;
+    unique_ptr<Player> pPlayer = NULL;
+    unique_ptr<Monster> npcMonster = NULL;
+    unique_ptr<Exit> exitGate = NULL;
     int mazeGridSize = 21;
     float tileSize = 0.15f;
-    ViewRadius* vRadius = NULL;
-    CameraHolder* cHolder = NULL;
-    Gazebo* house = NULL;
+    unique_ptr<ViewRadius> vRadius = NULL;
+    unique_ptr<CameraHolder> cHolder = NULL;
+    unique_ptr<Gazebo> house = NULL;
     
-    Terrain* passableRoof = NULL;
+    unique_ptr<Terrain> passableRoof = NULL;
 
     //2D Game Objects
-    ImageGO2D* mainMenu = NULL;
-    ImageGO2D* lossMenu = NULL;
-    ImageGO2D* winMenu = NULL;
-    ImageGO2D* blackScreen = NULL;
-    TextGO2D* startGameText = NULL;
+    unique_ptr<ImageGO2D> mainMenu = NULL;
+    unique_ptr<ImageGO2D> lossMenu = NULL;
+    unique_ptr<ImageGO2D> winMenu = NULL;
+    unique_ptr<ImageGO2D> blackScreen = NULL;
+    unique_ptr<TextGO2D> startGameText = NULL;
 
-    ImageGO2D* fuelMeterShell = NULL;
-    ImageGO2D* fuelMeter[20] = {NULL,NULL,NULL,NULL,NULL,
+    unique_ptr<ImageGO2D> fuelMeterShell = NULL;
+    unique_ptr<ImageGO2D> fuelMeter[20] = { NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL};
     int MeterCount = 19;
 
     //Audio
-    Loop* levelOneMusic = NULL;
-    Loop* levelTwoMusic = NULL;
-    Loop* LimboMusic = NULL;
-    Loop* WinMusic = NULL;
-    Loop* LossMusic = NULL;
+    unique_ptr<Loop> levelOneMusic = NULL;
+    unique_ptr<Loop> levelTwoMusic = NULL;
+    unique_ptr<Loop> LimboMusic = NULL;
+    unique_ptr<Loop> WinMusic = NULL;
+    unique_ptr<Loop> LossMusic = NULL;
 
-    TestSound* FootStepOne = NULL;
-    TestSound* FootStepTwo = NULL;
+    unique_ptr<TestSound> FootStepOne = NULL;
+    unique_ptr<TestSound> FootStepTwo = NULL;
     float footstepVolume = 0.5;
 
     int lastStepPlayed = 0;
@@ -207,14 +207,14 @@ private:
     std::unique_ptr<DirectX::Keyboard> m_keyboard;
     std::unique_ptr<DirectX::Mouse> m_mouse;
 
-    list<GameObject*> m_GameObjects; //data structure to hold pointers to the 3D Game Objects
-    list<GameObject2D*> m_GameObjects2D; //data structure to hold pointers to the 2D Game Objects 
+    std::vector<std::unique_ptr<GameObject>> m_GameObjects; //data structure to hold pointers to the 3D Game Objects
+    std::vector<std::unique_ptr<GameObject2D>> m_GameObjects2D; //data structure to hold pointers to the 2D Game Objects 
 
     //list<CMOGO*> m_CMOGameObjects; //data structure to hold pointers to all 3D CMO Game Objects
     //list<CMOGO*> m_PhysicsObjects
 
-    std::vector<CMOGO*> m_ColliderObjects;
-    std::vector<CMOGO*> m_PhysicsObjects;
+    std::vector<std::unique_ptr<CMOGO>> m_ColliderObjects;
+    std::vector<std::unique_ptr<CMOGO>> m_PhysicsObjects;
 
     void CheckCollision();
                                          
@@ -222,5 +222,5 @@ private:
 	//This uses a simple system, but a better pipeline can be used using Wave Banks
 	//See here: https://github.com/Microsoft/DirectXTK/wiki/Creating-and-playing-sounds Using wave banks Section
     std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
-    list<Sound*>m_Sounds;
+    std::vector<unique_ptr<Sound>>m_Sounds;
 };
