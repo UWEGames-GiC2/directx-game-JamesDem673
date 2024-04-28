@@ -198,6 +198,10 @@ void Game::Initialize(HWND _window, int _width, int _height)
         m_ColliderObjects.push_back(startwall);
     }
 
+    Wall* endWall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(315.0f, 3.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+    endWall->setTerrain(true);
+    m_GameObjects.push_back(endWall);
+    m_ColliderObjects.push_back(endWall);
 
     //add Player
     pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
@@ -213,15 +217,9 @@ void Game::Initialize(HWND _window, int _width, int _height)
     vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 25);
     m_GameObjects.push_back(vRadius);
 
-    //add Monster
-        // in game pos: Vector3(157.5f, 3.0f, 142.5f)         testing pos: (7.5f, 3.0f, 22.5f)
-    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
-    m_GameObjects.push_back(npcMonster);
-    m_PhysicsObjects.push_back(npcMonster);
-
     //add Exit
     // in game pos: Vector3(300.0f, 5.0f, 292.5f)         testing pos: (7.5f, 5.0f, 22.5f)
-    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
 
@@ -230,6 +228,24 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(house);
 
     CreateMazeFromArray();
+    
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> centreMaze(1, ROW - 2);
+
+    int ranx = centreMaze(rng);
+    int ranz = centreMaze(rng);
+
+    while (grid[ranz][ranx] != 1) {
+        ranx = centreMaze(rng);
+        ranz = centreMaze(rng);
+    }
+
+    //add Monster
+        // in game pos: Vector3(ranx * 15.0f + 7.5f, 3.0f, ranz * 15.0f + 7.5f)        testing pos: (7.5f, 3.0f, 22.5f)
+    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
+    m_GameObjects.push_back(npcMonster);
+    m_PhysicsObjects.push_back(npcMonster);
 
     //create a base camera
     m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, cHolder, Vector3::UnitY, Vector3(0.0f, 5.0f, 0.01f));
