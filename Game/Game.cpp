@@ -214,7 +214,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Monster
         // in game pos: Vector3(157.5f, 3.0f, 142.5f)         testing pos: (7.5f, 3.0f, 22.5f)
-    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5555555);
+    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
@@ -500,53 +500,60 @@ void Game::Update(DX::StepTimer const& _timer)
         tempTrack += 1;
 
         if (tempTrack >= 50 && pPlayer->GetPos().y < 20)
-        {               
-            if (MeterCount + 3 <= 19 && m_GD->m_KBS.R)
-            {
-                blackScreen->SetRendered(true);
+        {            
+            if (m_GD->m_KBS.R)
+            { 
+                noLight = true;
 
-                MeterCount += 1;
-                vRadius->increaseScale();
-                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+                if (MeterCount + 3 <= 19)
+                {
+                    blackScreen->SetRendered(true);
 
-                MeterCount += 1;
-                vRadius->increaseScale();
-                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+                    MeterCount += 1;
+                    vRadius->increaseScale();
+                    fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
 
-                MeterCount += 1;
-                vRadius->increaseScale();
-                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+                    MeterCount += 1;
+                    vRadius->increaseScale();
+                    fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+
+                    MeterCount += 1;
+                    vRadius->increaseScale();
+                    fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+                }
+                else if (MeterCount + 2 <= 19)
+                {     
+                    blackScreen->SetRendered(true);
+
+                    MeterCount += 1;
+                    vRadius->increaseScale();               
+                    fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));    
+
+                    MeterCount += 1;
+                    vRadius->increaseScale();
+                    fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+                }
+                else if (MeterCount + 1 <= 19)
+                {
+                    blackScreen->SetRendered(true);
+
+                    MeterCount += 1;
+                    vRadius->increaseScale();
+                    fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
+                }
             }
-            else if (MeterCount + 2 <= 19 && m_GD->m_KBS.R)
-            {     
-                blackScreen->SetRendered(true);
-
-                MeterCount += 1;
-                vRadius->increaseScale();               
-                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));    
-
-                MeterCount += 1;
-                vRadius->increaseScale();
-                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
-            }
-            else if (MeterCount + 1 <= 19 && m_GD->m_KBS.R)
-            {
-                blackScreen->SetRendered(true);
-
-                MeterCount += 1;
-                vRadius->increaseScale();
-                fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 4.5 * (m_outputHeight / 5)));
-            }
+            
             else if (MeterCount - 1 >= -1)
-            {
+            {             
                 blackScreen->SetRendered(false);
+                noLight = false;
 
                 vRadius->reduceScale();              
                 fuelMeter[MeterCount]->SetPos(Vector2(fuelMeter[MeterCount]->GetPos().x, 9999));
                 MeterCount -= 1;
             }
 
-            if (!npcMonster->Intersects(*vRadius) && monsterCanMove)
+            if ((!npcMonster->Intersects(*vRadius) && monsterCanMove) || (noLight && monsterCanMove))
             {
                 npcMonster->searchFunction(m_GD, grid);
 

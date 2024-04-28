@@ -194,8 +194,9 @@ private:
     int tempTrack = 0;
 
     bool monsterCanMove = false;
+    bool noLight = false;
     bool secondRound = false;
-    
+    Vector3 prevPosition = Vector3(0, 0, 0);
 
     //required for the CMO model rendering system
     DirectX::CommonStates* m_states = NULL;
