@@ -65,11 +65,11 @@ void Game::Initialize(HWND _window, int _width, int _height)
     ShowCursor(false);
 
     //create GameData struct and populate its pointers
-    m_GD.reset(new GameData());
+    m_GD = new GameData();
     m_GD->m_GS = GS_MENU;
 
     //set up systems for 2D rendering
-    m_DD2D.reset(new DrawData2D());
+    m_DD2D = new DrawData2D();
     m_DD2D->m_Sprites.reset(new SpriteBatch(m_d3dContext.Get()));
     m_DD2D->m_Font.reset(new SpriteFont(m_d3dDevice.Get(), L"..\\Assets\\italic.spritefont"));
     m_states = new CommonStates(m_d3dDevice.Get());
@@ -105,7 +105,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     for (int x = 0; x <= floorGridX; x++) {
         for (int z = 0; z <= floorGridZ; z++) {
             Vector3 position(x * spacingX + 7.5, 2.5f, z * spacingZ + 7.5);
-            unique_ptr<Terrain> forLoopTiles (new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One));
+            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
 
             m_GameObjects.push_back(forLoopTiles);
@@ -118,7 +118,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
         for (int z = 0; z <= 2; z++)
         {
             Vector3 position(x * spacingX + 7.5, 2.5f, z * spacingZ + 7.5);
-            unique_ptr<Terrain> forLoopTiles (new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One));
+            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
             m_ColliderObjects.push_back(forLoopTiles);
@@ -132,7 +132,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     for (int x = 0; x <= ceilingGridX; x++) {
         for (int z = 0; z <= ceilingGridZ; z++) {
             Vector3 position(x * spacingX + 7.5, 17.5f, z * spacingZ + 7.5);
-            unique_ptr<Terrain> forLoopTiles (new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One));
+            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
             m_ColliderObjects.push_back(forLoopTiles);
@@ -144,7 +144,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
         for (int z = 0; z <= 2; z++)
         {
             Vector3 position(x * spacingX + 7.5, 17.5f, z * spacingZ + 7.5);
-            unique_ptr<Terrain> forLoopTiles (new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One));
+            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
 
@@ -158,7 +158,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     for (int x = -10 ; x <= 10; x++) {
         for (int z = -10; z <= 10; z++) {
             Vector3 position(x * GrassSpacing + 7.5, 18.0f, z * GrassSpacing + 7.5);
-            unique_ptr<Terrain> forLoopTiles (new Terrain("grassTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One));
+            Terrain* forLoopTiles = new Terrain("grassTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
 
@@ -176,7 +176,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //Creates walls for starting room
     for (int i = 0; i < 3; i++)
     {
-        unique_ptr<Wall> startwall (new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((-15.0f * i) - 7.5f, 3.0f, -7.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize)));
+        Wall* startwall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((-15.0f * i) - 7.5f, 3.0f, -7.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
         startwall->setTerrain(true);
         m_GameObjects.push_back(startwall);
         m_ColliderObjects.push_back(startwall);
@@ -184,7 +184,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     for (int i = 0; i < 3; i++)
     {
-        unique_ptr<Wall> startwall3 (new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 7.5f + (i * 15.0f)), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize)));
+        Wall* startwall3 = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 7.5f + (i * 15.0f)), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
         startwall3->setTerrain(true);
         m_GameObjects.push_back(startwall3);
         m_ColliderObjects.push_back(startwall3);
@@ -192,7 +192,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     for (int i = 0; i < 3; i++)
     {
-        unique_ptr<Wall> startwall (new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((-15.0f * i) - 7.5f, 3.0f, 52.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize)));
+        Wall* startwall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((-15.0f * i) - 7.5f, 3.0f, 52.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
         startwall->setTerrain(true);
         m_GameObjects.push_back(startwall);
         m_ColliderObjects.push_back(startwall);
@@ -200,114 +200,114 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
 
     //add Player
-    pPlayer.reset(new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory));
+    pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
     pPlayer->SetPos(Vector3(pPlayer->GetPos().x, 2.5, pPlayer->GetPos().z));
     m_GameObjects.push_back(pPlayer);
     m_PhysicsObjects.push_back(pPlayer);
 
     //add camera holder
-    cHolder.reset(new CameraHolder("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, 10.0f, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One));
+    cHolder = new CameraHolder("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, 10.0f, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(cHolder);
 
     //add ViewRadius
-    vRadius.reset(new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 25));
+    vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 25);
     m_GameObjects.push_back(vRadius);
 
     //add Monster
         // in game pos: Vector3(157.5f, 3.0f, 142.5f)         testing pos: (7.5f, 3.0f, 22.5f)
-    npcMonster.reset(new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5));
+    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
     //add Exit
     // in game pos: Vector3(300.0f, 5.0f, 292.5f)         testing pos: (7.5f, 5.0f, 22.5f)
-    exitGate.reset(Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3::One));
+    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
 
     //add house
-    house.reset(new Gazebo("Gazebo", m_d3dDevice.Get(), m_fxFactory, Vector3(-23 - 7.5f, 18.5f, 22.5f + 7.5f), 0.0f, 316.9f, 0.0f, Vector3::One * 10));
+    house = new Gazebo("Gazebo", m_d3dDevice.Get(), m_fxFactory, Vector3(-23 - 7.5f, 18.5f, 22.5f + 7.5f), 0.0f, 316.9f, 0.0f, Vector3::One * 10);
     m_GameObjects.push_back(house);
 
     CreateMazeFromArray();
 
     //create a base camera
-    m_TPScam.reset(new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, cHolder, Vector3::UnitY, Vector3(0.0f, 5.0f, 0.01f)));
+    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, cHolder, Vector3::UnitY, Vector3(0.0f, 5.0f, 0.01f));
     m_GameObjects.push_back(m_TPScam);
 
     //create a main menu
-    mainMenu.reset(new ImageGO2D("mainMenu", m_d3dDevice.Get()));
+    mainMenu = new ImageGO2D("mainMenu", m_d3dDevice.Get());
     mainMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     mainMenu->SetScale(2.0f);
     m_GameObjects2D.push_back(mainMenu);
 #
     //create a loss screen
-    lossMenu.reset(new ImageGO2D("lossScreen", m_d3dDevice.Get()));
+    lossMenu = new ImageGO2D("lossScreen", m_d3dDevice.Get());
     lossMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     lossMenu->SetScale(2.0f);
     m_GameObjects2D.push_back(lossMenu);
 
     //create a win screen
-    winMenu.reset(new ImageGO2D("winScreen", m_d3dDevice.Get()));
+    winMenu = new ImageGO2D("winScreen", m_d3dDevice.Get());
     winMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     winMenu->SetScale(2.0f);
     m_GameObjects2D.push_back(winMenu);
 
     //create a black screen
-    blackScreen.reset(new ImageGO2D("BlackScreen", m_d3dDevice.Get()));
+    blackScreen = new ImageGO2D("BlackScreen", m_d3dDevice.Get());
     blackScreen->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     blackScreen->SetScale(2.0f);
     m_GameObjects2D.push_back(blackScreen);
 
     //create a fuel meter
-    fuelMeterShell.reset(new ImageGO2D("FuelTrackerFrame", m_d3dDevice.Get()));
+    fuelMeterShell = new ImageGO2D("FuelTrackerFrame", m_d3dDevice.Get());
     fuelMeterShell->SetPos(Vector2(m_outputWidth / 2, 4.5 * (m_outputHeight / 5)));
     m_GameObjects2D.push_back(fuelMeterShell);
 
 
     for (int i = 0; i < 20; i++)
     {
-        fuelMeter[i].reset(new ImageGO2D("FuelTrackerBar", m_d3dDevice.Get()));
+        fuelMeter[i] = new ImageGO2D("FuelTrackerBar", m_d3dDevice.Get());
         fuelMeter[i]->SetPos(Vector2(490.0f + (50 * i), 4.5 * (m_outputHeight / 5)));
         m_GameObjects2D.push_back(fuelMeter[i]);
     }
 
     //add menu text
-    startGameText.reset(new TextGO2D("> Start Game"));
+    startGameText = new TextGO2D("> Start Game");
     startGameText->SetPos(Vector2(100, 800));
     startGameText->SetScale(3.0f);
     startGameText->SetColour(Color((float*)&Colors::Gray));
     m_GameObjects2D.push_back(startGameText);
 
     //create DrawData struct and populate its pointers
-    m_DD.reset(new DrawData);
+    m_DD = new DrawData;
     m_DD->m_pd3dImmediateContext = nullptr;
     m_DD->m_states = m_states;
     m_DD->m_cam = m_cam;
     m_DD->m_light = m_light;
 
     //Init Audio
-    levelOneMusic.reset(new Loop(m_audioEngine.get(), "AmbientMusic"));
+    levelOneMusic = new Loop(m_audioEngine.get(), "AmbientMusic");
     levelOneMusic->Play();
     levelOneMusic->SetVolume(0.1f);
 
-    LimboMusic.reset(new Loop(m_audioEngine.get(), "NightAmbienceSimple_02"));
+    LimboMusic = new Loop(m_audioEngine.get(), "NightAmbienceSimple_02");
     LimboMusic->SetVolume(0.1f);
 
-    levelTwoMusic.reset(new Loop(m_audioEngine.get(), "LibetsDelay"));
+    levelTwoMusic = new Loop(m_audioEngine.get(), "LibetsDelay");
     levelTwoMusic->SetVolume(0.1f);
 
-    WinMusic.reset(new Loop(m_audioEngine.get(), "CrazyNoisyBizzareTown"));
+    WinMusic = new Loop(m_audioEngine.get(), "CrazyNoisyBizzareTown");
     WinMusic->SetVolume(0.1f);
 
-    LossMusic.reset(new Loop(m_audioEngine.get(), "WellMeetAgain"));
+    LossMusic = new Loop(m_audioEngine.get(), "WellMeetAgain");
     LossMusic->SetVolume(0.1f);
 
-    FootStepOne.reset(new TestSound(m_audioEngine.get(), "FootstepOne"));
+    FootStepOne = new TestSound(m_audioEngine.get(), "FootstepOne");
     FootStepOne->SetVolume(footstepVolume);
     m_Sounds.push_back(FootStepOne);
 
-    FootStepTwo.reset(new TestSound(m_audioEngine.get(), "FootstepTwo"));
+    FootStepTwo = new TestSound(m_audioEngine.get(), "FootstepTwo");
     FootStepTwo->SetVolume(footstepVolume);
     m_Sounds.push_back(FootStepTwo);
 
@@ -371,7 +371,7 @@ void Game::CreateMazeFromArray()
                 gridX = startX + (x * 15) + 7.5;
                 gridZ = startZ + (z * 15) + 7.5;
 
-                unique_ptr<Wall> forloopWalls (new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(gridX, 3.0f, gridZ), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize)));
+                Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(gridX, 3.0f, gridZ), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
                 forloopWalls->setTerrain(true);
                 m_GameObjects.push_back(forloopWalls);
                 m_ColliderObjects.push_back(forloopWalls);
@@ -463,7 +463,7 @@ void Game::Update(DX::StepTimer const& _timer)
     else
     {
         //update sounds playing
-        for (list<Sound*>::iterator it = m_Sounds.begin(); it != m_Sounds.end(); it++)
+        for (vector<Sound*>::iterator it = m_Sounds.begin(); it != m_Sounds.end(); it++)
         {
             (*it)->Tick(m_GD);
         }
@@ -482,11 +482,11 @@ void Game::Update(DX::StepTimer const& _timer)
     }
 
     //update all objects
-    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
         (*it)->Tick(m_GD);
     }
-    for (list<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
+    for (vector<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
     {
         (*it)->Tick(m_GD);
     }
@@ -617,7 +617,7 @@ void Game::Render()
     VBGO::UpdateConstantBuffer(m_DD);
 
     //Draw 3D Game Obejects
-    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
         if ((*it)->isRendered())
         {
@@ -627,7 +627,7 @@ void Game::Render()
 
     // Draw sprite batch stuff 
     m_DD2D->m_Sprites->Begin(SpriteSortMode_Deferred, m_states->NonPremultiplied());
-    for (list<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
+    for (vector<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
     {
         if ((*it)->isRendered())
         {
@@ -966,7 +966,7 @@ void Game::DisplayMenu()
     npcMonster->setRendered(false);
     exitGate->setRendered(false);
 
-    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
         if ((*it)->isTerrain())
         {
@@ -1003,7 +1003,7 @@ void Game::DisplayGame()
         fuelMeter[i]->SetRendered(true);
     }
 
-    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
         if ((*it)->isTerrain())
         {
@@ -1040,7 +1040,7 @@ void Game::DisplayWin()
     npcMonster->setRendered(false);
     exitGate->setRendered(false);
 
-    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
         if ((*it)->isTerrain())
         {
@@ -1094,7 +1094,7 @@ void Game::DisplayLoss()
     npcMonster->setRendered(false);
     exitGate->setRendered(false);
 
-    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
         if ((*it)->isTerrain())
         {
