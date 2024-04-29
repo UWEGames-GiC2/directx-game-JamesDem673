@@ -178,14 +178,14 @@ private:
 
 
     //Audio
-    Loop* levelOneMusic = NULL;
-    Loop* levelTwoMusic = NULL;
-    Loop* LimboMusic = NULL;
-    Loop* WinMusic = NULL;
-    Loop* LossMusic = NULL;
-    TestSound* JumpScareMusic = NULL;
-    TestSound* FootStepOne = NULL;
-    TestSound* FootStepTwo = NULL;
+    std::shared_ptr<Loop> levelOneMusic = NULL;
+    std::shared_ptr<Loop> levelTwoMusic = NULL;
+    std::shared_ptr<Loop> LimboMusic = NULL;
+    std::shared_ptr<Loop> WinMusic = NULL;
+    std::shared_ptr<Loop> LossMusic = NULL;
+    std::shared_ptr<TestSound> JumpScareMusic = NULL;
+    std::shared_ptr<TestSound> FootStepOne = NULL;
+    std::shared_ptr<TestSound> FootStepTwo = NULL;
     float footstepVolume = 0.5;
     int lastStepPlayed = 0;
 

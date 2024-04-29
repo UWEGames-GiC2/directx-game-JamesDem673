@@ -317,29 +317,29 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_DD->m_light = m_light;
 
     //Init Audio
-    levelOneMusic = new Loop(m_audioEngine.get(), "AmbientMusic");
+    levelOneMusic = std::make_unique<Loop>(m_audioEngine.get(), "AmbientMusic");
     levelOneMusic->Play();
     levelOneMusic->SetVolume(0.1f);
 
-    LimboMusic = new Loop(m_audioEngine.get(), "NightAmbienceSimple_02");
+    LimboMusic = std::make_unique<Loop>(m_audioEngine.get(), "NightAmbienceSimple_02");
     LimboMusic->SetVolume(0.1f);
 
-    levelTwoMusic = new Loop(m_audioEngine.get(), "LibetsDelay");
+    levelTwoMusic = std::make_unique<Loop>(m_audioEngine.get(), "LibetsDelay");
     levelTwoMusic->SetVolume(0.1f);
 
-    WinMusic = new Loop(m_audioEngine.get(), "CrazyNoisyBizzareTown");
+    WinMusic = std::make_unique<Loop>(m_audioEngine.get(), "CrazyNoisyBizzareTown");
     WinMusic->SetVolume(0.1f);
 
-    LossMusic = new Loop(m_audioEngine.get(), "WellMeetAgain");
+    LossMusic = std::make_unique<Loop>(m_audioEngine.get(), "WellMeetAgain");
     LossMusic->SetVolume(0.1f);
 
-    FootStepOne = new TestSound(m_audioEngine.get(), "FootstepOne");
+    FootStepOne = std::make_unique<TestSound>(m_audioEngine.get(), "FootstepOne");
     FootStepOne->SetVolume(footstepVolume);
 
-    FootStepTwo = new TestSound(m_audioEngine.get(), "FootstepTwo");
+    FootStepTwo = std::make_unique<TestSound>(m_audioEngine.get(), "FootstepTwo");
     FootStepTwo->SetVolume(footstepVolume);
 
-    JumpScareMusic = new TestSound(m_audioEngine.get(), "Jumpscare");
+    JumpScareMusic = std::make_unique<TestSound>(m_audioEngine.get(), "Jumpscare");
     JumpScareMusic->SetVolume(1.0f);
 
     DisplayMenu();
@@ -743,8 +743,8 @@ void Game::OnWindowSizeChanged(int _width, int _height)
 void Game::GetDefaultSize(int& _width, int& _height) const noexcept
 {
     // TODO: Change to desired default window size (note minimum size is 320x200).
-    _width = 1920; //960;
-    _height = 1080; //540;
+    _width = 960; //1920; //960;
+    _height = 540; //1080; //540;
 }
 
 // These are the resources that depend on the device.
