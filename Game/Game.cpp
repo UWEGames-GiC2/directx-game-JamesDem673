@@ -243,7 +243,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Monster
         // in game pos: Vector3(ranx * 15.0f + 7.5f, 3.0f, ranz * 15.0f + 7.5f)        testing pos: (7.5f, 3.0f, 22.5f)
-    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
+    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(ranx * 15.0f + 7.5f, 3.0f, ranz * 15.0f + 7.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
