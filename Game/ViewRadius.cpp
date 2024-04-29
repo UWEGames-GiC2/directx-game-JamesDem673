@@ -20,7 +20,7 @@ ViewRadius::~ViewRadius()
 }
 
 
-void ViewRadius::Tick(GameData* _GD)
+void ViewRadius::Tick(std::shared_ptr<GameData> _GD)
 {
 	m_pos.x = _GD->pPosx;
 	m_pos.z = _GD->pPosz;

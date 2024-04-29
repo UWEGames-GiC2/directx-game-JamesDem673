@@ -28,7 +28,7 @@ Monster::~Monster()
 }
 
 
-void Monster::Tick(GameData* _GD)
+void Monster::Tick(std::shared_ptr<GameData> _GD)
 {
 	_GD->ePosx = GetPos().x;
 	_GD->ePosz = GetPos().z;
@@ -39,7 +39,7 @@ void Monster::Tick(GameData* _GD)
     CMOGO::Tick(_GD);
 }
 
-void Monster::trackPlayer(float playerx, float playerz, GameData* _GD)
+void Monster::trackPlayer(float playerx, float playerz, std::shared_ptr<GameData> _GD)
 {
 	float adjactentLength;
 	float oppositeLength;

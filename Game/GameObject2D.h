@@ -23,7 +23,7 @@ public:
 	virtual ~GameObject2D() {};
 
 	virtual void Tick(std::shared_ptr<GameData> _GD) = 0;
-	virtual void Draw(DrawData2D* _DD) = 0;
+	virtual void Draw(std::shared_ptr<DrawData2D> _DD) = 0;
 
 	//setters
 

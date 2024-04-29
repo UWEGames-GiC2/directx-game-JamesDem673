@@ -29,8 +29,8 @@ public:
 	Monster(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF, Vector3 _pos, float _pitch, float _yaw, float _roll, Vector3 _scale);
 	~Monster();
 
-	virtual void Tick(GameData* _GD) override;
-	void trackPlayer(float playerx, float playerz, GameData* _GD);
+	virtual void Tick(std::shared_ptr<GameData> _GD) override;
+	void trackPlayer(float playerx, float playerz, std::shared_ptr<GameData> _GD);
 	void aStarSearch(int grid[][COLUMN], Pair src, Pair dest);
 	void searchFunction(std::shared_ptr<GameData> _GD, int grid[ROW][COLUMN]);
 

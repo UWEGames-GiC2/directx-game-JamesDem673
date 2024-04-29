@@ -19,7 +19,7 @@ Exit::~Exit()
 }
 
 
-void Exit::Tick(GameData* _GD)
+void Exit::Tick(std::shared_ptr<GameData> _GD)
 {
 	
 }

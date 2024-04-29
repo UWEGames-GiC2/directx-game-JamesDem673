@@ -22,7 +22,7 @@ Player::~Player()
 	//tidy up anything I've created
 }
 
-void Player::Tick(GameData* _GD)
+void Player::Tick(std::shared_ptr<GameData> _GD)
 {
 
 	//TURN AND FORWARD CONTROL HERE

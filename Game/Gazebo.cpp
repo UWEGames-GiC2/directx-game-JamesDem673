@@ -20,7 +20,7 @@ Gazebo::~Gazebo()
 }
 
 
-void Gazebo::Tick(GameData* _GD)
+void Gazebo::Tick(std::shared_ptr<GameData> _GD)
 {
 	CMOGO::Tick(_GD);
 }

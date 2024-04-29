@@ -13,7 +13,7 @@ public:
 	TextGO2D(string _text);
 
 	virtual void Tick(std::shared_ptr<GameData> _GD);
-	virtual void Draw(DrawData2D* _DD);
+	virtual void Draw(std::shared_ptr<DrawData2D> _DD);
 protected:
 	string m_text;
 };

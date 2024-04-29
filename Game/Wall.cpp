@@ -20,7 +20,7 @@ Wall::~Wall()
 }
 
 
-void Wall::Tick(GameData* _GD)
+void Wall::Tick(std::shared_ptr<GameData> _GD)
 {
 
 }

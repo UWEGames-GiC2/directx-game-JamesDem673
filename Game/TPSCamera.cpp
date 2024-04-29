@@ -2,7 +2,7 @@
 #include "TPSCamera.h"
 #include "GameData.h"
 
-TPSCamera::TPSCamera(float _fieldOfView, float _aspectRatio, float _nearPlaneDistance, float _farPlaneDistance, GameObject* _target, Vector3 _up, Vector3 _dpos)
+TPSCamera::TPSCamera(float _fieldOfView, float _aspectRatio, float _nearPlaneDistance, float _farPlaneDistance, std::shared_ptr<GameObject> _target, Vector3 _up, Vector3 _dpos)
 	:Camera(_fieldOfView, _aspectRatio, _nearPlaneDistance, _farPlaneDistance, _up)
 {
 	m_targetObject = _target;
@@ -14,7 +14,7 @@ TPSCamera::~TPSCamera()
 
 }
 
-void TPSCamera::Tick(GameData* _GD)
+void TPSCamera::Tick(std::shared_ptr<GameData> _GD)
 {
 	//Set up position of camera and target position of camera based on new position and orientation of target object
 	Matrix rotCam = Matrix::CreateFromYawPitchRoll(m_targetObject->GetYaw(), m_targetObject->GetPitch(), 0.0f);

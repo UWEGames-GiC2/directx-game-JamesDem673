@@ -170,7 +170,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
 
     //creates passable tiles so the player can fall back into the starting room
-    std::shared_ptr<Terrain> forLoopTiles = std::make_shared<Terrain>("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(-22.5f, 17.5f, 22.5f), 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+    std::shared_ptr<Terrain> passableRoof = std::make_shared<Terrain>("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(-22.5f, 17.5f, 22.5f), 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
     passableRoof->setTerrain(true);
     m_GameObjects.push_back(passableRoof);
 
@@ -211,7 +211,8 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_PhysicsObjects.push_back(pPlayer);
 
     //add camera holder
-    cHolder = std::make_shared<CameraHolder>("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, 10.0f, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One);
+    cHolder = std::make_shared<CameraHolder>("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, 10.0f, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 0.25);
+    cHolder->setRendered(false);
     m_GameObjects.push_back(cHolder);
 
     //add ViewRadius
