@@ -66,6 +66,7 @@ public:
     void DisplayLoss();
     void DisplayLore();
     void CreateMazeFromArray();
+    void DisplayJumpsScare();
 
     // Basic game loop
     void Tick();
@@ -161,9 +162,10 @@ private:
 
     //2D Game Objects
     ImageGO2D* mainMenu = NULL;
-    ImageGO2D* lossMenu = NULL;
+    ImageGO2D* lossText = NULL;
     ImageGO2D* winMenu = NULL;
     ImageGO2D* blackScreen = NULL;
+    ImageGO2D* jumpScare = NULL;
     TextGO2D* startGameText = NULL;
 
     ImageGO2D* fuelMeterShell = NULL;
@@ -180,16 +182,17 @@ private:
     Loop* LimboMusic = NULL;
     Loop* WinMusic = NULL;
     Loop* LossMusic = NULL;
-
+    TestSound* JumpScareMusic = NULL;
     TestSound* FootStepOne = NULL;
     TestSound* FootStepTwo = NULL;
     float footstepVolume = 0.5;
-
     int lastStepPlayed = 0;
 
     bool WinScreenPlayOnce = false;
     bool LossScreenPlayOnce = false;
-    
+    bool JumpscarePlayOnce = false;
+    int jumpscareTimer = 0;
+
     //Pathfinding
     int currentTileX = 0;
     int currentTileZ = 1;

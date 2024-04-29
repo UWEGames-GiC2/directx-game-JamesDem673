@@ -8,5 +8,6 @@
     <Media Include="AmbientMusic.wav" />
     <Media Include="FootstepOne.wav" />
     <Media Include="FootstepTwo.wav" />
+    <Media Include="Jumpscare.wav" />
   </ItemGroup>
 </Project>

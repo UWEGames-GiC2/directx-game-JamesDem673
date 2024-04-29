@@ -143,6 +143,7 @@
     <Media Include="CrazyNoisyBizzareTown.wav" />
     <Media Include="FootstepOne.wav" />
     <Media Include="FootstepTwo.wav" />
+    <Media Include="Jumpscare.wav" />
     <Media Include="LibetsDelay.wav" />
     <Media Include="NightAmbienceSimple_02.wav" />
     <Media Include="WellMeetAgain.wav" />

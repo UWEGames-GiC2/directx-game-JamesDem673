@@ -244,7 +244,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Monster
         // in game pos: Vector3(ranx * 15.0f + 7.5f, 3.0f, ranz * 15.0f + 7.5f)        testing pos: (7.5f, 3.0f, 22.5f)
-    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(ranx * 15.0f + 7.5f, 3.0f, ranz * 15.0f + 7.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
+    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
@@ -257,12 +257,6 @@ void Game::Initialize(HWND _window, int _width, int _height)
     mainMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     mainMenu->SetScale(2.0f);
     m_GameObjects2D.push_back(mainMenu);
-#
-    //create a loss screen
-    lossMenu = new ImageGO2D("lossScreen", m_d3dDevice.Get());
-    lossMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
-    lossMenu->SetScale(2.0f);
-    m_GameObjects2D.push_back(lossMenu);
 
     //create a win screen
     winMenu = new ImageGO2D("winScreen", m_d3dDevice.Get());
@@ -275,6 +269,18 @@ void Game::Initialize(HWND _window, int _width, int _height)
     blackScreen->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     blackScreen->SetScale(2.0f);
     m_GameObjects2D.push_back(blackScreen);
+
+    //Creates loss screen
+    lossText = new ImageGO2D("lossScreen", m_d3dDevice.Get());
+    lossText->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    lossText->SetScale(2.0f);
+    m_GameObjects2D.push_back(lossText);
+
+    //creates jumpscare
+    jumpScare = new ImageGO2D("MonsterFace", m_d3dDevice.Get());
+    jumpScare->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
+    jumpScare->SetScale(5.0f);
+    m_GameObjects2D.push_back(jumpScare);
 
     //create a fuel meter
     fuelMeterShell = new ImageGO2D("FuelTrackerFrame", m_d3dDevice.Get());
@@ -302,8 +308,6 @@ void Game::Initialize(HWND _window, int _width, int _height)
     loreScreen->SetColour(Color((float*)&Colors::Gray));
     m_GameObjects2D.push_back(loreScreen);
 
-
-
     //create DrawData struct and populate its pointers
     m_DD = new DrawData;
     m_DD->m_pd3dImmediateContext = nullptr;
@@ -330,11 +334,12 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     FootStepOne = new TestSound(m_audioEngine.get(), "FootstepOne");
     FootStepOne->SetVolume(footstepVolume);
-    m_Sounds.push_back(FootStepOne);
 
     FootStepTwo = new TestSound(m_audioEngine.get(), "FootstepTwo");
     FootStepTwo->SetVolume(footstepVolume);
-    m_Sounds.push_back(FootStepTwo);
+
+    JumpScareMusic = new TestSound(m_audioEngine.get(), "Jumpscare");
+    JumpScareMusic->SetVolume(1.0f);
 
     DisplayMenu();
 }
@@ -737,8 +742,8 @@ void Game::OnWindowSizeChanged(int _width, int _height)
 void Game::GetDefaultSize(int& _width, int& _height) const noexcept
 {
     // TODO: Change to desired default window size (note minimum size is 320x200).
-    _width = 960;
-    _height = 540;
+    _width = 1920; //960;
+    _height = 1080; //540;
 }
 
 // These are the resources that depend on the device.
@@ -981,7 +986,8 @@ void Game::CheckCollision()
     if (pPlayer->Intersects(*npcMonster) && blackScreen->isRendered())
     {
         m_GD->m_GS = GS_LOSE;
-        DisplayLoss();
+        DisplayJumpsScare();
+        //DisplayLoss();
     }
 }
 
@@ -1007,7 +1013,7 @@ void Game::DisplayMenu()
     }
 
     winMenu->SetRendered(false);
-    lossMenu->SetRendered(false);
+    lossText->SetRendered(false);
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
     blackScreen->SetRendered(false);
@@ -1018,7 +1024,7 @@ void Game::DisplayMenu()
     }
 
     house->setRendered(false);
-    
+    jumpScare->SetRendered(false);
 }
 
 void Game::DisplayLore()
@@ -1043,7 +1049,7 @@ void Game::DisplayLore()
     }
 
     winMenu->SetRendered(false);
-    lossMenu->SetRendered(false);
+    lossText->SetRendered(false);
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
     mainMenu->SetRendered(false);
@@ -1054,6 +1060,7 @@ void Game::DisplayLore()
     }
 
     house->setRendered(false);
+    jumpScare->SetRendered(false);
 }
 
 void Game::DisplayGame()
@@ -1082,9 +1089,10 @@ void Game::DisplayGame()
     mainMenu->SetRendered(false);
     startGameText->SetRendered(false);
     winMenu->SetRendered(false);
-    lossMenu->SetRendered(false);
+    lossText->SetRendered(false);
     blackScreen->SetRendered(false);
     loreScreen->SetRendered(false);
+    jumpScare->SetRendered(false);
 
 }
 
@@ -1118,7 +1126,7 @@ void Game::DisplayWin()
 
     mainMenu->SetRendered(false);
     startGameText->SetRendered(false);
-    lossMenu->SetRendered(false);
+    lossText->SetRendered(false);
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
     blackScreen->SetRendered(false);
@@ -1130,12 +1138,14 @@ void Game::DisplayWin()
 
     house->setRendered(false);
     loreScreen->SetRendered(false);
+    jumpScare->SetRendered(false);
 }
 
 void Game::DisplayLoss()
 {
     //Set winscreen assets active
-    lossMenu->SetRendered(true);
+    blackScreen->SetRendered(true);
+    lossText->SetRendered(true);
 
     if (!LossScreenPlayOnce)
     {
@@ -1174,7 +1184,6 @@ void Game::DisplayLoss()
     winMenu->SetRendered(false);
     vRadius->setRendered(false);
     fuelMeterShell->SetRendered(false);
-    blackScreen->SetRendered(false);
 
     for (int i = 0; i < 20; i++)
     {
@@ -1183,6 +1192,58 @@ void Game::DisplayLoss()
 
     loreScreen->SetRendered(false);
     house->setRendered(false);
+    jumpScare->SetRendered(false);
+}
+
+void Game::DisplayJumpsScare()
+{
+    jumpscareTimer += 1;
+    std::cout << jumpscareTimer;
+
+    //set jumpscare active
+    blackScreen->SetRendered(true);
+    jumpScare->SetRendered(true);
+
+    if (!JumpscarePlayOnce)
+    {
+        //Plays Music
+        JumpScareMusic->Play();
+
+        JumpscarePlayOnce = true;
+    }
+
+    //Set rest of assets inactive
+    pPlayer->setRendered(false);
+    npcMonster->setRendered(false);
+    exitGate->setRendered(false);
+    startGameText->SetRendered(false);
+
+    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    {
+        if ((*it)->isTerrain())
+        {
+            (*it)->setRendered(false);
+        }
+    }
+
+    winMenu->SetRendered(false);
+    lossText->SetRendered(false);
+    vRadius->setRendered(false);
+    fuelMeterShell->SetRendered(false);
+    mainMenu->SetRendered(false);
+
+    for (int i = 0; i < 20; i++)
+    {
+        fuelMeter[i]->SetRendered(false);
+    }
+
+    house->setRendered(false);
+    loreScreen->SetRendered(false);
+
+    if (jumpscareTimer > 40)
+    {
+        DisplayLoss();
+    }
 }
 
 void Game::goUpFloor()
