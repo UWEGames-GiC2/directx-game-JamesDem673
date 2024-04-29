@@ -199,7 +199,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
         m_ColliderObjects.push_back(startwall);
     }
 
-    std::shared_ptr<Wall>endWall = std::make_shared<Wall>("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(315.0f, 3.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+    std::shared_ptr<Wall>endWall = std::make_shared<Wall>("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(315.0f, 3.0f, 292.0f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
     endWall->setTerrain(true);
     m_GameObjects.push_back(endWall);
     m_ColliderObjects.push_back(endWall);
@@ -221,7 +221,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Exit
     // in game pos: Vector3(300.0f, 5.0f, 292.5f)         testing pos: (7.5f, 5.0f, 22.5f)
-    exitGate = std::make_shared<Exit>("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 5.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = std::make_shared<Exit>("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
 
@@ -1270,7 +1270,7 @@ void Game::goDownFloor()
     levelTwoMusic->Play();
 
     vRadius->setRendered(true);
-    vRadius->SetScale(Vector3::One * 25);
+    vRadius->resetScale();
 
     fuelMeterShell->SetRendered(true);
     for (int i = 0; i < 20; i++)

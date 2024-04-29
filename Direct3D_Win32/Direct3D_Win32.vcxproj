@@ -198,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico" />
+    <Image Include="MonsterFace.ico" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="settings.manifest" />

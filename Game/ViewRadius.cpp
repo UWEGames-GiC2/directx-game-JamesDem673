@@ -38,3 +38,9 @@ void ViewRadius::increaseScale()
 	currentScale += 1;
 	SetScale(Vector3::One * currentScale);
 }
+
+void ViewRadius::resetScale()
+{
+	currentScale = 26;
+	SetScale(Vector3::One * currentScale);
+}

@@ -13,6 +13,7 @@ public:
 
 	void reduceScale();
 	void increaseScale();
+	void resetScale();
 
 private:
 	int maxScale = 26;
