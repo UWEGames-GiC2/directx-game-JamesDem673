@@ -66,14 +66,14 @@ void Game::Initialize(HWND _window, int _width, int _height)
     ShowCursor(false);
 
     //create GameData struct and populate its pointers
-    m_GD = new GameData();
+    m_GD = std::make_shared<GameData>();
     m_GD->m_GS = GS_MENU;
 
     //set up systems for 2D rendering
-    m_DD2D = new DrawData2D();
+    m_DD2D = std::make_shared<DrawData2D>();
     m_DD2D->m_Sprites.reset(new SpriteBatch(m_d3dContext.Get()));
     m_DD2D->m_Font.reset(new SpriteFont(m_d3dDevice.Get(), L"..\\Assets\\italic.spritefont"));
-    m_states = new CommonStates(m_d3dDevice.Get());
+    m_states = std::make_shared<CommonStates>(m_d3dDevice.Get());
 
     //set up DirectXTK Effects system
     m_fxFactory = new EffectFactory(m_d3dDevice.Get());
@@ -106,7 +106,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     for (int x = 0; x <= floorGridX; x++) {
         for (int z = 0; z <= floorGridZ; z++) {
             Vector3 position(x * spacingX + 7.5, 2.5f, z * spacingZ + 7.5);
-            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+            std::shared_ptr<Terrain> forLoopTiles = std::make_shared<Terrain>("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
 
             m_GameObjects.push_back(forLoopTiles);
@@ -119,7 +119,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
         for (int z = 0; z <= 2; z++)
         {
             Vector3 position(x * spacingX + 7.5, 2.5f, z * spacingZ + 7.5);
-            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+            std::shared_ptr<Terrain> forLoopTiles = std::make_shared<Terrain>("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
             m_ColliderObjects.push_back(forLoopTiles);
@@ -133,7 +133,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     for (int x = 0; x <= ceilingGridX; x++) {
         for (int z = 0; z <= ceilingGridZ; z++) {
             Vector3 position(x * spacingX + 7.5, 17.5f, z * spacingZ + 7.5);
-            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+            std::shared_ptr<Terrain> forLoopTiles = std::make_shared<Terrain>("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
             m_ColliderObjects.push_back(forLoopTiles);
@@ -145,7 +145,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
         for (int z = 0; z <= 2; z++)
         {
             Vector3 position(x * spacingX + 7.5, 17.5f, z * spacingZ + 7.5);
-            Terrain* forLoopTiles = new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+            std::shared_ptr<Terrain> forLoopTiles = std::make_shared<Terrain>("groundTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
 
@@ -159,7 +159,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
     for (int x = -10 ; x <= 10; x++) {
         for (int z = -10; z <= 10; z++) {
             Vector3 position(x * GrassSpacing + 7.5, 18.0f, z * GrassSpacing + 7.5);
-            Terrain* forLoopTiles = new Terrain("grassTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
+            std::shared_ptr<Terrain> forLoopTiles = std::make_shared<Terrain>("grassTile", m_d3dDevice.Get(), m_fxFactory, position, 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
             forLoopTiles->setTerrain(true);
             m_GameObjects.push_back(forLoopTiles);
 
@@ -170,14 +170,14 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
 
     //creates passable tiles so the player can fall back into the starting room
-    Terrain* passableRoof (new Terrain("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(-22.5f, 17.5f, 22.5f), 0.0f, 0.0f, 0.0f, tileSize * Vector3::One));
+    std::shared_ptr<Terrain> forLoopTiles = std::make_shared<Terrain>("groundTile", m_d3dDevice.Get(), m_fxFactory, Vector3(-22.5f, 17.5f, 22.5f), 0.0f, 0.0f, 0.0f, tileSize * Vector3::One);
     passableRoof->setTerrain(true);
     m_GameObjects.push_back(passableRoof);
 
     //Creates walls for starting room
     for (int i = 0; i < 3; i++)
     {
-        Wall* startwall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((-15.0f * i) - 7.5f, 3.0f, -7.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+        std::shared_ptr<Wall> startwall = std::make_shared<Wall>("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((-15.0f * i) - 7.5f, 3.0f, -7.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
         startwall->setTerrain(true);
         m_GameObjects.push_back(startwall);
         m_ColliderObjects.push_back(startwall);
@@ -185,7 +185,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     for (int i = 0; i < 3; i++)
     {
-        Wall* startwall3 = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 7.5f + (i * 15.0f)), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+        std::shared_ptr<Wall> startwall3 = std::make_shared<Wall>("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(-52.5f, 3.0f, 7.5f + (i * 15.0f)), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
         startwall3->setTerrain(true);
         m_GameObjects.push_back(startwall3);
         m_ColliderObjects.push_back(startwall3);
@@ -193,39 +193,39 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     for (int i = 0; i < 3; i++)
     {
-        Wall* startwall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((-15.0f * i) - 7.5f, 3.0f, 52.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+        std::shared_ptr<Wall> startwall = std::make_shared<Wall>("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3((-15.0f * i) - 7.5f, 3.0f, 52.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
         startwall->setTerrain(true);
         m_GameObjects.push_back(startwall);
         m_ColliderObjects.push_back(startwall);
     }
 
-    Wall* endWall = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(315.0f, 3.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+    std::shared_ptr<Wall>endWall = std::make_shared<Wall>("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(315.0f, 3.0f, 292.5f), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
     endWall->setTerrain(true);
     m_GameObjects.push_back(endWall);
     m_ColliderObjects.push_back(endWall);
 
     //add Player
-    pPlayer = new Player("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
+    pPlayer = std::make_shared<Player>("PlayerModel", m_d3dDevice.Get(), m_fxFactory);
     pPlayer->SetPos(Vector3(pPlayer->GetPos().x, 2.5, pPlayer->GetPos().z));
     m_GameObjects.push_back(pPlayer);
     m_PhysicsObjects.push_back(pPlayer);
 
     //add camera holder
-    cHolder = new CameraHolder("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, 10.0f, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One);
+    cHolder = std::make_shared<CameraHolder>("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, 10.0f, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(cHolder);
 
     //add ViewRadius
-    vRadius = new ViewRadius("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 25);
+    vRadius = std::make_shared<ViewRadius>("ViewRadius", m_d3dDevice.Get(), m_fxFactory, Vector3(pPlayer->GetPos().x, pPlayer->GetPos().y, pPlayer->GetPos().z), 0.0f, 0.0f, 0.0f, Vector3::One * 25);
     m_GameObjects.push_back(vRadius);
 
     //add Exit
     // in game pos: Vector3(300.0f, 5.0f, 292.5f)         testing pos: (7.5f, 5.0f, 22.5f)
-    exitGate = new Exit("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = std::make_shared<Exit>("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
 
     //add house
-    house = new Gazebo("Gazebo", m_d3dDevice.Get(), m_fxFactory, Vector3(-23 - 7.5f, 18.5f, 22.5f + 7.5f), 0.0f, 316.9f, 0.0f, Vector3::One * 10);
+    house = std::make_shared<Gazebo>("Gazebo", m_d3dDevice.Get(), m_fxFactory, Vector3(-23 - 7.5f, 18.5f, 22.5f + 7.5f), 0.0f, 316.9f, 0.0f, Vector3::One * 10);
     m_GameObjects.push_back(house);
 
     CreateMazeFromArray();
@@ -244,72 +244,72 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Monster
         // in game pos: Vector3(ranx * 15.0f + 7.5f, 3.0f, ranz * 15.0f + 7.5f)        testing pos: (7.5f, 3.0f, 22.5f)
-    npcMonster = new Monster("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
+    npcMonster = std::make_shared<Monster>("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
     //create a base camera
-    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 4.0f, 10000.0f, cHolder, Vector3::UnitY, Vector3(0.0f, 5.0f, 0.01f));
+    m_TPScam = std::make_shared<TPSCamera>(0.25f * XM_PI, AR, 4.0f, 10000.0f, cHolder, Vector3::UnitY, Vector3(0.0f, 5.0f, 0.01f));
     m_GameObjects.push_back(m_TPScam);
 
     //create a main menu
-    mainMenu = new ImageGO2D("mainMenu", m_d3dDevice.Get());
+    mainMenu = std::make_shared<ImageGO2D>("mainMenu", m_d3dDevice.Get());
     mainMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     mainMenu->SetScale(2.0f);
     m_GameObjects2D.push_back(mainMenu);
 
     //create a win screen
-    winMenu = new ImageGO2D("winScreen", m_d3dDevice.Get());
+    winMenu = std::make_shared<ImageGO2D>("winScreen", m_d3dDevice.Get());
     winMenu->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     winMenu->SetScale(2.0f);
     m_GameObjects2D.push_back(winMenu);
 
     //create a black screen
-    blackScreen = new ImageGO2D("BlackScreen", m_d3dDevice.Get());
+    blackScreen = std::make_shared<ImageGO2D>("BlackScreen", m_d3dDevice.Get());
     blackScreen->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     blackScreen->SetScale(2.0f);
     m_GameObjects2D.push_back(blackScreen);
 
     //Creates loss screen
-    lossText = new ImageGO2D("lossScreen", m_d3dDevice.Get());
+    lossText = std::make_shared<ImageGO2D>("lossScreen", m_d3dDevice.Get());
     lossText->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     lossText->SetScale(2.0f);
     m_GameObjects2D.push_back(lossText);
 
     //creates jumpscare
-    jumpScare = new ImageGO2D("MonsterFace", m_d3dDevice.Get());
+    jumpScare = std::make_shared<ImageGO2D>("MonsterFace", m_d3dDevice.Get());
     jumpScare->SetPos(Vector2(m_outputWidth / 2, m_outputHeight / 2));
     jumpScare->SetScale(5.0f);
     m_GameObjects2D.push_back(jumpScare);
 
     //create a fuel meter
-    fuelMeterShell = new ImageGO2D("FuelTrackerFrame", m_d3dDevice.Get());
+    fuelMeterShell = std::make_shared<ImageGO2D>("FuelTrackerFrame", m_d3dDevice.Get());
     fuelMeterShell->SetPos(Vector2(m_outputWidth / 2, 4.5 * (m_outputHeight / 5)));
     m_GameObjects2D.push_back(fuelMeterShell);
 
 
     for (int i = 0; i < 20; i++)
     {
-        fuelMeter[i] = new ImageGO2D("FuelTrackerBar", m_d3dDevice.Get());
+        fuelMeter[i] = std::make_shared<ImageGO2D>("FuelTrackerBar", m_d3dDevice.Get());
         fuelMeter[i]->SetPos(Vector2(490.0f + (50 * i), 4.5 * (m_outputHeight / 5)));
         m_GameObjects2D.push_back(fuelMeter[i]);
     }
 
     //add menu text
-    startGameText = new TextGO2D("> Start Game");
+    startGameText = std::make_shared<TextGO2D>("> Start Game");
     startGameText->SetPos(Vector2(100, 800));
     startGameText->SetScale(3.0f);
     startGameText->SetColour(Color((float*)&Colors::Gray));
     m_GameObjects2D.push_back(startGameText);
 
-    loreScreen = new TextGO2D("You wake up in a dark room, with nothing \nbut disjointed memories and a \nhand-crank lantern rapidly running out of \ncharge. \n\nUse R to charge the latern, but know that in the \nfew seconds of darkness, an unknown evil \ndraws near\n\nPress Space to Begin");
+    loreScreen = std::make_shared<TextGO2D>("You wake up in a dark room, with nothing \nbut disjointed memories and a \nhand-crank lantern rapidly running out of \ncharge. \n\nUse R to charge the latern, but know that in the \nfew seconds of darkness, an unknown evil \ndraws near\n\nPress Space to Begin");
     loreScreen->SetPos(Vector2(100, 50));
     loreScreen->SetScale(1.5f);
     loreScreen->SetColour(Color((float*)&Colors::Gray));
     m_GameObjects2D.push_back(loreScreen);
 
     //create DrawData struct and populate its pointers
-    m_DD = new DrawData;
+    m_DD = std::make_unique<DrawData>();
     m_DD->m_pd3dImmediateContext = nullptr;
     m_DD->m_states = m_states;
     m_DD->m_cam = m_cam;
@@ -401,7 +401,7 @@ void Game::CreateMazeFromArray()
                 gridX = startX + (x * 15) + 7.5;
                 gridZ = startZ + (z * 15) + 7.5;
 
-                Wall* forloopWalls = new Wall("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(gridX, 3.0f, gridZ), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
+                std::shared_ptr<Wall> forloopWalls = std::make_unique<Wall>("wallModel", m_d3dDevice.Get(), m_fxFactory, Vector3(gridX, 3.0f, gridZ), 0.0f, 0.0f, 0.0f, Vector3(tileSize, tileSize, tileSize));
                 forloopWalls->setTerrain(true);
                 m_GameObjects.push_back(forloopWalls);
                 m_ColliderObjects.push_back(forloopWalls);
@@ -493,9 +493,9 @@ void Game::Update(DX::StepTimer const& _timer)
     else
     {
         //update sounds playing
-        for (vector<Sound*>::iterator it = m_Sounds.begin(); it != m_Sounds.end(); it++)
+        for (auto go : m_Sounds)
         {
-            (*it)->Tick(m_GD);
+            go->Tick(m_GD);
         }
     }
 
@@ -512,13 +512,13 @@ void Game::Update(DX::StepTimer const& _timer)
     }
 
     //update all objects
-    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (auto go : m_GameObjects)
     {
-        (*it)->Tick(m_GD);
+        go->Tick(m_GD);
     }
-    for (vector<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
+    for (auto go : m_GameObjects2D)
     {
-        (*it)->Tick(m_GD);
+        go->Tick(m_GD);
     }
 
     if (m_GD->m_KBS.P)
@@ -647,21 +647,21 @@ void Game::Render()
     VBGO::UpdateConstantBuffer(m_DD);
 
     //Draw 3D Game Obejects
-    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (auto go : m_GameObjects)
     {
-        if ((*it)->isRendered())
+        if (go->isRendered())
         {
-            (*it)->Draw(m_DD);
+            go->Draw(m_DD);
         }
     }
-
+    
     // Draw sprite batch stuff 
     m_DD2D->m_Sprites->Begin(SpriteSortMode_Deferred, m_states->NonPremultiplied());
-    for (vector<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
+    for (auto go : m_GameObjects2D)
     {
-        if ((*it)->isRendered())
+        if (go->isRendered())
         {
-            (*it)->Draw(m_DD2D);
+            go->Draw(m_DD2D);
         }
     }
     m_DD2D->m_Sprites->End();
@@ -1004,11 +1004,11 @@ void Game::DisplayMenu()
     exitGate->setRendered(false);
     loreScreen->SetRendered(false);
 
-    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (auto go : m_GameObjects)
     {
-        if ((*it)->isTerrain())
+        if ((go)->isTerrain())
         {
-            (*it)->setRendered(false);
+            (go)->setRendered(false);
         }
     }
 
@@ -1040,11 +1040,11 @@ void Game::DisplayLore()
     exitGate->setRendered(false);
     startGameText->SetRendered(false);
 
-    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (auto go : m_GameObjects)
     {
-        if ((*it)->isTerrain())
+        if (go->isTerrain())
         {
-            (*it)->setRendered(false);
+            go->setRendered(false);
         }
     }
 
@@ -1077,11 +1077,11 @@ void Game::DisplayGame()
         fuelMeter[i]->SetRendered(true);
     }
 
-    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (auto go : m_GameObjects)
     {
-        if ((*it)->isTerrain())
+        if (go->isTerrain())
         {
-            (*it)->setRendered(true);
+            go->setRendered(true);
         }
     }
 
@@ -1116,11 +1116,11 @@ void Game::DisplayWin()
     npcMonster->setRendered(false);
     exitGate->setRendered(false);
 
-    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (auto go : m_GameObjects)
     {
-        if ((*it)->isTerrain())
+        if (go->isTerrain())
         {
-            (*it)->setRendered(false);
+            go->setRendered(false);
         }
     }
 
@@ -1171,11 +1171,11 @@ void Game::DisplayLoss()
     npcMonster->setRendered(false);
     exitGate->setRendered(false);
 
-    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (auto go : m_GameObjects)
     {
-        if ((*it)->isTerrain())
+        if (go->isTerrain())
         {
-            (*it)->setRendered(false);
+            go->setRendered(false);
         }
     }
 
@@ -1218,11 +1218,11 @@ void Game::DisplayJumpsScare()
     exitGate->setRendered(false);
     startGameText->SetRendered(false);
 
-    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    for (auto go : m_GameObjects)
     {
-        if ((*it)->isTerrain())
+        if (go->isTerrain())
         {
-            (*it)->setRendered(false);
+            go->setRendered(false);
         }
     }
 

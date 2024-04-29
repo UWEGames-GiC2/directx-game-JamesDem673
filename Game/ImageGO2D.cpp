@@ -41,7 +41,7 @@ ImageGO2D::~ImageGO2D()
 	}
 }
 
-void ImageGO2D::Tick(GameData* _GD)
+void ImageGO2D::Tick(std::shared_ptr<GameData> _GD)
 {
 	//spins!
 	//m_rotation += _GD->m_dt;

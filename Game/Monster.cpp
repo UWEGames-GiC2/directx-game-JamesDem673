@@ -53,7 +53,7 @@ void Monster::trackPlayer(float playerx, float playerz, GameData* _GD)
 
 
 // sets up search function
-void Monster::searchFunction(GameData* m_GD, int grid[ROW][COLUMN])
+void Monster::searchFunction(std::shared_ptr<GameData> m_GD, int grid[ROW][COLUMN])
 {
     /* Description of the Grid-
      1--> The cell is not blocked

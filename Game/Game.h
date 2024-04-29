@@ -115,14 +115,14 @@ private:
     DX::StepTimer                                   m_timer;
 
     //Scarle Added stuff
-    GameData* m_GD = NULL;			//Data to be shared to all Game Objects as they are ticked
-    DrawData* m_DD = NULL;			//Data to be shared to all 3D Game Objects as they are drawn
-    DrawData2D* m_DD2D = NULL;	    //Data to be passed by game to all 2D Game Objects via Draw 
+    std::shared_ptr<GameData> m_GD = NULL;			//Data to be shared to all Game Objects as they are ticked
+    std::shared_ptr<DrawData> m_DD = NULL;			//Data to be shared to all 3D Game Objects as they are drawn
+    std::shared_ptr<DrawData2D> m_DD2D = NULL;	    //Data to be passed by game to all 2D Game Objects via Draw 
 
     //Basic 3D renderers
-    Camera* m_cam = NULL; //principle camera
-    TPSCamera* m_TPScam = NULL;//TPS cam
-    Light* m_light = NULL; //base light
+    std::shared_ptr<Camera> m_cam = NULL; //principle camera
+    std::shared_ptr<TPSCamera> m_TPScam = NULL;//TPS cam
+    std::shared_ptr<Light> m_light = NULL; //base light
 
     //maze 
     int grid[ROW][COLUMN]
@@ -149,32 +149,33 @@ private:
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},};
 
     //GameObjects
-    Player* pPlayer = NULL;
-    Monster* npcMonster = NULL;
-    Exit* exitGate = NULL;
+    std::shared_ptr<Player> pPlayer = NULL;
+    std::shared_ptr<Monster> npcMonster = NULL;
+    std::shared_ptr<Exit> exitGate = NULL;
     int mazeGridSize = 21;
     float tileSize = 0.15f;
-    ViewRadius* vRadius = NULL;
-    CameraHolder* cHolder = NULL;
-    Gazebo* house = NULL;
+    std::shared_ptr<ViewRadius> vRadius = NULL;
+    std::shared_ptr<CameraHolder> cHolder = NULL;
+    std::shared_ptr<Gazebo> house = NULL;
     
-    Terrain* passableRoof = NULL;
+    std::shared_ptr<Terrain> passableRoof = NULL;
 
     //2D Game Objects
-    ImageGO2D* mainMenu = NULL;
-    ImageGO2D* lossText = NULL;
-    ImageGO2D* winMenu = NULL;
-    ImageGO2D* blackScreen = NULL;
-    ImageGO2D* jumpScare = NULL;
-    TextGO2D* startGameText = NULL;
+    std::shared_ptr<ImageGO2D> mainMenu = NULL;
+    std::shared_ptr<ImageGO2D> lossText = NULL;
+    std::shared_ptr<ImageGO2D> winMenu = NULL;
+    std::shared_ptr<ImageGO2D> blackScreen = NULL;
+    std::shared_ptr<ImageGO2D> jumpScare = NULL;
+    std::shared_ptr<TextGO2D> startGameText = NULL;
+    std::shared_ptr<TextGO2D> loreScreen = NULL;
 
-    ImageGO2D* fuelMeterShell = NULL;
-    ImageGO2D* fuelMeter[20] = { NULL,NULL,NULL,NULL,NULL,
+    std::shared_ptr<ImageGO2D> fuelMeterShell = NULL;
+    std::shared_ptr<ImageGO2D> fuelMeter[20] = { NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL};
     int MeterCount = 19;
-    TextGO2D* loreScreen = NULL;
+
 
     //Audio
     Loop* levelOneMusic = NULL;
@@ -204,28 +205,28 @@ private:
     Vector3 prevPosition = Vector3(0, 0, 0);
 
     //required for the CMO model rendering system
-    DirectX::CommonStates* m_states = NULL;
+    std::shared_ptr<DirectX::CommonStates> m_states = NULL;
     DirectX::IEffectFactory* m_fxFactory = NULL;
 
     //basic keyboard and mouse input system
     void ReadInput(); //Get current Mouse and Keyboard states
-    std::unique_ptr<DirectX::Keyboard> m_keyboard;
-    std::unique_ptr<DirectX::Mouse> m_mouse;
+    std::shared_ptr<DirectX::Keyboard> m_keyboard;
+    std::shared_ptr<DirectX::Mouse> m_mouse;
 
-    std::vector<GameObject*> m_GameObjects; //data structure to hold pointers to the 3D Game Objects
-    std::vector<GameObject2D*> m_GameObjects2D; //data structure to hold pointers to the 2D Game Objects 
+    std::vector<std::shared_ptr<GameObject>> m_GameObjects; //data structure to hold pointers to the 3D Game Objects
+    std::vector<std::shared_ptr<GameObject2D>> m_GameObjects2D; //data structure to hold pointers to the 2D Game Objects 
 
     //list<CMOGO*> m_CMOGameObjects; //data structure to hold pointers to all 3D CMO Game Objects
     //list<CMOGO*> m_PhysicsObjects
 
-    std::vector<CMOGO*> m_ColliderObjects;
-    std::vector<CMOGO*> m_PhysicsObjects;
+    std::vector<std::shared_ptr<CMOGO>> m_ColliderObjects;
+    std::vector<std::shared_ptr<CMOGO>> m_PhysicsObjects;
 
     void CheckCollision();
                                          
     //sound stuff
 	//This uses a simple system, but a better pipeline can be used using Wave Banks
 	//See here: https://github.com/Microsoft/DirectXTK/wiki/Creating-and-playing-sounds Using wave banks Section
-    std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
+    std::shared_ptr<DirectX::AudioEngine> m_audioEngine;
     std::vector<Sound*>m_Sounds;
 };

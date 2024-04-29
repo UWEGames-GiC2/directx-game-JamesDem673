@@ -9,7 +9,7 @@ TextGO2D::TextGO2D(string _text)
 }
 
 
-void TextGO2D::Tick(GameData* _GD)
+void TextGO2D::Tick(std::shared_ptr<GameData> _GD)
 {
 }
 
