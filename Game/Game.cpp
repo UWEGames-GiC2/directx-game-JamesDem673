@@ -221,7 +221,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Exit
     // in game pos: Vector3(300.0f, 5.0f, 292.5f)         testing pos: (7.5f, 5.0f, 22.5f)
-    exitGate = std::make_shared<Exit>("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(300.0f, 5.0f, 292.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    exitGate = std::make_shared<Exit>("ExitModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 5.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One);
     m_GameObjects.push_back(exitGate);
     m_ColliderObjects.push_back(exitGate);
 
@@ -245,7 +245,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Monster
         // in game pos: Vector3(ranx * 15.0f + 7.5f, 3.0f, ranz * 15.0f + 7.5f)        testing pos: (7.5f, 3.0f, 22.5f)
-    npcMonster = std::make_shared<Monster>("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(7.5f, 3.0f, 22.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
+    npcMonster = std::make_shared<Monster>("MonsterModel", m_d3dDevice.Get(), m_fxFactory, Vector3(ranx * 15.0f + 7.5f, 3.0f, ranz * 15.0f + 7.5f), 0.0f, 0.0f, 0.0f, Vector3::One * 2.5);
     m_GameObjects.push_back(npcMonster);
     m_PhysicsObjects.push_back(npcMonster);
 
@@ -1270,10 +1270,13 @@ void Game::goDownFloor()
     levelTwoMusic->Play();
 
     vRadius->setRendered(true);
+    vRadius->SetScale(Vector3::One * 25);
+
     fuelMeterShell->SetRendered(true);
     for (int i = 0; i < 20; i++)
     {
         fuelMeter[i]->SetRendered(true);
+        fuelMeter[i]->SetPos(Vector2(fuelMeter[i]->GetPos().x, 4.5 * (m_outputHeight / 5)));
     }
 
     npcMonster->setActive(true);
