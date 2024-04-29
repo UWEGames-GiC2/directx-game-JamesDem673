@@ -64,6 +64,7 @@ public:
     void DisplayGame();
     void DisplayWin();
     void DisplayLoss();
+    void DisplayLore();
     void CreateMazeFromArray();
 
     // Basic game loop
@@ -171,6 +172,7 @@ private:
                                 NULL,NULL,NULL,NULL,NULL,
                                 NULL,NULL,NULL,NULL,NULL};
     int MeterCount = 19;
+    TextGO2D* loreScreen = NULL;
 
     //Audio
     Loop* levelOneMusic = NULL;

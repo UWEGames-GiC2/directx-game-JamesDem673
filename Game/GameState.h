@@ -11,6 +11,7 @@ enum GameState {
 	GS_WIN = 2,
 	GS_LOSE = 3,
 	GS_PAUSE = 4,
+	GS_LORE = 5,
 };
 
 #endif

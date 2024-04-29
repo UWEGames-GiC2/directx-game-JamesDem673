@@ -7,6 +7,7 @@
 #include <time.h>
 #include <iostream>
 #include <string>
+#include <chrono>
 
     //Scarle Headers
 #include "GameData.h"
@@ -294,6 +295,14 @@ void Game::Initialize(HWND _window, int _width, int _height)
     startGameText->SetScale(3.0f);
     startGameText->SetColour(Color((float*)&Colors::Gray));
     m_GameObjects2D.push_back(startGameText);
+
+    loreScreen = new TextGO2D("You wake up in a dark room, with nothing \nbut disjointed memories and a \nhand-crank lantern rapidly running out of \ncharge. \n\nUse R to charge the latern, but know that in the \nfew seconds of darkness, an unknown evil \ndraws near\n\nPress Space to Begin");
+    loreScreen->SetPos(Vector2(100, 50));
+    loreScreen->SetScale(1.5f);
+    loreScreen->SetColour(Color((float*)&Colors::Gray));
+    m_GameObjects2D.push_back(loreScreen);
+
+
 
     //create DrawData struct and populate its pointers
     m_DD = new DrawData;
@@ -924,6 +933,12 @@ void Game::ReadInput()
 
     if (m_GD->m_KBS.Enter && m_GD->m_GS == GS_MENU)
     {
+        m_GD->m_GS = GS_LORE;
+        DisplayLore();
+    }
+    
+    if (m_GD->m_KBS.Space && m_GD->m_GS == GS_LORE)
+    {
         m_GD->m_GS = GS_GAMEPLAY;
         DisplayGame();
     }
@@ -981,6 +996,7 @@ void Game::DisplayMenu()
     pPlayer->setRendered(false);
     npcMonster->setRendered(false);
     exitGate->setRendered(false);
+    loreScreen->SetRendered(false);
 
     for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
     {
@@ -1003,6 +1019,41 @@ void Game::DisplayMenu()
 
     house->setRendered(false);
     
+}
+
+void Game::DisplayLore()
+{
+    //set menu active
+    blackScreen->SetRendered(true);
+    loreScreen->SetRendered(true);
+
+
+    //Set rest of assets inactive
+    pPlayer->setRendered(false);
+    npcMonster->setRendered(false);
+    exitGate->setRendered(false);
+    startGameText->SetRendered(false);
+
+    for (vector<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    {
+        if ((*it)->isTerrain())
+        {
+            (*it)->setRendered(false);
+        }
+    }
+
+    winMenu->SetRendered(false);
+    lossMenu->SetRendered(false);
+    vRadius->setRendered(false);
+    fuelMeterShell->SetRendered(false);
+    mainMenu->SetRendered(false);
+
+    for (int i = 0; i < 20; i++)
+    {
+        fuelMeter[i]->SetRendered(false);
+    }
+
+    house->setRendered(false);
 }
 
 void Game::DisplayGame()
@@ -1033,6 +1084,7 @@ void Game::DisplayGame()
     winMenu->SetRendered(false);
     lossMenu->SetRendered(false);
     blackScreen->SetRendered(false);
+    loreScreen->SetRendered(false);
 
 }
 
@@ -1077,8 +1129,7 @@ void Game::DisplayWin()
     }
 
     house->setRendered(false);
-
-    std::cout << "hello";
+    loreScreen->SetRendered(false);
 }
 
 void Game::DisplayLoss()
@@ -1130,6 +1181,7 @@ void Game::DisplayLoss()
         fuelMeter[i]->SetRendered(false);
     }
 
+    loreScreen->SetRendered(false);
     house->setRendered(false);
 }
 
